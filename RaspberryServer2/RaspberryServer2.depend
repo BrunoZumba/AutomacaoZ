@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1493664132 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
+1493673682 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
 	<stdio.h>
 	<pthread.h>
 	<iostream>
@@ -7,7 +7,7 @@
 	<string.h>
 	<ListenThreadPool.h>
 
-1493664230 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ListenThreadPool.h
+1493673461 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ListenThreadPool.h
 	<iostream>
 	<sys/types.h>
 	<sys/socket.h>
@@ -22,12 +22,17 @@
 	<queue>
 	<Job.h>
 
-1493664192 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Job.h
+1493681833 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Job.h
 	<iostream>
+	<string.h>
+	<errno.h>
+	<stdlib.h>
+	<stdio.h>
+	<unistd.h>
 
-1493664174 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Job.cpp
+1493681976 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Job.cpp
 	"Job.h"
 
-1493664222 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ListenThreadPool.cpp
+1493677433 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ListenThreadPool.cpp
 	"ListenThreadPool.h"
 

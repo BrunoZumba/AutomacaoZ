@@ -33,20 +33,22 @@ void *ListenThreadPool::Manage(void * parm){
         exit (-1);
     }
 
-    newSocket = accept(listenSocket, (struct sockaddr*)&clientAddr, (socklen_t*)&clientSize);
-    if(newSocket < 0){
-        printf(msg, "ERRO ao aceitar a conexao no socket %d (porta %d)\n%s\n", listenSocket, port, strerror(errno));
-        cout << msg;
-        exit (-3);
+
+    while (true){
+        newSocket = accept(listenSocket, (struct sockaddr*)&clientAddr, (socklen_t*)&clientSize);
+        if(newSocket < 0){
+            printf(msg, "ERRO ao aceitar a conexao no socket %d (porta %d)\n%s\n", listenSocket, port, strerror(errno));
+            cout << msg;
+            exit (-3);
+        }
+
+        Job *job = new Job(newSocket, port);
+
+        pthread_mutex_lock(&queueLock);
+        jobQueue.push(job);
+        pthread_mutex_unlock(&queueLock);
+        pthread_cond_signal(&queueCond);
     }
-
-    Job *job = new Job(newSocket, port);
-
-    pthread_mutex_lock(&queueLock);
-    jobQueue.push(job);
-    pthread_mutex_unlock(&queueLock);
-    pthread_cond_signal(&queueCond);
-
 
 }
 
@@ -62,18 +64,20 @@ void createThreadPool(){
 void *executeThread(void *){
     Job *oneJob = NULL;
 
-    pthread_mutex_lock(&queueLock);
-    while (jobQueue.empty())
-        pthread_cond_wait(&queueCond, &queueLock);
+    while (true){
+        pthread_mutex_lock(&queueLock);
+        while (jobQueue.empty())
+            pthread_cond_wait(&queueCond, &queueLock);
 
-    oneJob = jobQueue.front();
-    jobQueue.pop();
-    pthread_mutex_unlock(&queueLock);
+        oneJob = jobQueue.front();
+        jobQueue.pop();
+        pthread_mutex_unlock(&queueLock);
 
-    if (oneJob)
-        oneJob->working();
-    delete oneJob;
-    oneJob = NULL;
+        if (oneJob)
+            oneJob->working();
+        delete oneJob;
+        oneJob = NULL;
+    }
 }
 
 

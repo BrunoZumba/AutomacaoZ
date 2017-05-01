@@ -8,12 +8,12 @@
 
 using namespace std;
 
-#define QTD_SERVICOS 3
+#define QTD_SERVICOS 1
 
 
 
 int main(){
-    int portas[QTD_SERVICOS] = {8180,8280,8380};
+    int portas[QTD_SERVICOS] = {8180/*,8280,8380*/};
     pthread_t threads[QTD_SERVICOS];
     int i, rc;
     char buffer[255];

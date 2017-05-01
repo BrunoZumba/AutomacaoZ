@@ -17,7 +17,8 @@
 #include<Job.h>
 
 #define LISTEN_QUEUE 5
-#define THREAD_POOL_SIZE 3
+#define THREAD_POOL_SIZE 1
+#define BUFFER_SIZE 255
 
 
 using namespace std;

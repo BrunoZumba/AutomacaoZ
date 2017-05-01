@@ -2,8 +2,15 @@
 #define JOB_H
 
 #include<iostream>
+#include<string.h>
+#include<errno.h>
+#include<stdlib.h>
+#include<stdio.h>
+#include<unistd.h>
 
 using namespace std;
+
+#define BUFFER_SIZE 255
 
 
 class Job
@@ -16,6 +23,8 @@ class Job
     protected:
 
     private:
+        int sock2;
+        int port2;
 };
 
 #endif // JOB_H
