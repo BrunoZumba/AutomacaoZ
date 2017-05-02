@@ -1,31 +1,21 @@
 #include "Job.h"
 
 
-struct jobStruct {
-    int sock;
-    int port;
+Job::Job(int sockParm, int portParm, struct sockaddr_in clientAddrParm){
 
-};
-
-struct jobStruct st;
-
-Job::Job(int _sock, int _port){
-    st.sock = _sock;
-    st.port = _port;
-
-    sock2 = _sock;
-    port2 = _port;
+    _sock = sockParm;
+    _port = portParm;
+    _clientAddr = clientAddrParm;
 }
 
 Job::~Job(){}
 
 
 void Job::working(){
-    int sock = sock2;
-    int port = port2;
-
+    int sock = _sock;
+    int port = _port;
+    struct sockaddr_in clientAddr = _clientAddr;
     int i = 0, n = 1;
-    cout << "Socket: " << sock << ". Porta: " << port << "\n";
 
 
     char buffer[BUFFER_SIZE] = "Inicializando";
@@ -53,11 +43,12 @@ void Job::working(){
             break;
         }
 
-        cout << "Mensagem recebida no socket "<< sock <<" na porta "<<port<<": "<<buffer <<"\n";
+        //sprintf(buffer, "Msg rcv do host \'%s\' no socket %d na porta  %d\n", , sock, port);
+        cout << "Msg rcv do host \'" << inet_ntoa(clientAddr.sin_addr) << "\' no socket "<< sock <<" na porta "<<port<<": "<<buffer <<"\n";
         i++;
     }
 
-    cout << "Fechando conexão do socket " << sock << " na porta "<<port<<".\n";
+    cout << "Fechando conexão com o host \'"<<inet_ntoa(clientAddr.sin_addr)<<"\' no socket " << sock << " na porta "<<port<<".\n";
     close(sock);
 
 }

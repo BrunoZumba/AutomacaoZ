@@ -8,18 +8,20 @@
 
 using namespace std;
 
-#define QTD_SERVICOS 1
+#define QTD_SERVICOS 3
 
 
 
 int main(){
-    int portas[QTD_SERVICOS] = {8180/*,8280,8380*/};
+    int portas[QTD_SERVICOS] = {8180,8280,8380};
     pthread_t threads[QTD_SERVICOS];
     int i, rc;
     char buffer[255];
 
+
+    ListenThreadPool::createThreadPool();
+
     for (i = 0; i < QTD_SERVICOS; i++){
-        cout << "Thread " << i << "\n";
         rc = pthread_create(&threads[i], NULL, ListenThreadPool::Manage, (void*) &portas[i]);
         if (rc < 0){
             printf(buffer, "ERROR: Erro ao criar a thread na porta %d\n%s\n", portas[i], strerror(errno));

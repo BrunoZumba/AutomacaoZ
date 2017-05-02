@@ -20,29 +20,30 @@ void *ListenThreadPool::Manage(void * parm){
     socklen_t clientSize = sizeof(clientAddr);
     char msg[255];
 
-    //cout << "Porta: " << port << "\n";
-
-
-    createThreadPool();
-
+    //createThreadPool();
 
     listenSocket = prepareSocket(port);
     if (listenSocket < 0){
-        printf(msg, "ERRO ao preparar o socket.\n%s\n", strerror(errno));
+        sprintf(msg, "ERRO ao preparar o socket na porta %d.\n%s\n", port, strerror(errno));
         cout<<msg;
-        exit (-1);
+        pthread_exit(NULL);
     }
+    cout<<"Criada Thread na porta " << port << "\n";
 
 
     while (true){
         newSocket = accept(listenSocket, (struct sockaddr*)&clientAddr, (socklen_t*)&clientSize);
         if(newSocket < 0){
-            printf(msg, "ERRO ao aceitar a conexao no socket %d (porta %d)\n%s\n", listenSocket, port, strerror(errno));
+            sprintf(msg, "ERRO ao aceitar a conexao no socket %d (porta %d)\n%s\n", listenSocket, port, strerror(errno));
             cout << msg;
             exit (-3);
         }
 
-        Job *job = new Job(newSocket, port);
+        sprintf(msg, "O client %s se conectou na porta %d pelo socket %d\n", inet_ntoa(clientAddr.sin_addr), port, newSocket);
+        cout << msg;
+
+        //Quando ha nova conexao, cria-se um novo job, o coloca na fila
+        Job *job = new Job(newSocket, port, clientAddr);
 
         pthread_mutex_lock(&queueLock);
         jobQueue.push(job);
@@ -50,18 +51,12 @@ void *ListenThreadPool::Manage(void * parm){
         pthread_cond_signal(&queueCond);
     }
 
-}
+    pthread_exit(NULL);
 
-void createThreadPool(){
-    int i;
-    pthread_t threads[THREAD_POOL_SIZE];
-
-    for (i = 0; i < THREAD_POOL_SIZE; i++){
-        pthread_create(&threads[i], NULL, executeThread, NULL);
-    }
 }
 
 void *executeThread(void *){
+    cout << "Passando por execute Thread\n";
     Job *oneJob = NULL;
 
     while (true){
@@ -77,6 +72,18 @@ void *executeThread(void *){
             oneJob->working();
         delete oneJob;
         oneJob = NULL;
+    }
+    pthread_exit(NULL);
+}
+
+
+void ListenThreadPool::createThreadPool(){
+    cout << "Creating Thread Pool\n";
+    int i;
+    pthread_t threads[THREAD_POOL_SIZE];
+
+    for (i = 0; i < THREAD_POOL_SIZE; i++){
+        pthread_create(&threads[i], NULL, executeThread, NULL);
     }
 }
 

@@ -7,6 +7,8 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include<unistd.h>
+#include<netinet/in.h>
+#include<arpa/inet.h>
 
 using namespace std;
 
@@ -16,15 +18,16 @@ using namespace std;
 class Job
 {
     public:
-        Job(int, int);
+        Job(int, int, struct sockaddr_in);
         virtual ~Job();
         void working();
 
     protected:
 
     private:
-        int sock2;
-        int port2;
+        int _sock;
+        int _port;
+        struct sockaddr_in _clientAddr;
 };
 
 #endif // JOB_H
