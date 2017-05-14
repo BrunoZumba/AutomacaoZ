@@ -1,0 +1,62 @@
+sudo nano /etc/default/keyboard
+	XKBMODEL="abnt2"
+	XKBLAYOUT="br"
+	XKBVARIANT=""
+	XKBOPTIONS="lv3?:alt_switch,compose:rctrl"
+
+sudo apt-get install codeblocks
+sudo apt-get install subversion
+sudo apt-get update
+sudo apt-get install xsltproc
+
+wget https://ufpr.dl.sourceforge.net/project/lirc/LIRC/0.9.4d/lirc-0.9.4d.tar.bz2
+tar jxf lirc-0.9.4d.tar.bz2 
+./configure
+make
+sudo make install
+
+sudo apt-get install lirc
+
+Coloca no final /etc/modules
+	lirc_dev
+	lirc_rpi gpio_in_pin=23 gpio_out_pin=22
+
+Coloca /etc/lirc/hardware.conf
+	LIRCD_ARGS="--uinput"
+	DRIVER="default"
+	DEVICE="/dev/lirc0"
+	MODULES="lirc_rpi"
+
+Coloca no /boot/config.txt
+	dtoverlay=lirc-rpi,gpio_in_pin=23,gpio_out_pin=22
+
+
+Adiciona arquivo de configuração dos controles em /etc/lirc/lircd.conf
+
+***** Para testar *******
+
+# Via linha de comando:
+irsend -d /var/run/lirc/lircd SEND_ONCE ControleNet KEY_ENTER
+
+# Via programa C
+
+#include "lirc_client.h"
+
+int main(int argc, char** argv)
+{
+    int fd;
+
+    fd = lirc_get_local_socket("/var/run/lirc/lircd", 0);
+    if (fd < 0) {
+        // Process error
+    }
+    if (lirc_send_one(fd, "ControleNet", "KEY_ENTER") == -1) {
+        // Process errors
+    };
+}
+
+
+gcc -o main /usr/local/lib/liblirc_client.so main.cpp
+./main
+
+
