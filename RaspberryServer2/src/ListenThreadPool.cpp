@@ -4,7 +4,7 @@ ListenThreadPool::ListenThreadPool(){}
 
 ListenThreadPool::~ListenThreadPool(){}
 
-queue<Job*> jobQueue;
+queue<ConnectionHandler*> connectionHandlerQueue;
 pthread_mutex_t queueLock;
 pthread_cond_t queueCond;
 
@@ -19,8 +19,6 @@ void *ListenThreadPool::Manage(void * parm){
     struct sockaddr_in clientAddr;
     socklen_t clientSize = sizeof(clientAddr);
     char msg[255];
-
-    //createThreadPool();
 
     listenSocket = prepareSocket(port);
     if (listenSocket < 0){
@@ -43,10 +41,10 @@ void *ListenThreadPool::Manage(void * parm){
         cout << msg;
 
         //Quando ha nova conexao, cria-se um novo job, o coloca na fila
-        Job *job = new Job(newSocket, port, clientAddr);
+        ConnectionHandler *connectionHandler = new ConnectionHandler(newSocket, port, clientAddr);
 
         pthread_mutex_lock(&queueLock);
-        jobQueue.push(job);
+        connectionHandlerQueue.push(connectionHandler);
         pthread_mutex_unlock(&queueLock);
         pthread_cond_signal(&queueCond);
     }
@@ -57,21 +55,21 @@ void *ListenThreadPool::Manage(void * parm){
 
 void *executeThread(void *){
     cout << "Passando por execute Thread\n";
-    Job *oneJob = NULL;
+    ConnectionHandler *oneConnectionHandler = NULL;
 
     while (true){
         pthread_mutex_lock(&queueLock);
-        while (jobQueue.empty())
+        while (connectionHandlerQueue.empty())
             pthread_cond_wait(&queueCond, &queueLock);
 
-        oneJob = jobQueue.front();
-        jobQueue.pop();
+        oneConnectionHandler = connectionHandlerQueue.front();
+        connectionHandlerQueue.pop();
         pthread_mutex_unlock(&queueLock);
 
-        if (oneJob)
-            oneJob->working();
-        delete oneJob;
-        oneJob = NULL;
+        if (oneConnectionHandler)
+            oneConnectionHandler->working();
+        delete oneConnectionHandler;
+        oneConnectionHandler = NULL;
     }
     pthread_exit(NULL);
 }

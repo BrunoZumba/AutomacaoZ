@@ -17,17 +17,17 @@ using namespace std;
 
 class Job
 {
-    public:
-        Job(int, int, struct sockaddr_in);
-        virtual ~Job();
-        void working();
+public:
+    Job(int, int, struct sockaddr_in);
+    virtual ~Job();
+    void working();
 
-    protected:
+protected:
 
-    private:
-        int _sock;
-        int _port;
-        struct sockaddr_in _clientAddr;
+private:
+    int _sock;
+    int _port;
+    struct sockaddr_in _clientAddr;
 };
 
 #endif // JOB_H

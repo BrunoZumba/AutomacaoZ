@@ -1,13 +1,16 @@
 # depslib dependency file v1.0
-1493685728 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
+1494896553 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
 	<stdio.h>
 	<pthread.h>
 	<iostream>
 	<errno.h>
 	<string.h>
-	<ListenThreadPool.h>
+	"include/ListenThreadPool.h"
+	"include/Util.h"
+	"Task.h"
+	"ArduinoJson.h"
 
-1493685228 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ListenThreadPool.h
+1494804142 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ListenThreadPool.h
 	<iostream>
 	<sys/types.h>
 	<sys/socket.h>
@@ -20,9 +23,9 @@
 	<unistd.h>
 	<pthread.h>
 	<queue>
-	<Job.h>
+	"ConnectionHandler.h"
 
-1493685529 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Job.h
+1494804240 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Job.h
 	<iostream>
 	<string.h>
 	<errno.h>
@@ -35,6 +38,367 @@
 1493685968 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Job.cpp
 	"Job.h"
 
-1493686235 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ListenThreadPool.cpp
+1494804240 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ListenThreadPool.cpp
 	"ListenThreadPool.h"
+
+1494804240 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ConnectionHandler.h
+	<iostream>
+	<string.h>
+	<errno.h>
+	<stdlib.h>
+	<stdio.h>
+	<unistd.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+
+1494804248 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ConnectionHandler.cpp
+	"ConnectionHandler.h"
+
+1494896562 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Task.cpp
+	"Task.h"
+
+1494896056 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Task.h
+	<string>
+
+1494900682 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Util.h
+	"ArduinoJson.h"
+	"Task.h"
+	<string.h>
+
+1494893700 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Task.cpp
+	<string>
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson.h
+	"ArduinoJson.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson.hpp
+	"ArduinoJson/DynamicJsonBuffer.hpp"
+	"ArduinoJson/JsonArray.hpp"
+	"ArduinoJson/JsonObject.hpp"
+	"ArduinoJson/JsonVariantComparisons.hpp"
+	"ArduinoJson/StaticJsonBuffer.hpp"
+	"ArduinoJson/Deserialization/JsonParserImpl.hpp"
+	"ArduinoJson/JsonArrayImpl.hpp"
+	"ArduinoJson/JsonBufferImpl.hpp"
+	"ArduinoJson/JsonObjectImpl.hpp"
+	"ArduinoJson/JsonVariantImpl.hpp"
+	"ArduinoJson/Serialization/JsonSerializerImpl.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/DynamicJsonBuffer.hpp
+	"JsonBufferBase.hpp"
+	<stdlib.h>
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/JsonBufferBase.hpp
+	"Deserialization/JsonParser.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Deserialization/JsonParser.hpp
+	"../JsonBuffer.hpp"
+	"../JsonVariant.hpp"
+	"../TypeTraits/IsConst.hpp"
+	"StringWriter.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/JsonBuffer.hpp
+	<stddef.h>
+	<stdint.h>
+	<string.h>
+	"JsonVariant.hpp"
+	"TypeTraits/EnableIf.hpp"
+	"TypeTraits/IsArray.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/JsonVariant.hpp
+	<stddef.h>
+	<stdint.h>
+	"Data/JsonVariantContent.hpp"
+	"Data/JsonVariantDefault.hpp"
+	"Data/JsonVariantType.hpp"
+	"JsonVariantBase.hpp"
+	"RawJson.hpp"
+	"Serialization/JsonPrintable.hpp"
+	"TypeTraits/EnableIf.hpp"
+	"TypeTraits/IsChar.hpp"
+	"TypeTraits/IsFloatingPoint.hpp"
+	"TypeTraits/IsIntegral.hpp"
+	"TypeTraits/IsSame.hpp"
+	"TypeTraits/IsSignedIntegral.hpp"
+	"TypeTraits/IsUnsignedIntegral.hpp"
+	"TypeTraits/RemoveConst.hpp"
+	"TypeTraits/RemoveReference.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/JsonVariantContent.hpp
+	"JsonFloat.hpp"
+	"JsonInteger.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/JsonFloat.hpp
+	"../Configuration.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Configuration.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/JsonInteger.hpp
+	"../Configuration.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/JsonVariantDefault.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/JsonVariantType.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/JsonVariantBase.hpp
+	"Data/JsonVariantAs.hpp"
+	"Polyfills/attributes.hpp"
+	"Serialization/JsonPrintable.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/JsonVariantAs.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Polyfills/attributes.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Serialization/JsonPrintable.hpp
+	"../Configuration.hpp"
+	"../TypeTraits/EnableIf.hpp"
+	"DummyPrint.hpp"
+	"DynamicStringBuilder.hpp"
+	"IndentedPrint.hpp"
+	"JsonSerializer.hpp"
+	"JsonWriter.hpp"
+	"Prettyfier.hpp"
+	"StaticStringBuilder.hpp"
+	"StreamPrintAdapter.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/TypeTraits/EnableIf.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Serialization/DummyPrint.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Serialization/DynamicStringBuilder.hpp
+	"../StringTraits/StringTraits.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/StringTraits/StringTraits.hpp
+	"../Configuration.hpp"
+	"../TypeTraits/EnableIf.hpp"
+	"../TypeTraits/IsBaseOf.hpp"
+	"../TypeTraits/IsChar.hpp"
+	"../TypeTraits/RemoveReference.hpp"
+	"ArduinoStream.hpp"
+	"CharPointer.hpp"
+	"FlashString.hpp"
+	"StdStream.hpp"
+	"StdString.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/TypeTraits/IsBaseOf.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/TypeTraits/IsChar.hpp
+	"IsSame.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/TypeTraits/IsSame.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/TypeTraits/RemoveReference.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/StringTraits/ArduinoStream.hpp
+	<Stream.h>
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/StringTraits/CharPointer.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/StringTraits/FlashString.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/StringTraits/StdStream.hpp
+	<istream>
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/StringTraits/StdString.hpp
+	<WString.h>
+	<string>
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Serialization/IndentedPrint.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Serialization/JsonSerializer.hpp
+	"JsonWriter.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Serialization/JsonWriter.hpp
+	<stdint.h>
+	"../Data/Encoding.hpp"
+	"../Data/JsonFloat.hpp"
+	"../Data/JsonInteger.hpp"
+	"../Polyfills/attributes.hpp"
+	"../Polyfills/math.hpp"
+	"../Polyfills/normalize.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/Encoding.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Polyfills/math.hpp
+	<float.h>
+	<limits>
+	<math.h>
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Polyfills/normalize.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Serialization/Prettyfier.hpp
+	"IndentedPrint.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Serialization/StaticStringBuilder.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Serialization/StreamPrintAdapter.hpp
+	"../Configuration.hpp"
+	<ostream>
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/RawJson.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/TypeTraits/IsFloatingPoint.hpp
+	"IsSame.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/TypeTraits/IsIntegral.hpp
+	"IsSame.hpp"
+	"IsSignedIntegral.hpp"
+	"IsUnsignedIntegral.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/TypeTraits/IsSignedIntegral.hpp
+	"../Configuration.hpp"
+	"IsSame.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/TypeTraits/IsUnsignedIntegral.hpp
+	"../Configuration.hpp"
+	"IsSame.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/TypeTraits/RemoveConst.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/TypeTraits/IsArray.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/TypeTraits/IsConst.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Deserialization/StringWriter.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/JsonArray.hpp
+	"Data/JsonBufferAllocated.hpp"
+	"Data/List.hpp"
+	"Data/ReferenceType.hpp"
+	"Data/ValueSetter.hpp"
+	"JsonVariant.hpp"
+	"Serialization/JsonPrintable.hpp"
+	"StringTraits/StringTraits.hpp"
+	"TypeTraits/EnableIf.hpp"
+	"TypeTraits/IsArray.hpp"
+	"TypeTraits/IsFloatingPoint.hpp"
+	"TypeTraits/IsSame.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/JsonBufferAllocated.hpp
+	"../JsonBuffer.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/List.hpp
+	"../JsonBuffer.hpp"
+	"ListConstIterator.hpp"
+	"ListIterator.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/ListConstIterator.hpp
+	"ListNode.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/ListNode.hpp
+	<stddef.h>
+	"JsonBufferAllocated.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/ListIterator.hpp
+	"ListConstIterator.hpp"
+	"ListNode.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/ReferenceType.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/ValueSetter.hpp
+	"../JsonBuffer.hpp"
+	"../JsonVariant.hpp"
+	"../StringTraits/StringTraits.hpp"
+	"../TypeTraits/EnableIf.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/JsonObject.hpp
+	"Data/JsonBufferAllocated.hpp"
+	"Data/List.hpp"
+	"Data/ReferenceType.hpp"
+	"Data/ValueSetter.hpp"
+	"JsonPair.hpp"
+	"Serialization/JsonPrintable.hpp"
+	"StringTraits/StringTraits.hpp"
+	"TypeTraits/EnableIf.hpp"
+	"TypeTraits/IsArray.hpp"
+	"TypeTraits/IsFloatingPoint.hpp"
+	"TypeTraits/IsSame.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/JsonPair.hpp
+	"JsonVariant.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/JsonVariantComparisons.hpp
+	"Data/JsonVariantComparer.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Data/JsonVariantComparer.hpp
+	"../JsonVariantBase.hpp"
+	"../StringTraits/StringTraits.hpp"
+	"../TypeTraits/EnableIf.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/StaticJsonBuffer.hpp
+	"JsonBufferBase.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Deserialization/JsonParserImpl.hpp
+	"Comments.hpp"
+	"JsonParser.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Deserialization/Comments.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/JsonArrayImpl.hpp
+	"JsonArray.hpp"
+	"JsonArraySubscript.hpp"
+	"JsonObject.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/JsonArraySubscript.hpp
+	"Configuration.hpp"
+	"JsonVariantBase.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/JsonBufferImpl.hpp
+	"Deserialization/JsonParser.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/JsonObjectImpl.hpp
+	"JsonArray.hpp"
+	"JsonObject.hpp"
+	"JsonObjectSubscript.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/JsonObjectSubscript.hpp
+	"Configuration.hpp"
+	"JsonVariantBase.hpp"
+	"TypeTraits/EnableIf.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/JsonVariantImpl.hpp
+	"Configuration.hpp"
+	"JsonArray.hpp"
+	"JsonObject.hpp"
+	"JsonVariant.hpp"
+	"Polyfills/isFloat.hpp"
+	"Polyfills/isInteger.hpp"
+	"Polyfills/parseFloat.hpp"
+	"Polyfills/parseInteger.hpp"
+	<string.h>
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Polyfills/isFloat.hpp
+	<string.h>
+	"./ctype.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Polyfills/ctype.hpp
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Polyfills/isInteger.hpp
+	"./ctype.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Polyfills/parseFloat.hpp
+	"../TypeTraits/FloatTraits.hpp"
+	"./ctype.hpp"
+	"./math.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/TypeTraits/FloatTraits.hpp
+	<stdint.h>
+	<stdlib.h>
+	"../Polyfills/math.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Polyfills/parseInteger.hpp
+	<stdlib.h>
+	"../Configuration.hpp"
+	"./ctype.hpp"
+
+1493928643 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ArduinoJson/Serialization/JsonSerializerImpl.hpp
+	"../JsonArray.hpp"
+	"../JsonArraySubscript.hpp"
+	"../JsonObject.hpp"
+	"../JsonObjectSubscript.hpp"
+	"../JsonVariant.hpp"
+	"JsonSerializer.hpp"
+
+1494900638 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Util.cpp
+	"Util.h"
 
