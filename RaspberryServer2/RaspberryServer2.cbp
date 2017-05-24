@@ -13,7 +13,11 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
+				<Linker>
+					<Add library="pthread" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/RaspberryServer2" prefix_auto="1" extension_auto="1" />
@@ -31,6 +35,18 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="include/ArduinoJson.h" />
+		<Unit filename="include/ConnectionHandler.h" />
+		<Unit filename="include/Job.h" />
+		<Unit filename="include/ListenThreadPool.h" />
+		<Unit filename="include/Task.h" />
+		<Unit filename="include/Util.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="src/ConnectionHandler.cpp" />
+		<Unit filename="src/Job.cpp" />
+		<Unit filename="src/ListenThreadPool.cpp" />
+		<Unit filename="src/Task.cpp" />
+		<Unit filename="src/Util.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1494896553 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
+1495662673 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
 	<stdio.h>
 	<pthread.h>
 	<iostream>
@@ -9,8 +9,9 @@
 	"include/Util.h"
 	"Task.h"
 	"ArduinoJson.h"
+	"Util.h"
 
-1494804142 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ListenThreadPool.h
+1495395839 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ListenThreadPool.h
 	<iostream>
 	<sys/types.h>
 	<sys/socket.h>
@@ -25,7 +26,7 @@
 	<queue>
 	"ConnectionHandler.h"
 
-1494804240 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Job.h
+1495398490 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Job.h
 	<iostream>
 	<string.h>
 	<errno.h>
@@ -34,6 +35,7 @@
 	<unistd.h>
 	<netinet/in.h>
 	<arpa/inet.h>
+	"Util.h"
 
 1493685968 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Job.cpp
 	"Job.h"
@@ -41,7 +43,7 @@
 1494804240 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ListenThreadPool.cpp
 	"ListenThreadPool.h"
 
-1494804240 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ConnectionHandler.h
+1495398438 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ConnectionHandler.h
 	<iostream>
 	<string.h>
 	<errno.h>
@@ -50,20 +52,28 @@
 	<unistd.h>
 	<netinet/in.h>
 	<arpa/inet.h>
+	"Task.h"
+	"Response.h"
+	"Util.h"
 
-1494804248 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ConnectionHandler.cpp
+1495663467 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ConnectionHandler.cpp
 	"ConnectionHandler.h"
 
-1494896562 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Task.cpp
+1495662848 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Task.cpp
 	"Task.h"
 
-1494896056 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Task.h
+1495663146 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Task.h
 	<string>
-
-1494900682 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Util.h
+	<iostream>
+	"lirc_client.h"
 	"ArduinoJson.h"
-	"Task.h"
+	"Util.h"
+
+1495395837 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Util.h
+	"lirc_client.h"
+	"ArduinoJson.h"
 	<string.h>
+	<iostream>
 
 1494893700 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Task.cpp
 	<string>
@@ -399,6 +409,16 @@
 	"../JsonVariant.hpp"
 	"JsonSerializer.hpp"
 
-1494900638 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Util.cpp
+1495393850 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Util.cpp
 	"Util.h"
+
+1495395809 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Response.h
+	<string>
+	<iostream>
+	<string.h>
+	"ArduinoJson.h"
+	"Util.h"
+
+1495398337 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Response.cpp
+	"Response.h"
 

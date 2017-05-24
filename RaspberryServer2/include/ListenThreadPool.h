@@ -18,7 +18,6 @@
 
 #define LISTEN_QUEUE 5
 #define THREAD_POOL_SIZE 3
-#define BUFFER_SIZE 2048
 
 
 using namespace std;

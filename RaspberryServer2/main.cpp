@@ -22,32 +22,25 @@ int main(){
     int i, rc;
     char buffer[BUFFER_SIZE];
 
-    Task task("ControleLed", "KEY_ENTER", "SEND_ONCE");
 
+    Task task("Samsung", "KEY_POWER", "SEND_ONCE");
+    cout << task.ParseToJason();
+    //{"deviceName":"Samsung","buttonName":"KEY_POWER","mode":"SEND_ONCE"}
 
+    ListenThreadPool::createThreadPool();
 
-    string json = util::ParseToJason(task);
+    for (i = 0; i < QTD_SERVICOS; i++){
+        rc = pthread_create(&threads[i], NULL, ListenThreadPool::Manage, (void*) &portas[i]);
+        if (rc < 0){
+            printf(buffer, "ERROR: Erro ao criar a thread na porta %d\n%s\n", portas[i], strerror(errno));
+            cout << buffer;
 
+            return -1;
+        }
+        //getchar();
+    }
 
-
-    //string str = Util::ParseToJason(task);
-    //cout << str;
-
-
-//    ListenThreadPool::createThreadPool();
-//
-//    for (i = 0; i < QTD_SERVICOS; i++){
-//        rc = pthread_create(&threads[i], NULL, ListenThreadPool::Manage, (void*) &portas[i]);
-//        if (rc < 0){
-//            printf(buffer, "ERROR: Erro ao criar a thread na porta %d\n%s\n", portas[i], strerror(errno));
-//            cout << buffer;
-//
-//            return -1;
-//        }
-//        //getchar();
-//    }
-//
-//    pthread_exit(NULL);
+    pthread_exit(NULL);
 
     return 0;
 }

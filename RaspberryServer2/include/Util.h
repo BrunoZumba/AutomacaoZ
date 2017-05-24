@@ -1,24 +1,26 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-//#include<"lirc_client.h>
+#include "lirc_client.h"
 #include "ArduinoJson.h"
-#include "Task.h"
 #include<string.h>
+#include<iostream>
 
 
 #define LIRCD_SOCKET_PATH "/var/run/lirc/lircd"
-static int lircSock;
+
+#define BUFFER_SIZE 2048
+
 
 using namespace std;
 
 namespace util {
 
-static bool CreateLircSocket();
+static int lircSock = -1;
 
 
+int GetLircSocket();
 
-string ParseToJason(Task);
 }
 
 #endif // UTIL_H

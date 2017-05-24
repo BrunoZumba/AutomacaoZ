@@ -21,12 +21,14 @@ Coloca no final /etc/modules
 	lirc_dev
 	lirc_rpi gpio_in_pin=23 gpio_out_pin=22
 
+NÃO FIZ ISSO NA VM
 Coloca /etc/lirc/hardware.conf
 	LIRCD_ARGS="--uinput"
 	DRIVER="default"
 	DEVICE="/dev/lirc0"
 	MODULES="lirc_rpi"
 
+NÃO FIZ ISSO NA VM
 Coloca no /boot/config.txt
 	dtoverlay=lirc-rpi,gpio_in_pin=23,gpio_out_pin=22
 

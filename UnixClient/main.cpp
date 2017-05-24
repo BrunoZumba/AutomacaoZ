@@ -49,17 +49,26 @@ int main(){
         return 2;
     }
 
+//    cout << "digite a msg: \n";
+//    bzero(buffer, BUFFER_SIZE);
+//    cin.getline(buffer, BUFFER_SIZE);
+//
+//    int len = strlen(buffer);
+//    buffer[len++]='\n';
+//    buffer[len++]='\n';
+//    buffer[len]='\0';
+//    n = write(sock, buffer, strlen(buffer));
+//    cout << "n: " << n << "\n";
+//    if (n<0){
+//        cout<<"Erro ao escrever\nERRNO: " << strerror(errno) << "\n";
+//        exit;
+//    }
+
     cout<<"Aguardando inicio da transmissão com o servidor...\n";
 
     while (strcmp(buffer, "FECHAR") != 0){
         bzero(buffer, BUFFER_SIZE);
-        n = read(sock, buffer, BUFFER_SIZE);
-        if (n<0) {
-            cout<<"Erro na leitura do socket\nERRNO: " << strerror(errno) << "\n";
-            break;
-        }
 
-        cout << "Mensagem recebida do servidor '" << inet_ntoa(serv_addr.sin_addr) << "': \n" << buffer <<"\n";
 
 
         cout <<"Escreva uma mensagem para mandar para o servidor: '"<< inet_ntoa(serv_addr.sin_addr)<<"' no socket: " << sock << ": ";
@@ -71,6 +80,17 @@ int main(){
             cout<<"Erro ao escrever\nERRNO: " << strerror(errno) << "\n";
             break;
         }
+
+
+        bzero(buffer, BUFFER_SIZE);
+        cout << "esperando read \n";
+        n = read(sock, buffer, BUFFER_SIZE);
+        if (n<0) {
+            cout<<"Erro na leitura do socket\nERRNO: " << strerror(errno) << "\n";
+            break;
+        }
+
+        cout << "Mensagem recebida do servidor '" << inet_ntoa(serv_addr.sin_addr) << "': \n'" << buffer <<"'\n";
 
     }
 
