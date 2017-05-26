@@ -19,11 +19,15 @@ void ConnectionHandler::working(){
 
     char buffer[BUFFER_SIZE] = "Inicializando";
 
-    while (n > 0){
+    while (true){
         bzero(buffer, BUFFER_SIZE);
         n = read(sock, buffer, BUFFER_SIZE);
         Response response;
+	cout << "N é igual a: " << n << "\n";
 
+	if (n == 0) {
+		break;
+	}
         if (n < 0){
             bzero(buffer, BUFFER_SIZE);
             sprintf(buffer, "ERRO ao ler no socket %d na porta %d: %s\n", sock, port, strerror(errno));
