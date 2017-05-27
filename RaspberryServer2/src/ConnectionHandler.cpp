@@ -22,12 +22,12 @@ void ConnectionHandler::working(){
     while (true){
         bzero(buffer, BUFFER_SIZE);
         n = read(sock, buffer, BUFFER_SIZE);
-        Response response;
-	cout << "N é igual a: " << n << "\n";
 
-	if (n == 0) {
-		break;
-	}
+        //cout << "N é igual a: " << n << "\n";
+
+        if (n == 0) {
+            break;
+        }
         if (n < 0){
             bzero(buffer, BUFFER_SIZE);
             sprintf(buffer, "ERRO ao ler no socket %d na porta %d: %s\n", sock, port, strerror(errno));
@@ -37,6 +37,7 @@ void ConnectionHandler::working(){
         cout << "Comando recebido do Cliente: " << buffer << "\n";
 
         Task task;
+        Response response;
 
         if (!task.ParseFromJason(buffer)){
             response.create(STATUS_ERROR, "Erro ao interpretar a mensagem JSON");
@@ -48,7 +49,7 @@ void ConnectionHandler::working(){
 
         bzero(buffer, BUFFER_SIZE);
         sprintf(buffer, response.ParseToJason().c_str());
-        //cout << buffer << "\n";
+        //cout << buffer << "\n";d
 
         n = write(sock, buffer, strlen(buffer));
         if (n < 0) {

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1495662673 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
+1495667315 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
 	<stdio.h>
 	<pthread.h>
 	<iostream>
@@ -56,10 +56,10 @@
 	"Response.h"
 	"Util.h"
 
-1495663467 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ConnectionHandler.cpp
+1495849984 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ConnectionHandler.cpp
 	"ConnectionHandler.h"
 
-1495662848 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Task.cpp
+1495849791 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Task.cpp
 	"Task.h"
 
 1495663146 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Task.h
@@ -412,13 +412,13 @@
 1495393850 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Util.cpp
 	"Util.h"
 
-1495395809 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Response.h
+1495849883 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Response.h
 	<string>
 	<iostream>
 	<string.h>
 	"ArduinoJson.h"
 	"Util.h"
 
-1495398337 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Response.cpp
+1495849876 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Response.cpp
 	"Response.h"
 

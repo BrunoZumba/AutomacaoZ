@@ -65,9 +65,9 @@ bool Task::ParseFromJason(string json){
 bool Task::execute(int lircSock){
 
     if (this->mode.compare("SEND_ONCE") == 0){
-        if (lirc_send_one(lircSock, this->deviceName.c_str(), this->buttonName.c_str()) == -1) {
+        if (lirc_send_one(lircSock, this->deviceName.c_str(), this->buttonName.c_str()) != 0) {
             char buffer[BUFFER_SIZE];
-            sprintf(buffer, "ERRO! Nao foi possivel enviar o comando %s pelo device %s através do socket LIRC %d\n%s\n", this->buttonName.c_str(), this->deviceName.c_str(), lircSock, strerror(errno));
+            sprintf(buffer, "ERRO! Nao foi possivel enviar o comando %s pelo device %s através do socket LIRC %d\n", this->buttonName.c_str(), this->deviceName.c_str(), lircSock);
             cout << buffer;
             return false;
         }

@@ -44,12 +44,16 @@ string Response::ParseToJason(){
 }
 
 
-void Response::ParseFromJason(string json){
+bool Response::ParseFromJason(string json){
     StaticJsonBuffer<BUFFER_SIZE> jsonBuffer;
     JsonObject& root = jsonBuffer.parseObject(json);
 
     //TODO: tirar essa gambs de primeiro usar um char*
     this->status = root["status"];
     const char* tmp = root["desc"];
+    if (tmp == NULL) {
+        return false;
+    }
     this->desc = string(tmp);
+    return true;
 }

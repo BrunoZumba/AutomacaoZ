@@ -30,7 +30,7 @@ int main(){
 
     sock = socket(AF_INET, SOCK_STREAM, 0);
 
-    server = gethostbyname("127.0.0.1");
+    server = gethostbyname("192.168.25.50");
     if (server == NULL){
         cout<<"Não foi possivel encontrar o servidor\n";
         return 1;

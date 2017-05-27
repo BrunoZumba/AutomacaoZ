@@ -29,7 +29,7 @@ class Response
         void setDesc(string);
 
         string ParseToJason();
-        void ParseFromJason(string);
+        bool ParseFromJason(string);
 
     protected:
 

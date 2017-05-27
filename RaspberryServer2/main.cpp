@@ -25,7 +25,7 @@ int main(){
 
     Task task("Samsung", "KEY_POWER", "SEND_ONCE");
     cout << task.ParseToJason();
-    //{"deviceName":"Samsung","buttonName":"KEY_POWER","mode":"SEND_ONCE"}
+    //{"deviceName":"ControleNet","buttonName":"KEY_ENTER","mode":"SEND_ONCE"}
 
     ListenThreadPool::createThreadPool();
 
