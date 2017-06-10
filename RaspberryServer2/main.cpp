@@ -3,6 +3,7 @@
 #include<iostream>
 #include<errno.h>   //usado pela errno
 #include<string.h>  //usado pela strerror
+#include<unistd.h>
 
 #include"include/ListenThreadPool.h"
 #include"include/Util.h"
@@ -34,7 +35,7 @@ int main(){
             cout << buffer;
             return -1;
         }
-	sleep(500);
+	usleep(500);
         //getchar();
     }
 
