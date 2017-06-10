@@ -1,0 +1,25 @@
+sudo apt-get install daemontools daemontools-run
+
+sudo mkdir -p /service/RaspberryServer
+
+sudo nano /service/RaspberryServer/run
+
+Arquivo run:
+###################################
+#!/bin/sh
+
+/home/pi/Desktop/AutomacaoZ.git/trunk/RaspberryServer2/bin/Debug/RaspberryServer2
+###################################
+
+chmod 775 /service/RaspberryServer
+
+cd /etc/service
+ln -s /service/RaspberryServer
+
+
+Daemon criado. 
+Para parar o serviço:
+svc -d /service/RaspberryServer
+
+Para iniciar
+svc -u /service/RaspberryServer
