@@ -23,6 +23,6 @@ g++ -Wall -g -I/usr/local/lib -I$MAIN_PATH/include -c $MAIN_PATH/src/CommandTask
 g++ -Wall -g -I/usr/local/lib -I$MAIN_PATH/include -c $MAIN_PATH/src/Util.cpp -o $MAIN_PATH/obj/Debug/src/Util.o
 
 
-g++ -o $MAIN_PATH/bin/Debug/RaspberryServer2 $MAIN_PATH/obj/Debug/main.o $MAIN_PATH/obj/Debug/src/ConnectionHandler.o $MAIN_PATH/obj/Debug/src/Job.o $MAIN_PATH/obj/Debug/src/ListenThreadPool.o $MAIN_PATH/obj/Debug/src/Sensor.o $MAIN_PATH/obj/Debug/src/CommandTask.o $MAIN_PATH/obj/Debug/src/Util.o   -lpthread /usr/local/lib/liblirc_client.so -lpthread
+g++ -o $MAIN_PATH/bin/Debug/RaspberryServer2 $MAIN_PATH/obj/Debug/main.o $MAIN_PATH/obj/Debug/src/ConnectionHandler.o $MAIN_PATH/obj/Debug/src/Job.o $MAIN_PATH/obj/Debug/src/ListenThreadPool.o $MAIN_PATH/obj/Debug/src/SensorTask.o $MAIN_PATH/obj/Debug/src/CommandTask.o $MAIN_PATH/obj/Debug/src/Util.o   -lpthread /usr/local/lib/liblirc_client.so -lpthread
 
 
