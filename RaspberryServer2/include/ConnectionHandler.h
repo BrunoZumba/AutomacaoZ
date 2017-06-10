@@ -10,7 +10,6 @@
 #include<netinet/in.h>
 #include<arpa/inet.h>
 #include "CommandTask.h"
-#include "Response.h"
 #include "Util.h"
 #include "SensorTask.h"
 
