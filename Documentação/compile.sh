@@ -6,8 +6,6 @@ MAIN_PATH="/home/pi/Desktop/AutomacaoZ.git/trunk/RaspberryServer2"
 
 g++ -Wall -g -I/usr/local/lib -I$MAIN_PATH/include -c $MAIN_PATH/src/ConnectionHandler.cpp -o $MAIN_PATH/obj/Debug/src/ConnectionHandler.o
 
-g++ -Wall -g -I/usr/local/lib -I$MAIN_PATH/include -c $MAIN_PATH/src/Task.cpp -o $MAIN_PATH/obj/Debug/src/Task.o
-
 g++ -Wall -g -I/usr/local/lib -I$MAIN_PATH/include -c $MAIN_PATH/main.cpp -o $MAIN_PATH/obj/Debug/main.o
 
 g++ -Wall -g -I/usr/local/lib -I$MAIN_PATH/include -c $MAIN_PATH/src/ConnectionHandler.cpp -o $MAIN_PATH/obj/Debug/src/ConnectionHandler.o
