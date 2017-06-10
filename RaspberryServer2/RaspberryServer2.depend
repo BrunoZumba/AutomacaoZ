@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1495667315 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
+1497055610 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
 	<stdio.h>
 	<pthread.h>
 	<iostream>
@@ -7,7 +7,6 @@
 	<string.h>
 	"include/ListenThreadPool.h"
 	"include/Util.h"
-	"Task.h"
 	"ArduinoJson.h"
 	"Util.h"
 
@@ -40,10 +39,10 @@
 1493685968 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Job.cpp
 	"Job.h"
 
-1494804240 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ListenThreadPool.cpp
+1497055576 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ListenThreadPool.cpp
 	"ListenThreadPool.h"
 
-1495398438 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ConnectionHandler.h
+1497053992 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ConnectionHandler.h
 	<iostream>
 	<string.h>
 	<errno.h>
@@ -52,14 +51,15 @@
 	<unistd.h>
 	<netinet/in.h>
 	<arpa/inet.h>
-	"Task.h"
+	"CommandTask.h"
 	"Response.h"
 	"Util.h"
+	"SensorTask.h"
 
-1495849984 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ConnectionHandler.cpp
+1497054757 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ConnectionHandler.cpp
 	"ConnectionHandler.h"
 
-1495849791 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Task.cpp
+1497052968 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Task.cpp
 	"Task.h"
 
 1495663146 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Task.h
@@ -421,4 +421,24 @@
 
 1495849876 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Response.cpp
 	"Response.h"
+
+1497051647 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/SensorTask.h
+	<string>
+	<iostream>
+	"lirc_client.h"
+	"ArduinoJson.h"
+	"Util.h"
+
+1497051919 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/SensorTask.cpp
+	"SensorTask.h"
+
+1497054719 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandTask.h
+	<string>
+	<iostream>
+	"lirc_client.h"
+	"ArduinoJson.h"
+	"Util.h"
+
+1497055001 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandTask.cpp
+	"CommandTask.h"
 

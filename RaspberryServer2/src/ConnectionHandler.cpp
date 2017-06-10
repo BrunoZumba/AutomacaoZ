@@ -36,20 +36,39 @@ void ConnectionHandler::working(){
         }
         cout << "Comando recebido do Cliente: " << buffer << "\n";
 
-        Task task;
-        Response response;
+        cout << "Port: " << port <<"\n";
 
-        if (!task.ParseFromJason(buffer)){
-            response.create(STATUS_ERROR, "Erro ao interpretar a mensagem JSON");
-        }else if (!task.execute(util::GetLircSocket())){
-            response.create(STATUS_ERROR, "Erro ao executar o comando");
-        } else {
-            response.create(STATUS_OK, "Comando executado com sucesso!");
-        }
+        switch(port){
+			case 4391: {
+			    CommandTask commandTask;
 
-        bzero(buffer, BUFFER_SIZE);
-        sprintf(buffer, response.ParseToJason().c_str());
+			    if (!commandTask.ParseRequestFromJason(buffer)){
+					commandTask.createResponse(STATUS_ERROR, "Erro ao interpretar a mensagem JSON");
+				} else {
+                    commandTask.execute(util::GetLircSocket());
+				}
+
+                bzero(buffer, BUFFER_SIZE);
+				sprintf(buffer, commandTask.ParseResponseToJason().c_str());
+
+			break;}
+			case 8742:{
+				SensorTask sensorTask;
+				if (!sensorTask.ParseRequestFromJason(buffer)){
+					sensorTask.createResponse(STATUS_ERROR, "Erro ao interpretar a mensagem JSON");
+				} else {
+                    sensorTask.execute();
+				}
+
+                bzero(buffer, BUFFER_SIZE);
+				sprintf(buffer, sensorTask.ParseResponseToJason().c_str());
+
+
+			break;}
+		}
+
         //cout << buffer << "\n";d
+        cout<< "Resposta: " << buffer <<"\n";
 
         n = write(sock, buffer, strlen(buffer));
         if (n < 0) {

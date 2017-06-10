@@ -6,27 +6,25 @@
 
 #include"include/ListenThreadPool.h"
 #include"include/Util.h"
-#include"Task.h"
 #include "ArduinoJson.h"
 #include "Util.h"
 
 using namespace std;
 
-#define QTD_SERVICOS 1
+#define QTD_SERVICOS 2
 
 
 
 int main(){
-    int portas[QTD_SERVICOS] = {4391};
+    int portas[QTD_SERVICOS] = {4391, 8742};
     pthread_t threads[QTD_SERVICOS];
     int i, rc;
     char buffer[BUFFER_SIZE];
 
-
-    Task task("Samsung", "KEY_POWER", "SEND_ONCE");
-    cout << task.ParseToJason();
-    //{"deviceName":"ControleNet","buttonName":"KEY_ENTER","mode":"SEND_ONCE"}
-
+    /**
+     * O thread pool são apenas threads que ficam aguardando novas tarefas.
+     * Quando uma tarefa chega, uma thread a pega, trata, delete e volta a esperar novas.
+     */
     ListenThreadPool::createThreadPool();
 
     for (i = 0; i < QTD_SERVICOS; i++){

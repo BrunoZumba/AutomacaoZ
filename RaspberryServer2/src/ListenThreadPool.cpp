@@ -13,6 +13,12 @@ int prepareSocket(int );
 void createThreadPool();
 void *executeThread(void *);
 
+/**
+ * Thread "infinita" que fica no loop escutando na porta especificada.
+ *
+ * Quando uma conexão chega nesta porta (independente da porta) esta thread coloca esta
+ * conexão na fila para as threads do ThreadPool tratarem
+ */
 void *ListenThreadPool::Manage(void * parm){
     int port = *((int *) parm);
     int listenSocket, newSocket;
@@ -53,6 +59,11 @@ void *ListenThreadPool::Manage(void * parm){
 
 }
 
+/**
+ * Esta thread é o coração do thread pool. Cada thread do pool executa esta função
+ *
+ * Ela fica parada esperando uma nova tarefa estar disponível na fila.
+ */
 void *executeThread(void *){
     cout << "Passando por execute Thread\n";
     ConnectionHandler *oneConnectionHandler = NULL;
@@ -75,6 +86,7 @@ void *executeThread(void *){
 }
 
 
+//Cria a quantidade de threads especificada para trabalhar
 void ListenThreadPool::createThreadPool(){
     cout << "Creating Thread Pool\n";
     int i;
