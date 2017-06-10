@@ -32,9 +32,9 @@ int main(){
         if (rc < 0){
             printf(buffer, "ERROR: Erro ao criar a thread na porta %d\n%s\n", portas[i], strerror(errno));
             cout << buffer;
-
             return -1;
         }
+	sleep(500);
         //getchar();
     }
 

@@ -69,23 +69,23 @@ void CommandTask::createResponse(int _responseStatus, string _responseDesc){
 
 bool CommandTask::execute(int lircSock){
 
-//    if (this->mode.compare("SEND_ONCE") == 0){
-//        if (lirc_send_one(lircSock, this->deviceName.c_str(), this->buttonName.c_str()) != 0) {
-//            char buffer[BUFFER_SIZE];
-//            sprintf(buffer, "ERRO! Nao foi possivel enviar o comando %s pelo device %s através do socket LIRC %d\n", this->buttonName.c_str(), this->deviceName.c_str(), lircSock);
-//            cout << buffer;
-//            responseStatus = STATUS_ERROR;
-//            responseDesc = "Erro ao enviar o comando";
-//            return false;
-//        }
-//    } else {
-//        char buffer[BUFFER_SIZE];
-//        sprintf(buffer, "ERRO! Nao foi possivel identificar o modo %s\n", this->mode.c_str());
-//        cout << buffer;
-//        responseStatus = STATUS_ERROR;
-//        responseDesc = buffer;
-//        return false;
-//    }
+    if (this->mode.compare("SEND_ONCE") == 0){
+        if (lirc_send_one(lircSock, this->deviceName.c_str(), this->buttonName.c_str()) != 0) {
+            char buffer[BUFFER_SIZE];
+            sprintf(buffer, "ERRO! Nao foi possivel enviar o comando %s pelo device %s através do socket LIRC %d\n", this->buttonName.c_str(), this->deviceName.c_str(), lircSock);
+            cout << buffer;
+            responseStatus = STATUS_ERROR;
+            responseDesc = "Erro ao enviar o comando";
+            return false;
+        }
+    } else {
+        char buffer[BUFFER_SIZE];
+        sprintf(buffer, "ERRO! Nao foi possivel identificar o modo %s\n", this->mode.c_str());
+        cout << buffer;
+        responseStatus = STATUS_ERROR;
+        responseDesc = buffer;
+        return false;
+    }
 
     responseStatus = STATUS_OK;
     responseDesc = "Comando enviado com sucesso";
