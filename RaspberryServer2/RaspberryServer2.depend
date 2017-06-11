@@ -57,7 +57,7 @@
 	"SensorTask.h"
 	"SystemActionTask.h"
 
-1497156177 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ConnectionHandler.cpp
+1497221033 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ConnectionHandler.cpp
 	"ConnectionHandler.h"
 
 1497153209 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Task.cpp
@@ -424,10 +424,10 @@
 1495849876 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Response.cpp
 	"Response.h"
 
-1497156177 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/SensorTask.h
+1497221177 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/SensorTask.h
 	"Task.h"
 
-1497156194 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/SensorTask.cpp
+1497220982 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/SensorTask.cpp
 	"SensorTask.h"
 
 1497155537 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandTask.h

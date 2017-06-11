@@ -32,8 +32,6 @@ class SensorTask : public Task {
     private:
         string sensorName;
         string action;
-		int responseStatus;
-		string responseDesc;
 
 };
 
