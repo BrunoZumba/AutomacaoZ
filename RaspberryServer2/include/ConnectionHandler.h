@@ -12,6 +12,7 @@
 #include "CommandTask.h"
 #include "Util.h"
 #include "SensorTask.h"
+#include "SystemActionTask.h"
 
 using namespace std;
 

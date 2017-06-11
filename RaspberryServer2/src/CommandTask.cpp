@@ -13,7 +13,6 @@ CommandTask::~CommandTask(){}
 string CommandTask::getDeviceName(){
     return this->deviceName;
 }
-
 string CommandTask::getButtonName(){
     return this->buttonName;
 }
@@ -29,18 +28,6 @@ void CommandTask::setButtonName(string _buttonName){
 }
 void CommandTask::setMode(string _mode){
     this->mode = _mode;
-}
-
-string CommandTask::ParseResponseToJason(){
-    StaticJsonBuffer<BUFFER_SIZE> jsonBuffer;
-
-    JsonObject& root = jsonBuffer.createObject();
-    root["responseStatus"] = this->responseStatus;
-    root["responseDesc"] = this->responseDesc;
-
-    string jason;
-    root.printTo(jason);
-    return jason;
 }
 
 bool CommandTask::ParseRequestFromJason(string json){
@@ -62,10 +49,6 @@ bool CommandTask::ParseRequestFromJason(string json){
     return true;
 }
 
-void CommandTask::createResponse(int _responseStatus, string _responseDesc){
-	this->responseStatus = _responseStatus;
-	this->responseDesc = _responseDesc;
-}
 
 bool CommandTask::execute(int lircSock){
 

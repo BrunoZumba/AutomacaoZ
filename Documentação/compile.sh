@@ -14,13 +14,17 @@ g++ -Wall -g -I/usr/local/lib -I$MAIN_PATH/include -c $MAIN_PATH/src/Job.cpp -o 
 
 g++ -Wall -g -I/usr/local/lib -I$MAIN_PATH/include -c $MAIN_PATH/src/ListenThreadPool.cpp -o $MAIN_PATH/obj/Debug/src/ListenThreadPool.o
 
+g++ -Wall -g -I/usr/local/lib -I$MAIN_PATH/include -c $MAIN_PATH/src/Task.cpp -o $MAIN_PATH/obj/Debug/src/Task.o
+
 g++ -Wall -g -I/usr/local/lib -I$MAIN_PATH/include -c $MAIN_PATH/src/SensorTask.cpp -o $MAIN_PATH/obj/Debug/src/SensorTask.o
 
 g++ -Wall -g -I/usr/local/lib -I$MAIN_PATH/include -c $MAIN_PATH/src/CommandTask.cpp -o $MAIN_PATH/obj/Debug/src/CommandTask.o
 
+g++ -Wall -g -I/usr/local/lib -I$MAIN_PATH/include -c $MAIN_PATH/src/SystemActionTask.cpp -o $MAIN_PATH/obj/Debug/src/SystemActionTask.o
+
 g++ -Wall -g -I/usr/local/lib -I$MAIN_PATH/include -c $MAIN_PATH/src/Util.cpp -o $MAIN_PATH/obj/Debug/src/Util.o
 
 
-g++ -o $MAIN_PATH/bin/Debug/RaspberryServer2 $MAIN_PATH/obj/Debug/main.o $MAIN_PATH/obj/Debug/src/ConnectionHandler.o $MAIN_PATH/obj/Debug/src/Job.o $MAIN_PATH/obj/Debug/src/ListenThreadPool.o $MAIN_PATH/obj/Debug/src/SensorTask.o $MAIN_PATH/obj/Debug/src/CommandTask.o $MAIN_PATH/obj/Debug/src/Util.o   -lpthread /usr/local/lib/liblirc_client.so -lpthread
+g++ -o $MAIN_PATH/bin/Debug/RaspberryServer2 $MAIN_PATH/obj/Debug/main.o $MAIN_PATH/obj/Debug/src/Task.o $MAIN_PATH/obj/Debug/src/ConnectionHandler.o $MAIN_PATH/obj/Debug/src/Job.o $MAIN_PATH/obj/Debug/src/ListenThreadPool.o $MAIN_PATH/obj/Debug/src/SensorTask.o $MAIN_PATH/obj/Debug/src/CommandTask.o $MAIN_PATH/obj/Debug/src/SystemActionTask.o $MAIN_PATH/obj/Debug/src/Util.o   -lpthread /usr/local/lib/liblirc_client.so -lpthread
 
 

@@ -57,14 +57,23 @@ void ConnectionHandler::working(){
 				if (!sensorTask.ParseRequestFromJason(buffer)){
 					sensorTask.createResponse(STATUS_ERROR, "Erro ao interpretar a mensagem JSON");
 				} else {
-                    sensorTask.execute();
+                    sensorTask.execute(0);
 				}
 
                 bzero(buffer, BUFFER_SIZE);
 				sprintf(buffer, sensorTask.ParseResponseToJason().c_str());
-
-
 			break;}
+			case 8168:{
+                SystemActionTask systemActionTask;
+				if (!systemActionTask.ParseRequestFromJason(buffer)){
+					systemActionTask.createResponse(STATUS_ERROR, "Erro ao interpretar a mensagem JSON");
+				} else {
+                    systemActionTask.execute(0);
+				}
+
+                bzero(buffer, BUFFER_SIZE);
+				sprintf(buffer, systemActionTask.ParseResponseToJason().c_str());
+			}
 		}
 
         //cout << buffer << "\n";d

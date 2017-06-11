@@ -12,12 +12,12 @@
 
 using namespace std;
 
-#define QTD_SERVICOS 2
+#define QTD_SERVICOS 3
 
 
 
 int main(){
-    int portas[QTD_SERVICOS] = {4391, 8742};
+    int portas[QTD_SERVICOS] = {4391, 8742, 8168};
     pthread_t threads[QTD_SERVICOS];
     int i, rc;
     char buffer[BUFFER_SIZE];
@@ -35,7 +35,7 @@ int main(){
             cout << buffer;
             return -1;
         }
-	usleep(500);
+	    usleep(500);
         //getchar();
     }
 
