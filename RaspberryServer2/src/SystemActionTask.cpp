@@ -33,7 +33,7 @@ bool SystemActionTask::ParseRequestFromJason(string json) {
 
 bool SystemActionTask::execute(int a){
     if (actionName == "shutdown") {
-        system("netstat -na | grep 8168");
+        //system("netstat -na | grep 8168");
         responseStatus = STATUS_OK;
         responseDesc = "ShutdownExecutado";
     }

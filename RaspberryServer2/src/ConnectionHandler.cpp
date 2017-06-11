@@ -16,6 +16,8 @@ void ConnectionHandler::working(){
     struct sockaddr_in clientAddr = _clientAddr;
     int n = 1;
 
+    //Indica se a tarefa é um shutdown. Possui um tratamento especial por desligar o Raspberry Pi
+    bool shutdownTask = false;
 
     char buffer[BUFFER_SIZE] = "Inicializando";
 
@@ -57,7 +59,10 @@ void ConnectionHandler::working(){
 				if (!sensorTask.ParseRequestFromJason(buffer)){
 					sensorTask.createResponse(STATUS_ERROR, "Erro ao interpretar a mensagem JSON");
 				} else {
-                    sensorTask.execute(0);
+                    if (sensorTask.execute(0)) {
+                        shutdownTask = true;
+                    }
+
 				}
 
                 bzero(buffer, BUFFER_SIZE);
@@ -85,6 +90,12 @@ void ConnectionHandler::working(){
             sprintf(buffer, "ERRO ao escrever no socket %d na porta %d: %s\n", sock, port, strerror(errno));
             cout << buffer;
             break;
+        }
+
+        if (shutdownTask){
+            //Se o SHUTDOWN fosse feito no SystemTask.execute, o shutdown seria feito antes de enviar a resposta
+            //portnato o SystemTask.execute apenas formatava a resposta, aguarda ela ser enviada e depois dá o SHUTDOWN
+            system("sudo shutdown -P now");
         }
     }
 
