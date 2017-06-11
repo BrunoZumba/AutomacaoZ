@@ -59,10 +59,7 @@ void ConnectionHandler::working(){
 				if (!sensorTask.ParseRequestFromJason(buffer)){
 					sensorTask.createResponse(STATUS_ERROR, "Erro ao interpretar a mensagem JSON");
 				} else {
-                    if (sensorTask.execute(0)) {
-                        shutdownTask = true;
-                    }
-
+                    sensorTask.execute(0);
 				}
 
                 bzero(buffer, BUFFER_SIZE);
@@ -73,7 +70,9 @@ void ConnectionHandler::working(){
 				if (!systemActionTask.ParseRequestFromJason(buffer)){
 					systemActionTask.createResponse(STATUS_ERROR, "Erro ao interpretar a mensagem JSON");
 				} else {
-                    systemActionTask.execute(0);
+                    if (systemActionTask.execute(0)){
+                        shutdownTask = true;
+                    }
 				}
 
                 bzero(buffer, BUFFER_SIZE);
@@ -96,6 +95,7 @@ void ConnectionHandler::working(){
             //Se o SHUTDOWN fosse feito no SystemTask.execute, o shutdown seria feito antes de enviar a resposta
             //portnato o SystemTask.execute apenas formatava a resposta, aguarda ela ser enviada e depois dá o SHUTDOWN
             system("sudo shutdown -P now");
+//            system("netstat -na | grep 8168");
         }
     }
 
