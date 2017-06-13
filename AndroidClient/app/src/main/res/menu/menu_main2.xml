@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="androidclient.automacaoz.raspberry.bruno.azandroidclient.Main2Activity">
+    <item
+        android:id="@+id/miShutdown"
+        android:orderInCategory="100"
+        android:title="Shutdown"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/miRecAction"
+        android:orderInCategory="100"
+        android:title="Ações Recorrentes" />
+    <item
+        android:id="@+id/menuItem3"
+        android:orderInCategory="100"
+        android:title="Teste3"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menuItem4"
+        android:orderInCategory="100"
+        android:title="Teste4"
+        app:showAsAction="never" />
+</menu>
