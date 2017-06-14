@@ -1,26 +1,40 @@
 package androidclient.automacaoz.raspberry.bruno.azandroidclient;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.timessquare.CalendarPickerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 /** Documentação técnica/teórica:
  *
@@ -54,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     public TextView tvTemperatura, tvUmidade;
 
 
+    static private CalendarPickerView calendar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,8 +77,64 @@ public class MainActivity extends AppCompatActivity {
         tvTemperatura = (TextView) findViewById(R.id.tvTemperatura);
         tvUmidade = (TextView) findViewById(R.id.tvUmidade);
 
+//        calendar = (CalendarPickerView) findViewById(R.id.cal);
+
         activity = this;
 
+//        criaOsTremDoCalendar();
+
+    }
+
+    private void criaOsTremDoCalendar(){
+        final Calendar nextYear = Calendar.getInstance();
+        nextYear.add(Calendar.YEAR, 1);
+
+        final Calendar lastYear = Calendar.getInstance();
+        lastYear.add(Calendar.YEAR, -1);
+
+        calendar.init(lastYear.getTime(), nextYear.getTime()) //
+                .inMode(CalendarPickerView.SelectionMode.MULTIPLE) //
+                .withSelectedDate(new Date());
+    }
+
+    public void done(View v){
+        Log.i(TAG, "Datas seleciondas: "+calendar.getSelectedDates().toString());
+    }
+    public void aumentar(View v){
+        DialogFragment newFragment = new CalendarPickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+
+    }
+
+    public static class CalendarPickerFragment extends DialogFragment {
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.layout_calendar_picker, container, false);
+            calendar = (CalendarPickerView) rootView.findViewById(R.id.calendar_view);
+
+            final Calendar nextYear = Calendar.getInstance();
+            nextYear.add(Calendar.YEAR, 1);
+
+            final Calendar lastYear = Calendar.getInstance();
+            lastYear.add(Calendar.YEAR, -1);
+
+            calendar.init(lastYear.getTime(), nextYear.getTime()) //
+                    .inMode(CalendarPickerView.SelectionMode.MULTIPLE) //
+                    .withSelectedDate(new Date());
+
+            getDialog().setTitle("Simple Dialog");
+            return rootView;
+        }
+        @Override
+        public void onResume() {
+            ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+            params.width = LinearLayout.LayoutParams.MATCH_PARENT;
+            params.height = LinearLayout.LayoutParams.MATCH_PARENT;
+            getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+
+            super.onResume();
+        }
     }
 
     @Override

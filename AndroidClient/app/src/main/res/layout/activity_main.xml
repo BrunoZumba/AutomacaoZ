@@ -183,7 +183,34 @@
             </ScrollView>
         </LinearLayout>
     </LinearLayout>
-
+<!--
+    <com.squareup.timessquare.CalendarPickerView
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:clipToPadding="false"
+        android:background="#FFFFFF"
+        />
+-->
+    <Button
+    android:id="@+id/done_button"
+    android:layout_width="wrap_content"
+    android:layout_height="30dp"
+    android:layout_gravity="center"
+    android:onClick="done"
+    android:text="Done" />
+    <Button
+        android:id="@+id/aumentarCalendario"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:onClick="aumentar"
+        android:text="aumentar" />
 
 </LinearLayout>
 

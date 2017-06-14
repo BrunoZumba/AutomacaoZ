@@ -15,8 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.squareup.timessquare.CalendarPickerView;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ManageRecurringActionActivity extends AppCompatActivity {
@@ -30,6 +33,9 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
      * Feitos Static para poderem ser acessados pelo TimePickerFragment*/
     static LinearLayout layoutHourMinute;
     static LinearLayout layoutDeleteBt;
+
+
+    private CalendarPickerView calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +52,7 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
-        CalendarPi
+
     }
 
     public static class DatePickerFragment extends DialogFragment
@@ -61,7 +67,7 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
             int day = c.get(Calendar.DAY_OF_MONTH);
 
             // Create a new instance of DatePickerDialog and return it
-            DateP
+//            DateP
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
 
