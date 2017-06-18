@@ -1,3 +1,5 @@
+{"name":"f","dates":["1497484800"],"times":["1497808731"],"actionButton":{"actionName":"aço","action":[{"ID":"2131558568","Task":{"deviceName":"ControleNet","buttonName":"KEY_EXIT","mode":"SEND_ONCE"}},{"ID":"2131558569","Task":{"deviceName":"ControleNet","buttonName":"KEY_POWER","mode":"SEND_ONCE"}}]}}
+
 sudo apt-get install daemontools daemontools-run
 
 sudo mkdir -p /service/RaspberryServer
