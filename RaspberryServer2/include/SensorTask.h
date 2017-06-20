@@ -22,7 +22,7 @@ class SensorTask : public Task {
         void setSensorName(string);
         void setAction(string);
 
-        bool execute(int);
+        bool execute();
 
         bool ParseRequestFromJason(string);
 

@@ -23,7 +23,8 @@ class CommandTask : public Task {
         void setMode(string);
 
         bool ParseRequestFromJason(string);
-        bool execute(int);
+        bool execute();
+
 
     protected:
 
@@ -32,6 +33,7 @@ class CommandTask : public Task {
         string deviceName;
         string buttonName;
         string mode;
+
 };
 
 #endif // COMMANDTASK_H

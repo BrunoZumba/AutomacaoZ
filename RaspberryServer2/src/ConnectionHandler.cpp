@@ -45,9 +45,9 @@ void ConnectionHandler::working(){
 			    CommandTask commandTask;
 
 			    if (!commandTask.ParseRequestFromJason(buffer)){
-					commandTask.createResponse(STATUS_ERROR, "Erro ao interpretar a mensagem JSON");
+					commandTask.createResponse(STATUS_ERROR, "responseCommand", "Erro ao interpretar a mensagem JSON", "");
 				} else {
-                    commandTask.execute(util::GetLircSocket());
+                    commandTask.execute();
 				}
 
                 bzero(buffer, BUFFER_SIZE);
@@ -57,9 +57,9 @@ void ConnectionHandler::working(){
 			case 8742:{
 				SensorTask sensorTask;
 				if (!sensorTask.ParseRequestFromJason(buffer)){
-					sensorTask.createResponse(STATUS_ERROR, "Erro ao interpretar a mensagem JSON");
+					sensorTask.createResponse(STATUS_ERROR, "responseSensor", "Erro ao interpretar a mensagem JSON", "");
 				} else {
-                    sensorTask.execute(0);
+                    sensorTask.execute();
 				}
 
                 bzero(buffer, BUFFER_SIZE);
@@ -68,15 +68,20 @@ void ConnectionHandler::working(){
 			case 8168:{
                 SystemActionTask systemActionTask;
 				if (!systemActionTask.ParseRequestFromJason(buffer)){
-					systemActionTask.createResponse(STATUS_ERROR, "Erro ao interpretar a mensagem JSON");
+					systemActionTask.createResponse(STATUS_ERROR, "responseSystemAction", "Erro ao interpretar a mensagem JSON", "");
 				} else {
-                    if (systemActionTask.execute(0)){
-                        shutdownTask = true;
-                    }
+				    shutdownTask = systemActionTask.execute();
+
 				}
 
                 bzero(buffer, BUFFER_SIZE);
 				sprintf(buffer, systemActionTask.ParseResponseToJason().c_str());
+			}
+			break;
+			case 5223:{
+                RecurringActionTask recurringActionTask;
+
+
 			}
 		}
 

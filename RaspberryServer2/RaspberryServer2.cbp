@@ -13,10 +13,12 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-Wall" />
 					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add library="pthread" />
+					<Add library="../../../../../../usr/local/lib/liblirc_client.so" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -26,6 +28,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -36,15 +39,23 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="include/ArduinoJson.h" />
+		<Unit filename="include/CommandTask.h" />
 		<Unit filename="include/ConnectionHandler.h" />
 		<Unit filename="include/Job.h" />
 		<Unit filename="include/ListenThreadPool.h" />
+		<Unit filename="include/RecurringActionTask.h" />
+		<Unit filename="include/SensorTask.h" />
+		<Unit filename="include/SystemActionTask.h" />
 		<Unit filename="include/Task.h" />
 		<Unit filename="include/Util.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/CommandTask.cpp" />
 		<Unit filename="src/ConnectionHandler.cpp" />
 		<Unit filename="src/Job.cpp" />
 		<Unit filename="src/ListenThreadPool.cpp" />
+		<Unit filename="src/RecurringActionTask.cpp" />
+		<Unit filename="src/SensorTask.cpp" />
+		<Unit filename="src/SystemActionTask.cpp" />
 		<Unit filename="src/Task.cpp" />
 		<Unit filename="src/Util.cpp" />
 		<Extensions>

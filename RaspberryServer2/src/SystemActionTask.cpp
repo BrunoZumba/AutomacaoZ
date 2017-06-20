@@ -31,12 +31,16 @@ bool SystemActionTask::ParseRequestFromJason(string json) {
 }
 
 
-bool SystemActionTask::execute(int a){
+bool SystemActionTask::execute(){
     if (actionName == "shutdown") {
         //system("netstat -na | grep 8168");
-        responseStatus = STATUS_OK;
-        responseDesc = "ShutdownExecutado";
+        this->createResponse(STATUS_OK, "responseSystemAction", "Shutdown executado", "");
+        return true;
+    } else {
+        this->createResponse(STATUS_ERROR, "responseSystemAction", "Comando não reconhecido", "");
+        return false;
     }
 
-    return true;
+
+    return false;
 }

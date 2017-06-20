@@ -39,17 +39,15 @@ bool SensorTask::ParseRequestFromJason(string json){
     return true;
 }
 
-bool SensorTask::execute(int a){
+bool SensorTask::execute(){
     if (sensorName == "temperatura") {
-        responseStatus = STATUS_OK;
-        responseDesc = "27";
+        this->createResponse(STATUS_OK, "responseSensor", "27", "");
     } else if (sensorName == "umidade") {
-        responseStatus = STATUS_OK;
-        responseDesc = "57";
+        this->createResponse(STATUS_OK, "responseSensor", "57", "");
+    } else {
+        this->createResponse(STATUS_ERROR, "responseSensor", "Sensor não reconhecido", "");
+        return false;
     }
-
-
-
     return true;
 }
 

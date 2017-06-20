@@ -20,7 +20,7 @@ class SystemActionTask : public Task {
 
         bool ParseRequestFromJason(string);
         //Esse int não é usado. Mas e necessário por causa da super classe Task
-        bool execute(int);
+        bool execute();
 
     protected:
 

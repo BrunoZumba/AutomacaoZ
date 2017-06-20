@@ -13,6 +13,7 @@
 #include "Util.h"
 #include "SensorTask.h"
 #include "SystemActionTask.h"
+#include "RecurringActionTask.h"
 
 using namespace std;
 
