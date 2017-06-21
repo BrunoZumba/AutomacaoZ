@@ -3,6 +3,7 @@
 
 
 #include "Task.h"
+#include "AppClasses/TaskClass.h"
 
 using namespace std;
 
@@ -11,28 +12,21 @@ using namespace std;
 
 class CommandTask : public Task {
     public:
-        CommandTask(string, string, string);
         CommandTask();
         virtual ~CommandTask();
 
-        string getDeviceName();
-        string getButtonName();
-        string getMode();
-        void setDeviceName(string);
-        void setButtonName(string);
-        void setMode(string);
-
-        bool ParseRequestFromJason(string);
         bool execute();
+
+        TaskClass getTask();
+        void setTask(TaskClass);
 
 
     protected:
 
 
     private:
-        string deviceName;
-        string buttonName;
-        string mode;
+        TaskClass task;
+
 
 };
 

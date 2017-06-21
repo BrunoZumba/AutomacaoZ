@@ -44,7 +44,7 @@ void ConnectionHandler::working(){
 			case 4391: {
 			    CommandTask commandTask;
 
-			    if (!commandTask.ParseRequestFromJason(buffer)){
+			    if (!commandTask.getTask().createFromJson(buffer)){
 					commandTask.createResponse(STATUS_ERROR, "responseCommand", "Erro ao interpretar a mensagem JSON", "");
 				} else {
                     commandTask.execute();

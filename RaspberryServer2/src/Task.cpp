@@ -38,9 +38,9 @@ string Task::ParseResponseToJason(){
     root["responseDesc"] = this->responseDesc;
     root["responseParm"] = this->responseParm;
 
-    string jason;
-    root.printTo(jason);
-    return jason;
+    string json;
+    root.printTo(json);
+    return json;
 }
 
 void Task::createResponse(int _responseStatus, string _responseAction, string _responseDesc, string _responseParm){

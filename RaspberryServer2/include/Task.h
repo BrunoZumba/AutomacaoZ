@@ -32,7 +32,6 @@ class Task{
 
 //        virtual bool execute() = 0;//Subclass must implement
         virtual bool execute() = 0;//Subclass must implement
-        virtual bool ParseRequestFromJason(string) = 0; //Subclass must implement
 
     protected:
 		int responseStatus;

@@ -10,6 +10,9 @@
 #include "ArduinoJson.h"
 #include "Util.h"
 #include "RecurringActionTask.h"
+#include "TaskButtonClass.h"
+#include "ActionClass.h"
+#include "ActionButtonClass.h"
 
 using namespace std;
 
@@ -29,29 +32,47 @@ int main(){
      */
 //    ListenThreadPool::createThreadPool();
 
+//    vector<int> lala;
+//    lala.insert(lala.end(), 1);
+//    lala.insert(lala.end(), 2);
+//    for (int i = 0; i < lala.size(); i++){
+//        cout << i << ": " <<lala.at(i) << "\n";
+//    }
+
     RecurringActionTask recurringActionTask;
-    string buffer1 = "{\"name\":\"f\",\"dates\":[\"123\",\"456\",\"789\"],\"times\":[\"1497808731\", \"1111111\",\"2222\"],\"actionButton\":{\"actionName\":\"aço\",\"action\":[{\"ID\":\"2131558568\",\"Task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"ID\":\"2131558569\",\"Task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}}";
+    string buffer1 = "{\"name\":\"f\",\"dates\":[\"123\",\"456\",\"789\"],\"times\":[\"1497808731\", \"1111111\",\"2222\"],\"actionButton\":{\"actionName\":\"aço\",\"action\":[{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}}";
 
-    recurringActionTask.ParseRequestFromJason(buffer1);
+    string taskBuffer = "{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}";
+    TaskClass task = TaskClass();
+    if (task.createFromJson(taskBuffer)){
+//        cout<<"Device: " <<task.getDeviceName();
+//        cout<<"\nButton: " <<task.getButtonName();
+//        cout<<"\nmode: " <<task.getMode();
+    }
 
-    cout << "Name: " << recurringActionTask.getName() << "\n";
-    while(!recurringActionTask.times.empty()){
-        cout << "Time: " << recurringActionTask.times.front() << "\n";
-        recurringActionTask.times.pop();
+    string taskButtonBUffer = "{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}}";
+    TaskButtonClass taskButton = TaskButtonClass();
+    if (taskButton.createFromJson(taskButtonBUffer)){
+//        cout<<"\nButtonId: "<< taskButton.getButtonId();
+//        cout<<"\ntask: "<< taskButton.getTask().parseToJson();
     }
-    cout << "size>: " << recurringActionTask.times.size();
-    while(!recurringActionTask.dates.empty()){
-        cout << "Dates: " << recurringActionTask.dates.front() << "\n";
-        recurringActionTask.dates.pop();
-    }
-    cout << "size>: " << recurringActionTask.dates.size();
 
-    while(!recurringActionTask.commandTasks.empty()){
-        cout <<"Dev Name: " << recurringActionTask.commandTasks.front().getDeviceName() << "\n";
-        cout <<"BT Name: " << recurringActionTask.commandTasks.front().getButtonName() << "\n";
-        cout <<"mode: " << recurringActionTask.commandTasks.front().getMode() << "\n";
-        recurringActionTask.commandTasks.pop();
+    string actionBuffer = "[{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]";
+    ActionClass action = ActionClass();
+    if (action.createFromJson(actionBuffer)){
+        for (int i = 0; i < action.getActions().size(); i++){
+//            cout << "Action[" << i <<"]: " << action.getActions().at(i).getTask().getButtonName()<<"\n";
+        }
     }
+
+    string actionButtonBuffer = "{\"actionName\":\"aço\",\"action\":[{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}";
+    ActionButtonClass actionButton = ActionButtonClass();
+    if (actionButton.createFromJson(actionButtonBuffer)){
+        cout << "ActionName: " << actionButton.getActionName();
+        cout << "\nAction: " << actionButton.getAction().getActions().at(0).getTask().parseToJson();
+    }
+
+
 
 //    queue<long> dates = recurringActionTask.getDates();
 //    cout << "\nDates: " << dates.size();
