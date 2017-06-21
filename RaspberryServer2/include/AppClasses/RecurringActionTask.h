@@ -1,40 +1,36 @@
 #ifndef RECURRINGACTIONTASK_H
 #define RECURRINGACTIONTASK_H
 
-#include "Task.h"
-#include "CommandTask.h"
-#include <queue>
-
-#define STATUS_OK 1
-#define STATUS_ERROR 0
+#include "ActionButtonClass.h"
+#include <vector>
 
 using namespace std;
 
 
-class RecurringActionTask : public Task {
+class RecurringActionTask {
     public:
         RecurringActionTask();
-        RecurringActionTask(string, queue<CommandTask>, queue<long>, queue<long>);
+        RecurringActionTask(string, ActionButtonClass, vector<long>, vector<long>);
         virtual ~RecurringActionTask();
 
 
         string getName();
-        queue<CommandTask> getCommandTasks();
-        queue<long> getDates();
-        queue<long> getTimes();
+        ActionButtonClass getActionButton();
+        vector<long> getDates();
+        vector<long> getTimes();
 
         void setName(string);
-        void setCommandTasks(queue<CommandTask>);
-        void setDates(queue<long>);
-        void setTimes(queue<long>);
+        void setActionButton(ActionButtonClass);
+        void setDates(vector<long>);
+        void setTimes(vector<long>);
 
-        bool ParseRequestFromJason(string);
-        bool execute();
+        bool createFromJson(string);
+        string parseToJson();
 
         //Queues nao foram declaradas privadas pq dava problema no queue.pop();
-        queue<long> times;
-        queue<CommandTask> commandTasks;
-        queue<long> dates;
+        vector<long> times;
+        ActionButtonClass actionButton;
+        vector<long> dates;
 
     protected:
 

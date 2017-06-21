@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1498007250 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
+1498009416 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
 	<stdio.h>
 	<pthread.h>
 	<iostream>
@@ -490,4 +490,11 @@
 	<stdio.h>
 	<stdlib.h>
 	"ActionClass.h"
+
+1498009666 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/AppClasses/RecurringActionTask.h
+	"ActionButtonClass.h"
+	<vector>
+
+1498009673 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/AppClasses/RecurringActionTask.cpp
+	"RecurringActionTask.h"
 

@@ -38,44 +38,54 @@ int main(){
 //    for (int i = 0; i < lala.size(); i++){
 //        cout << i << ": " <<lala.at(i) << "\n";
 //    }
-
-    RecurringActionTask recurringActionTask;
+//
+    RecurringActionTask recurringActionTask = RecurringActionTask();
     string buffer1 = "{\"name\":\"f\",\"dates\":[\"123\",\"456\",\"789\"],\"times\":[\"1497808731\", \"1111111\",\"2222\"],\"actionButton\":{\"actionName\":\"aço\",\"action\":[{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}}";
+    if(recurringActionTask.createFromJson(buffer1)){
+        cout<< "Name: " << recurringActionTask.getName();
+        for(int i = 0; i < recurringActionTask.getDates().size(); i++){
+            cout<<"\nData["<<i<<"]:" << recurringActionTask.getDates().at(i);
+        }
+        for(int i = 0; i < recurringActionTask.getTimes().size(); i++){
+            cout<<"\nTime["<<i<<"]:" << recurringActionTask.getTimes().at(i);
+        }
+        cout<<"\nAction: " << recurringActionTask.getActionButton().parseToJson();
+    }
 
-    string taskBuffer = "{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}";
-    TaskClass task = TaskClass();
-    if (task.createFromJson(taskBuffer)){
+
+
+//    string taskBuffer = "{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}";
+//    TaskClass task = TaskClass();
+//    if (task.createFromJson(taskBuffer)){
 //        cout<<"Device: " <<task.getDeviceName();
 //        cout<<"\nButton: " <<task.getButtonName();
 //        cout<<"\nmode: " <<task.getMode();
-    }
+//        cout<<"\nTask: "<<task.parseToJson();
+//    }
+//
+//    string taskButtonBUffer = "{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}}";
+//    TaskButtonClass taskButton = TaskButtonClass();
+//    if (taskButton.createFromJson(taskButtonBUffer)){
+////        cout<<"\nButtonId: "<< taskButton.getButtonId();
+////        cout<<"\ntask: "<< taskButton.getTask().parseToJson();
+//    }
+//
+//    string actionBuffer = "[{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]";
+//    ActionClass action = ActionClass();
+//    if (action.createFromJson(actionBuffer)){
+//        for (int i = 0; i < action.getActions().size(); i++){
+//            cout << "Action[" << i <<"]: " << action.getActions().at(i).parseToJson()<<"\n";
+//        }
+//    }
+//
+//    string actionButtonBuffer = "{\"actionName\":\"aço\",\"action\":[{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}";
+//    ActionButtonClass actionButton = ActionButtonClass();
+//    if (actionButton.createFromJson(actionButtonBuffer)){
+//        cout << "ActionName: " << actionButton.getActionName();
+//        cout << "\nAction: " << actionButton.getAction().getActions().at(0).getTask().parseToJson();
+//    }
 
-    string taskButtonBUffer = "{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}}";
-    TaskButtonClass taskButton = TaskButtonClass();
-    if (taskButton.createFromJson(taskButtonBUffer)){
-//        cout<<"\nButtonId: "<< taskButton.getButtonId();
-//        cout<<"\ntask: "<< taskButton.getTask().parseToJson();
-    }
 
-    string actionBuffer = "[{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]";
-    ActionClass action = ActionClass();
-    if (action.createFromJson(actionBuffer)){
-        for (int i = 0; i < action.getActions().size(); i++){
-//            cout << "Action[" << i <<"]: " << action.getActions().at(i).getTask().getButtonName()<<"\n";
-        }
-    }
-
-    string actionButtonBuffer = "{\"actionName\":\"aço\",\"action\":[{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}";
-    ActionButtonClass actionButton = ActionButtonClass();
-    if (actionButton.createFromJson(actionButtonBuffer)){
-        cout << "ActionName: " << actionButton.getActionName();
-        cout << "\nAction: " << actionButton.getAction().getActions().at(0).getTask().parseToJson();
-    }
-
-
-
-//    queue<long> dates = recurringActionTask.getDates();
-//    cout << "\nDates: " << dates.size();
 return 0;
     for (i = 0; i < QTD_SERVICOS; i++){
         rc = pthread_create(&threads[i], NULL, ListenThreadPool::Manage, (void*) &portas[i]);
