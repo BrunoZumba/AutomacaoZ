@@ -2,18 +2,16 @@
 #define COMMANDTASK_H
 
 
-#include "Task.h"
-#include "AppClasses/TaskClass.h"
+#include "Command.h"
+#include "TaskClass.h"
 
 using namespace std;
 
-#define STATUS_OK 1
-#define STATUS_ERROR 0
 
-class CommandTask : public Task {
+class TaskCommand : public Command {
     public:
-        CommandTask();
-        virtual ~CommandTask();
+        TaskCommand();
+        virtual ~TaskCommand();
 
         bool execute();
 

@@ -2,24 +2,23 @@
 #define SYSTEMACTIONTASK_H
 
 
-#include "Task.h"
+#include "Command.h"
 
 using namespace std;
 
 #define STATUS_OK 1
 #define STATUS_ERROR 0
 
-class SystemActionTask : public Task {
+class SystemActionCommand : public Command {
     public:
-        SystemActionTask(string);
-        SystemActionTask();
-        virtual ~SystemActionTask();
+        SystemActionCommand(string);
+        SystemActionCommand();
+        virtual ~SystemActionCommand();
 
         string getActionName();
         void setActionName(string);
 
         bool ParseRequestFromJason(string);
-        //Esse int não é usado. Mas e necessário por causa da super classe Task
         bool execute();
 
     protected:

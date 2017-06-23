@@ -5,6 +5,7 @@
 #include "ArduinoJson.h"
 #include<string.h>
 #include<iostream>
+#include <fstream>
 
 
 #define LIRCD_SOCKET_PATH "/var/run/lirc/lircd"
@@ -16,10 +17,13 @@ using namespace std;
 
 namespace util {
 
-static int lircSock = -1;
+//static int lircSock = -1;
 
 
 int GetLircSocket();
+
+bool saveToFile(fstream&, string, int, string);
+bool deleteFromFile(fstream&, int, string);
 
 }
 

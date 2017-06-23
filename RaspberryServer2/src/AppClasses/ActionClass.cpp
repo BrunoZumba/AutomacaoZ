@@ -15,8 +15,13 @@ string ActionClass::parseToJson(){
 
     JsonArray& root = jsonBuffer.createArray();
     for (unsigned short i = 0; i < this->actions.size(); i++){
-//        cout << "\nParse: " << this->actions.at(i).parseToJson();
-        root.add(this->actions.at(i).parseToJson());
+        string aux = this->actions.at(i).parseToJson();
+
+        const char* jsonDuplicate = jsonBuffer.strdup(aux); // <- make a copy in the JsonBuffer
+        root.add(jsonBuffer.parseObject(jsonDuplicate));
+
+        /** E aqui que o trem fica todo cagado. Verificar se fica quando vem do Client */
+//        root.add(this->actions.at(i).parseToJson());
     }
 
     string json;

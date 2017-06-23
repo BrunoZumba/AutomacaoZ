@@ -1,11 +1,11 @@
 
-#include "CommandTask.h"
+#include "TaskCommand.h"
 
-CommandTask::CommandTask(){}
-CommandTask::~CommandTask(){}
+TaskCommand::TaskCommand(){}
+TaskCommand::~TaskCommand(){}
 
 
-bool CommandTask::execute(){
+bool TaskCommand::execute(){
     int lircSock = util::GetLircSocket();
 
     if (this->task.getMode().compare("SEND_ONCE") == 0){
@@ -31,11 +31,11 @@ bool CommandTask::execute(){
     return true;
 }
 
-TaskClass CommandTask::getTask(){
+TaskClass TaskCommand::getTask(){
     return this->task;
 }
 
-void CommandTask::setTask(TaskClass _task){
+void TaskCommand::setTask(TaskClass _task){
     this->task = _task;
 }
 

@@ -1,35 +1,35 @@
-#include "Task.h"
+#include "Command.h"
 
-Task::Task(){}
+Command::Command(){}
 
-Task::~Task(){}
+Command::~Command(){}
 
-int Task::getResponseStatus(){
+int Command::getResponseStatus(){
     return this->responseStatus;
 }
-string Task::getResponseDesc(){
+string Command::getResponseDesc(){
 	return this->responseDesc;
 }
-string Task::getResponseAction(){
+string Command::getResponseAction(){
 	return this->responseAction;
 }
-string Task::getResponseParm(){
+string Command::getResponseParm(){
 	return this->responseParm;
 }
-void Task::setResponseStatus(int _responseStatus){
+void Command::setResponseStatus(int _responseStatus){
     this->responseStatus = _responseStatus;
 }
-void Task::setResponseDesc(string _responseDesc){
+void Command::setResponseDesc(string _responseDesc){
     this->responseDesc = _responseDesc;
 }
-void Task::setResponseAction(string _responseAction){
+void Command::setResponseAction(string _responseAction){
     this->responseAction = _responseAction;
 }
-void Task::setResponseParm(string _responseParm){
+void Command::setResponseParm(string _responseParm){
     this->responseParm = _responseParm;
 }
 
-string Task::ParseResponseToJason(){
+string Command::ParseResponseToJason(){
     StaticJsonBuffer<BUFFER_SIZE> jsonBuffer;
 
     JsonObject& root = jsonBuffer.createObject();
@@ -43,7 +43,7 @@ string Task::ParseResponseToJason(){
     return json;
 }
 
-void Task::createResponse(int _responseStatus, string _responseAction, string _responseDesc, string _responseParm){
+void Command::createResponse(int _responseStatus, string _responseAction, string _responseDesc, string _responseParm){
 	this->responseStatus = _responseStatus;
 	this->responseAction = _responseAction;
 	this->responseDesc = _responseDesc;

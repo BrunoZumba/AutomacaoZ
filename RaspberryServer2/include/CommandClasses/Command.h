@@ -11,10 +11,14 @@
 
 using namespace std;
 
-class Task{
+
+#define STATUS_OK 1
+#define STATUS_ERROR 0
+
+class Command{
     public:
-        Task();
-        virtual ~Task();
+        Command();
+        virtual ~Command();
 
 
 		int getResponseStatus();

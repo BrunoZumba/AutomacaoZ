@@ -3,18 +3,18 @@
 #define SENSORTASK_H
 
 
-#include "Task.h"
+#include "Command.h"
 
 using namespace std;
 
 #define STATUS_OK 1
 #define STATUS_ERROR 0
 
-class SensorTask : public Task {
+class SensorCommand : public Command {
     public:
-        SensorTask(string, string);
-        SensorTask();
-        virtual ~SensorTask();
+        SensorCommand(string, string);
+        SensorCommand();
+        virtual ~SensorCommand();
 
         string getSensorName();
         string getAction();

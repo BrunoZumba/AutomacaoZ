@@ -1,21 +1,21 @@
-#include "SystemActionTask.h"
+#include "SystemActionCommand.h"
 
-SystemActionTask::SystemActionTask(string _actionName){
+SystemActionCommand::SystemActionCommand(string _actionName){
     this->actionName = _actionName;
 }
 
-SystemActionTask::SystemActionTask(){}
-SystemActionTask::~SystemActionTask(){}
+SystemActionCommand::SystemActionCommand(){}
+SystemActionCommand::~SystemActionCommand(){}
 
-string SystemActionTask::getActionName(){
+string SystemActionCommand::getActionName(){
     return this->actionName;
 }
 
-void SystemActionTask::setActionName(string _actionName){
+void SystemActionCommand::setActionName(string _actionName){
     this->actionName = _actionName;
 }
 
-bool SystemActionTask::ParseRequestFromJason(string json) {
+bool SystemActionCommand::ParseRequestFromJason(string json) {
     StaticJsonBuffer<BUFFER_SIZE> jsonBuffer;
     JsonObject& root = jsonBuffer.parseObject(json);
 
@@ -31,7 +31,7 @@ bool SystemActionTask::ParseRequestFromJason(string json) {
 }
 
 
-bool SystemActionTask::execute(){
+bool SystemActionCommand::execute(){
     if (actionName == "shutdown") {
         //system("netstat -na | grep 8168");
         this->createResponse(STATUS_OK, "responseSystemAction", "Shutdown executado", "");

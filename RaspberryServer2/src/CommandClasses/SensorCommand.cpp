@@ -1,28 +1,28 @@
-#include "SensorTask.h"
+#include "SensorCommand.h"
 
-SensorTask::SensorTask(string _sensorName, string _action){
+SensorCommand::SensorCommand(string _sensorName, string _action){
     this->sensorName = _sensorName;
     this->action = _action;
 }
-SensorTask::SensorTask(){}
+SensorCommand::SensorCommand(){}
 
-SensorTask::~SensorTask(){}
+SensorCommand::~SensorCommand(){}
 
-string SensorTask::getSensorName(){
+string SensorCommand::getSensorName(){
     return this->sensorName;
 }
-string SensorTask::getAction(){
+string SensorCommand::getAction(){
     return this->action;
 }
 
-void SensorTask::setSensorName(string _sensorName){
+void SensorCommand::setSensorName(string _sensorName){
     this->sensorName = _sensorName;
 }
-void SensorTask::setAction(string _action){
+void SensorCommand::setAction(string _action){
     this->action = _action;
 }
 
-bool SensorTask::ParseRequestFromJason(string json){
+bool SensorCommand::ParseRequestFromJason(string json){
     StaticJsonBuffer<BUFFER_SIZE> jsonBuffer;
     JsonObject& root = jsonBuffer.parseObject(json);
 
@@ -39,7 +39,7 @@ bool SensorTask::ParseRequestFromJason(string json){
     return true;
 }
 
-bool SensorTask::execute(){
+bool SensorCommand::execute(){
     if (sensorName == "temperatura") {
         this->createResponse(STATUS_OK, "responseSensor", "27", "");
     } else if (sensorName == "umidade") {

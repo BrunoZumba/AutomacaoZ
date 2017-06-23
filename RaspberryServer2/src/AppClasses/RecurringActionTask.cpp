@@ -77,8 +77,8 @@ string RecurringActionTask::parseToJson(){
     }
 
     root["name"] = this->name;
-    root["times"] = timesArray;
     root["dates"] = datesArray;
+    root["times"] = timesArray;
     root["actionButton"] = actionObj;
 
 

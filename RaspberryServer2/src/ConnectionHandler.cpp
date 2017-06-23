@@ -42,46 +42,52 @@ void ConnectionHandler::working(){
 
         switch(port){
 			case 4391: {
-			    CommandTask commandTask;
+			    TaskCommand taskCommand;
 
-			    if (!commandTask.getTask().createFromJson(buffer)){
-					commandTask.createResponse(STATUS_ERROR, "responseCommand", "Erro ao interpretar a mensagem JSON", "");
+			    if (!taskCommand.getTask().createFromJson(buffer)){
+					taskCommand.createResponse(STATUS_ERROR, "responseCommand", "Erro ao interpretar a mensagem JSON", "");
 				} else {
-                    commandTask.execute();
+                    taskCommand.execute();
 				}
 
                 bzero(buffer, BUFFER_SIZE);
-				sprintf(buffer, commandTask.ParseResponseToJason().c_str());
+				sprintf(buffer, "%s", taskCommand.ParseResponseToJason().c_str());
 
 			break;}
 			case 8742:{
-				SensorTask sensorTask;
-				if (!sensorTask.ParseRequestFromJason(buffer)){
-					sensorTask.createResponse(STATUS_ERROR, "responseSensor", "Erro ao interpretar a mensagem JSON", "");
+				SensorCommand sensorCommand;
+				if (!sensorCommand.ParseRequestFromJason(buffer)){
+					sensorCommand.createResponse(STATUS_ERROR, "responseSensor", "Erro ao interpretar a mensagem JSON", "");
 				} else {
-                    sensorTask.execute();
+                    sensorCommand.execute();
 				}
 
                 bzero(buffer, BUFFER_SIZE);
-				sprintf(buffer, sensorTask.ParseResponseToJason().c_str());
+				sprintf(buffer, "%s", sensorCommand.ParseResponseToJason().c_str());
 			break;}
 			case 8168:{
-                SystemActionTask systemActionTask;
-				if (!systemActionTask.ParseRequestFromJason(buffer)){
-					systemActionTask.createResponse(STATUS_ERROR, "responseSystemAction", "Erro ao interpretar a mensagem JSON", "");
+                SystemActionCommand systemActionCommand;
+				if (!systemActionCommand.ParseRequestFromJason(buffer)){
+					systemActionCommand.createResponse(STATUS_ERROR, "responseSystemAction", "Erro ao interpretar a mensagem JSON", "");
 				} else {
-				    shutdownTask = systemActionTask.execute();
+				    shutdownTask = systemActionCommand.execute();
 
 				}
 
                 bzero(buffer, BUFFER_SIZE);
-				sprintf(buffer, systemActionTask.ParseResponseToJason().c_str());
+				sprintf(buffer, "%s", systemActionCommand.ParseResponseToJason().c_str());
 			}
 			break;
 			case 5223:{
-                RecurringActionTask recurringActionTask;
+                RecurringActionCommand recurringActionCommand;
+                if (!recurringActionCommand.createFromJson(buffer)){
+                    recurringActionCommand.createResponse(STATUS_ERROR, "responseRecurringAction", "Erro ao interpretar a mensagem JSON", "");
+                } else {
+                    recurringActionCommand.execute();
+                }
 
-
+                bzero(buffer, BUFFER_SIZE);
+                sprintf(buffer, "%s", recurringActionCommand.ParseResponseToJason().c_str());
 			}
 		}
 

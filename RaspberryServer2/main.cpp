@@ -13,6 +13,9 @@
 #include "TaskButtonClass.h"
 #include "ActionClass.h"
 #include "ActionButtonClass.h"
+#include "RecurringActionCommand.h"
+
+#include <fstream>
 
 using namespace std;
 
@@ -25,6 +28,36 @@ int main(){
     pthread_t threads[QTD_SERVICOS];
     int i, rc;
     char buffer[BUFFER_SIZE];
+
+
+    string recurringActionBuffer = "{\"actionType\":\"deleteList\",\"overwrite\":true,\"recurringAction\":{\"name\":\"777\",\"dates\":[000,000,000],\"times\":[1497808731, 1111111,2222],\"actionButton\":{\"actionName\":\"aço\",\"action\":[{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}}}";
+    string recurringActionBuffer2 = "{\"actionType\":\"getList\",\"overwrite\":\"\",\"recurringAction\":{}}";
+    RecurringActionCommand recurringActionCommand;
+    if(recurringActionCommand.createFromJson(recurringActionBuffer)){
+        cout<<"\nCriou Recurring Action\n";
+        if (recurringActionCommand.execute()){
+            cout<<"Executou com sucesso\n";
+//            cout<<recurringActionCommand.getResponseAction()<<"\n";
+//            cout<<recurringActionCommand.getResponseParm();
+        }
+    }
+
+//    string lala = "{\"nome1\":\"Vai sifude\", \"nome2\":\"tomanucu\"}";
+//    string lala2 = "{\"nome1\":\"Vai sifude2\", \"nome2\":\"tomanucu2\"}";
+//    DynamicJsonBuffer jsonBuffer;
+//    DynamicJsonBuffer jsonBuffer2;
+//    JsonArray& root = jsonBuffer.createArray();
+//
+//    JsonObject& jsonObj = jsonBuffer2.parseObject(lala);
+//    root.add(jsonObj);
+//    jsonObj = jsonBuffer2.parseObject(lala2);
+//    root.add(jsonObj);
+//
+//    string aux;
+//    root.printTo(aux);
+//    cout<<"Aux: "<<aux;
+
+
 
     /**
      * O thread pool são apenas threads que ficam aguardando novas tarefas.
@@ -39,18 +72,18 @@ int main(){
 //        cout << i << ": " <<lala.at(i) << "\n";
 //    }
 //
-    RecurringActionTask recurringActionTask = RecurringActionTask();
-    string buffer1 = "{\"name\":\"f\",\"dates\":[\"123\",\"456\",\"789\"],\"times\":[\"1497808731\", \"1111111\",\"2222\"],\"actionButton\":{\"actionName\":\"aço\",\"action\":[{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}}";
-    if(recurringActionTask.createFromJson(buffer1)){
-        cout<< "Name: " << recurringActionTask.getName();
-        for(int i = 0; i < recurringActionTask.getDates().size(); i++){
-            cout<<"\nData["<<i<<"]:" << recurringActionTask.getDates().at(i);
-        }
-        for(int i = 0; i < recurringActionTask.getTimes().size(); i++){
-            cout<<"\nTime["<<i<<"]:" << recurringActionTask.getTimes().at(i);
-        }
-        cout<<"\nAction: " << recurringActionTask.getActionButton().parseToJson();
-    }
+//    RecurringActionTask recurringActionTask = RecurringActionTask();
+//    string buffer1 = "{\"name\":\"f\",\"dates\":[\"123\",\"456\",\"789\"],\"times\":[\"1497808731\", \"1111111\",\"2222\"],\"actionButton\":{\"actionName\":\"aço\",\"action\":[{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}}";
+//    if(recurringActionTask.createFromJson(buffer1)){
+//        cout<< "Name: " << recurringActionTask.getName();
+//        for(int i = 0; i < recurringActionTask.getDates().size(); i++){
+//            cout<<"\nData["<<i<<"]:" << recurringActionTask.getDates().at(i);
+//        }
+//        for(int i = 0; i < recurringActionTask.getTimes().size(); i++){
+//            cout<<"\nTime["<<i<<"]:" << recurringActionTask.getTimes().at(i);
+//        }
+//        cout<<"\nAction: " << recurringActionTask.getActionButton().parseToJson();
+//    }
 
 
 
