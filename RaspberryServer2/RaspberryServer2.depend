@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1498143568 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
+1498187881 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
 	<stdio.h>
 	<pthread.h>
 	<iostream>
@@ -10,11 +10,12 @@
 	"include/Util.h"
 	"ArduinoJson.h"
 	"Util.h"
-	"RecurringActionTask.h"
+	"RecurringActionClass.h"
 	"TaskButtonClass.h"
 	"ActionClass.h"
 	"ActionButtonClass.h"
 	"RecurringActionCommand.h"
+	"ActionButtonCommand.h"
 	<fstream>
 
 1495395839 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ListenThreadPool.h
@@ -49,7 +50,7 @@
 1497055576 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ListenThreadPool.cpp
 	"ListenThreadPool.h"
 
-1498177061 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ConnectionHandler.h
+1498187942 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/ConnectionHandler.h
 	<iostream>
 	<string.h>
 	<errno.h>
@@ -63,8 +64,9 @@
 	"SensorCommand.h"
 	"SystemActionCommand.h"
 	"RecurringActionCommand.h"
+	"ActionButtonCommand.h"
 
-1498176957 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ConnectionHandler.cpp
+1498180627 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ConnectionHandler.cpp
 	"ConnectionHandler.h"
 
 1497963450 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Task.cpp
@@ -78,7 +80,7 @@
 	"ArduinoJson.h"
 	"Util.h"
 
-1498143181 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Util.h
+1498180340 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Util.h
 	"lirc_client.h"
 	"ArduinoJson.h"
 	<string.h>
@@ -419,7 +421,7 @@
 	"../JsonVariant.hpp"
 	"JsonSerializer.hpp"
 
-1498143471 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Util.cpp
+1498180645 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Util.cpp
 	"Util.h"
 
 1495849883 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/Response.h
@@ -504,7 +506,7 @@
 1498089309 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/Command.cpp
 	"Command.h"
 
-1498178640 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/Command.h
+1498180340 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/Command.h
 	<string>
 	<iostream>
 	<stdio.h>
@@ -531,12 +533,30 @@
 	"Command.h"
 	"TaskClass.h"
 
-1498143234 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/RecurringActionCommand.cpp
+1498187920 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/RecurringActionCommand.cpp
 	"RecurringActionCommand.h"
 
-1498136425 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/RecurringActionCommand.h
+1498187893 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/RecurringActionCommand.h
 	<iostream>
 	<fstream>
 	"Command.h"
-	"RecurringActionTask.h"
+	"RecurringActionClass.h"
+
+1498184883 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/ActionButtonCommand.h
+	<string>
+	<fstream>
+	<iostream>
+	"Command.h"
+	"ActionButtonClass.h"
+	"ArduinoJson.h"
+
+1498187019 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/ActionButtonCommand.cpp
+	"ActionButtonCommand.h"
+
+1498187528 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/AppClasses/RecurringActionClass.h
+	"ActionButtonClass.h"
+	<vector>
+
+1498187494 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/AppClasses/RecurringActionClass.cpp
+	"RecurringActionClass.h"
 

@@ -1,5 +1,5 @@
-#ifndef RECURRINGACTIONTASK_H
-#define RECURRINGACTIONTASK_H
+#ifndef RecurringActionClass_H
+#define RecurringActionClass_H
 
 #include "ActionButtonClass.h"
 #include <vector>
@@ -7,11 +7,11 @@
 using namespace std;
 
 
-class RecurringActionTask {
+class RecurringActionClass {
     public:
-        RecurringActionTask();
-        RecurringActionTask(string, ActionButtonClass, vector<long>, vector<long>);
-        virtual ~RecurringActionTask();
+        RecurringActionClass();
+        RecurringActionClass(string, ActionButtonClass, vector<long>, vector<long>);
+        virtual ~RecurringActionClass();
 
 
         string getName();
@@ -39,4 +39,4 @@ class RecurringActionTask {
         string name;
 };
 
-#endif // RECURRINGACTIONTASK_H
+#endif // RecurringActionClass_H

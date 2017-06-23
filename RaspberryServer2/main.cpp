@@ -9,11 +9,12 @@
 #include"include/Util.h"
 #include "ArduinoJson.h"
 #include "Util.h"
-#include "RecurringActionTask.h"
+#include "RecurringActionClass.h"
 #include "TaskButtonClass.h"
 #include "ActionClass.h"
 #include "ActionButtonClass.h"
 #include "RecurringActionCommand.h"
+#include "ActionButtonCommand.h"
 
 #include <fstream>
 
@@ -29,18 +30,30 @@ int main(){
     int i, rc;
     char buffer[BUFFER_SIZE];
 
-
-    string recurringActionBuffer = "{\"actionType\":\"deleteList\",\"overwrite\":true,\"recurringAction\":{\"name\":\"777\",\"dates\":[000,000,000],\"times\":[1497808731, 1111111,2222],\"actionButton\":{\"actionName\":\"aço\",\"action\":[{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}}}";
-    string recurringActionBuffer2 = "{\"actionType\":\"getList\",\"overwrite\":\"\",\"recurringAction\":{}}";
-    RecurringActionCommand recurringActionCommand;
-    if(recurringActionCommand.createFromJson(recurringActionBuffer)){
-        cout<<"\nCriou Recurring Action\n";
-        if (recurringActionCommand.execute()){
-            cout<<"Executou com sucesso\n";
-//            cout<<recurringActionCommand.getResponseAction()<<"\n";
-//            cout<<recurringActionCommand.getResponseParm();
+//    string actBtCmdBuffer = "{\"actionType\":\"saveList\",\"overwrite\":false,\"actionButton\":{\"actionName\":\"aço\",\"action\":[{\"buttonId\":\"222222\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}}";
+    string actBtCmdBuffer = "{\"actionType\":\"deleteList\",\"overwrite\":false,\"actionButton\":{\"actionName\":\"aço\",\"action\":[{\"buttonId\":\"222222\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}}";
+    ActionButtonCommand actionButtonCommand;
+    if(actionButtonCommand.createFromJson(actBtCmdBuffer)){
+        cout<<"\nCriou ActBt\n";
+        if(actionButtonCommand.execute()){
+            cout<<"Sucesso\n";
+            cout<<actionButtonCommand.getResponseAction()<<"\n";
+            cout<<actionButtonCommand.getResponseParm()<<"\n";
         }
     }
+
+
+//    string recurringActionBuffer = "{\"actionType\":\"deleteList\",\"overwrite\":true,\"recurringAction\":{\"name\":\"777\",\"dates\":[000,000,000],\"times\":[1497808731, 1111111,2222],\"actionButton\":{\"actionName\":\"aço\",\"action\":[{\"buttonId\":\"2131558568\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}}}";
+//    string recurringActionBuffer2 = "{\"actionType\":\"getList\",\"overwrite\":,\"recurringAction\":{}}";
+//    RecurringActionCommand recurringActionCommand;
+//    if(recurringActionCommand.createFromJson(recurringActionBuffer)){
+//        cout<<"\nCriou Recurring Action\n";
+//        if (recurringActionCommand.execute()){
+//            cout<<"Executou com sucesso\n";
+////            cout<<recurringActionCommand.getResponseAction()<<"\n";
+////            cout<<recurringActionCommand.getResponseParm();
+//        }
+//    }
 
 //    string lala = "{\"nome1\":\"Vai sifude\", \"nome2\":\"tomanucu\"}";
 //    string lala2 = "{\"nome1\":\"Vai sifude2\", \"nome2\":\"tomanucu2\"}";

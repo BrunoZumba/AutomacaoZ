@@ -79,15 +79,25 @@ void ConnectionHandler::working(){
 			}
 			break;
 			case 5223:{
-                RecurringActionCommand recurringActionCommand;
-                if (!recurringActionCommand.createFromJson(buffer)){
-                    recurringActionCommand.createResponse(STATUS_ERROR, "responseRecurringAction", "Erro ao interpretar a mensagem JSON", "");
-                } else {
-                    recurringActionCommand.execute();
-                }
+			    ActionButtonCommand actionButtonCommand;
+			    if(!actionButtonCommand.createFromJson(buffer)){
+                    actionButtonCommand.createResponse(STATUS_ERROR, "responseActionButton", "Erro ao interpretar a mensagem JSON", "");
+			    } else {
+                    actionButtonCommand.execute();
+			    }
 
-                bzero(buffer, BUFFER_SIZE);
-                sprintf(buffer, "%s", recurringActionCommand.ParseResponseToJason().c_str());
+			    bzero(buffer, BUFFER_SIZE);
+			    sprintf(buffer, "%s", actionButtonCommand.ParseResponseToJason().c_str());
+
+//                RecurringActionCommand recurringActionCommand;
+//                if (!recurringActionCommand.createFromJson(buffer)){
+//                    recurringActionCommand.createResponse(STATUS_ERROR, "responseRecurringAction", "Erro ao interpretar a mensagem JSON", "");
+//                } else {
+//                    recurringActionCommand.execute();
+//                }
+//
+//                bzero(buffer, BUFFER_SIZE);
+//                sprintf(buffer, "%s", recurringActionCommand.ParseResponseToJason().c_str());
 			}
 		}
 

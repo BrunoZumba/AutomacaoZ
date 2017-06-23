@@ -14,6 +14,7 @@
 #include "SensorCommand.h"
 #include "SystemActionCommand.h"
 #include "RecurringActionCommand.h"
+#include "ActionButtonCommand.h"
 
 using namespace std;
 

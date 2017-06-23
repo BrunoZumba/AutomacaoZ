@@ -1,15 +1,15 @@
-#include "RecurringActionTask.h"
+#include "RecurringActionClass.h"
 
-RecurringActionTask::RecurringActionTask(string _name, ActionButtonClass _actionButton, vector<long> _dates, vector<long> _times){
+RecurringActionClass::RecurringActionClass(string _name, ActionButtonClass _actionButton, vector<long> _dates, vector<long> _times){
     this->name = _name;
     this->actionButton = _actionButton;
     this->dates = _dates;
     this->times = _times;
 }
-RecurringActionTask::RecurringActionTask(){}
-RecurringActionTask::~RecurringActionTask(){}
+RecurringActionClass::RecurringActionClass(){}
+RecurringActionClass::~RecurringActionClass(){}
 
-bool RecurringActionTask::createFromJson(string json){
+bool RecurringActionClass::createFromJson(string json){
     DynamicJsonBuffer jsonBuffer;
     JsonObject& root = jsonBuffer.parseObject(json);
 
@@ -58,7 +58,7 @@ bool RecurringActionTask::createFromJson(string json){
 
     return true;
 }
-string RecurringActionTask::parseToJson(){
+string RecurringActionClass::parseToJson(){
     DynamicJsonBuffer rootBuffer, actionBuffer, timesBuffer, datesBuffer;
     JsonObject& root = rootBuffer.createObject();
 //    JsonObject& actionObj = actionBuffer.createObject();
@@ -88,7 +88,7 @@ string RecurringActionTask::parseToJson(){
 
 }
 
-string RecurringActionTask::getName(){return this->name;}
-ActionButtonClass RecurringActionTask::getActionButton(){ return this->actionButton;}
-vector<long> RecurringActionTask::getDates(){return this->dates;}
-vector<long> RecurringActionTask::getTimes(){return this->times;}
+string RecurringActionClass::getName(){return this->name;}
+ActionButtonClass RecurringActionClass::getActionButton(){ return this->actionButton;}
+vector<long> RecurringActionClass::getDates(){return this->dates;}
+vector<long> RecurringActionClass::getTimes(){return this->times;}
