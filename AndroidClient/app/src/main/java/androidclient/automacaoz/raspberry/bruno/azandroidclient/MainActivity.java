@@ -33,9 +33,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+
+import androidclient.automacaoz.raspberry.bruno.azandroidclient.AppClasses.ActionButtonClass;
+import androidclient.automacaoz.raspberry.bruno.azandroidclient.AppClasses.SensorClass;
+import androidclient.automacaoz.raspberry.bruno.azandroidclient.CommandClasses.ActionButtonCommand;
+import androidclient.automacaoz.raspberry.bruno.azandroidclient.CommandClasses.SensorCommand;
 /** Documentação técnica/teórica:
  *
  * DEVICE/DISPOSITIVO: Aparelho pré-configurado que recebe uma TASK/TAREFA e executa uma ação em si mesmo.
@@ -62,13 +69,18 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MAIN_ACTIVITY";
 
-    LinearLayout savedActionsLayout;
+    //Layout que abriga todas as Ações gravadas em disco.
+    //Feito static para que possa ser acessado/preenchido pela ActionButtonCommand
+    public static LinearLayout savedActionsLayout;
     public static Activity activity;
 
     public TextView tvTemperatura, tvUmidade;
 
 
     static private CalendarPickerView calendar;
+    static private List<Date> selectedDates;
+    LinearLayout calendar_layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,63 +89,52 @@ public class MainActivity extends AppCompatActivity {
         tvTemperatura = (TextView) findViewById(R.id.tvTemperatura);
         tvUmidade = (TextView) findViewById(R.id.tvUmidade);
 
-//        calendar = (CalendarPickerView) findViewById(R.id.cal);
-
         activity = this;
 
-//        criaOsTremDoCalendar();
+//        Intent intent = new Intent(this, ManageRecurringActionActivity.class);
+//        startActivity(intent);
 
     }
 
-    private void criaOsTremDoCalendar(){
-        final Calendar nextYear = Calendar.getInstance();
-        nextYear.add(Calendar.YEAR, 1);
+    //Depois função chamada depois que o sendData do ActionButtonCommand é retornado com o GetList
+    public static void inflateActionButtonLayout(String responseParm){
+        JSONArray jsonArray;
+        try {
+            jsonArray = new JSONArray(responseParm);
+            List<ActionButtonClass> actionButtons = new ArrayList<>();
+            for(int i = 0; i < jsonArray.length(); i++){
+                ActionButtonClass actBt = new ActionButtonClass(jsonArray.get(i).toString());
+                LinearLayout line = new LinearLayout(MainActivity.activity);
 
-        final Calendar lastYear = Calendar.getInstance();
-        lastYear.add(Calendar.YEAR, -1);
+                //Cria o botão da ação em si
+                Button btAction = new Button(MainActivity.activity);
+                btAction.setText(actBt.getActionName());
+                btAction.setTag(actBt.getAction().parseToJson());
+                btAction.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,150,0.5f));
+                btAction.setOnClickListener(new ExecuteActionClickListener());
+                btAction.setTransformationMethod(null);
 
-        calendar.init(lastYear.getTime(), nextYear.getTime()) //
-                .inMode(CalendarPickerView.SelectionMode.MULTIPLE) //
-                .withSelectedDate(new Date());
-    }
+                //Cria o botão para editar a ação
+                Button btEdit = new Button(MainActivity.activity);
+                btEdit.setText("Edit");
+                btEdit.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,100,1f));
+                JSONObject actionButton = new JSONObject();
+                try {
+                    actionButton.put("actionName", btAction.getText().toString());
+                    actionButton.put("action",new JSONArray(actBt.getAction().parseToJson()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-    public void done(View v){
-        Log.i(TAG, "Datas seleciondas: "+calendar.getSelectedDates().toString());
-    }
-    public void aumentar(View v){
-        DialogFragment newFragment = new CalendarPickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+                btEdit.setTag(actionButton.toString());
+                btEdit.setOnClickListener(new EditActionClickListener());
 
-    }
-
-    public static class CalendarPickerFragment extends DialogFragment {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.layout_calendar_picker, container, false);
-            calendar = (CalendarPickerView) rootView.findViewById(R.id.calendar_view);
-
-            final Calendar nextYear = Calendar.getInstance();
-            nextYear.add(Calendar.YEAR, 1);
-
-            final Calendar lastYear = Calendar.getInstance();
-            lastYear.add(Calendar.YEAR, -1);
-
-            calendar.init(lastYear.getTime(), nextYear.getTime()) //
-                    .inMode(CalendarPickerView.SelectionMode.MULTIPLE) //
-                    .withSelectedDate(new Date());
-
-            getDialog().setTitle("Simple Dialog");
-            return rootView;
-        }
-        @Override
-        public void onResume() {
-            ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-            params.width = LinearLayout.LayoutParams.MATCH_PARENT;
-            params.height = LinearLayout.LayoutParams.MATCH_PARENT;
-            getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
-
-            super.onResume();
+                line.addView(btAction);
+                line.addView(btEdit);
+                MainActivity.savedActionsLayout.addView(line);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
@@ -142,66 +143,37 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         savedActionsLayout.removeAllViews();
 
+        //Pega as ações salvas no servidor e cria a lista com botões das ações
+        ActionButtonCommand actionButtonCommand = new ActionButtonCommand("getList", false, Util.SERVER_IP, Util.ACTION_BUTTON_PORT, null, null);
+        actionButtonCommand.sendData(this);
+
         //Atualiza os sensores de temperatura e umidade
-        Communication commTemperatura = new Communication(tvTemperatura.getTag().toString(), Util.SERVER_IP, Util.SENSOR_PORT, tvTemperatura);
-        commTemperatura.sendData();
+        SensorCommand sensorCommandTemperatura = new SensorCommand("sensorCommand", false, Util.SERVER_IP, Util.SENSOR_PORT, tvTemperatura, new SensorClass(tvTemperatura.getTag().toString()));
+        sensorCommandTemperatura.sendData();
 
-        Communication commUmidade= new Communication(tvUmidade.getTag().toString(), Util.SERVER_IP, Util.SENSOR_PORT, tvUmidade);
-        commUmidade.sendData();
-
-        //Pega as ações salvas no sharedPref e cria a lista com botões das ações
-        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(ManageActionActivity.ACTION_FILE_KEY, Context.MODE_PRIVATE);
-        Map<String, ?> allEntries = sharedPref.getAll();
-        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            LinearLayout line = new LinearLayout(getApplicationContext());
-
-            //Cria o botão da ação em si
-            Button btAction = new Button(getApplicationContext());
-            btAction.setText(entry.getKey());
-            btAction.setTag(entry.getValue().toString());
-            btAction.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,150,0.5f));
-            btAction.setOnClickListener(new ExecuteActionClickListener());
-            btAction.setTransformationMethod(null);
-
-            //Cria o botão para editar a ação
-            Button btEdit = new Button(getApplicationContext());
-            btEdit.setText("Edit");
-            btEdit.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,100,1f));
-            JSONObject actionButton = new JSONObject();
-            try {
-                actionButton.put("actionName", btAction.getText().toString());
-                actionButton.put("action",entry.getValue().toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            btEdit.setTag(actionButton.toString());
-            btEdit.setOnClickListener(new EditActionClickListener());
-
-            line.addView(btAction);
-            line.addView(btEdit);
-            savedActionsLayout.addView(line);
-        }
+        SensorCommand sensorCommandUmidade = new SensorCommand("sensorCommand", false, Util.SERVER_IP, Util.SENSOR_PORT, tvUmidade, new SensorClass(tvUmidade.getTag().toString()));
+        sensorCommandUmidade.sendData();
     }
 
     /**
      * Editar as ações de um botão de ação
      */
-    private class EditActionClickListener implements View.OnClickListener{
+    private static class EditActionClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v){
-            Intent intent = new Intent(getApplicationContext(), ManageActionActivity.class);
+            Intent intent = new Intent(MainActivity.activity, ManageActionActivity.class);
             intent.putExtra("Tag", v.getTag().toString());
-            startActivity(intent);
+            MainActivity.activity.startActivity(intent);
         }
     }
 
     /**
      * Executa a ação que o botão possui
      */
-    private class ExecuteActionClickListener implements View.OnClickListener{
+    private static class ExecuteActionClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v){
+            Button bt = (Button) v;
             JSONArray action = null;
             try {
                 action = new JSONArray(v.getTag().toString());
@@ -209,12 +181,11 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-
-            Communication comm = new Communication(v.getTag().toString(), Util.SERVER_IP, Util.COMMAND_PORT, null);
-            comm.sendData();
+            ActionButtonClass actBtClass = new ActionButtonClass(bt.getText().toString(), bt.getTag().toString());
+            ActionButtonCommand actionButtonCommand = new ActionButtonCommand("executeActionButton", false, Util.SERVER_IP, Util.ACTION_BUTTON_PORT, null, actBtClass);
+            actionButtonCommand.sendData(MainActivity.activity);
         }
     }
-
 
     public void deviceDisplayActivity(View view){
         Intent intent = new Intent(this, DeviceDisplayActivity.class);

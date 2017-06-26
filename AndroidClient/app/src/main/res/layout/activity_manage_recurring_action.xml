@@ -1,52 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/editText5"
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="saveRecurringAction"
+        android:text="Salvar" />
+    <EditText
+        android:id="@+id/etRecurringActionName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name" />
+        android:hint="Name" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:background="@drawable/simple_black_border"
-        android:layout_height="200dp">
+        android:layout_height="200dp"
+        android:background="@drawable/simple_black_border">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/editText7"
+            <RadioGroup
+                android:id="@+id/rgActions"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name" />
+                android:layout_height="match_parent" >
+
+            </RadioGroup>
         </LinearLayout>
     </ScrollView>
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.squareup.timessquare.CalendarPickerView
+            android:id="@+id/calendarPicker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="showDatePickerDialog"
-            android:text="Button" />
+            android:background="#FFFFFF"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:scrollbarStyle="outsideOverlay" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,15 +96,24 @@
             </ScrollView>
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btAddHour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:onClick="showTimePickerDialog"
-                android:text="+" />
+                android:text="Adic. Horário" />
+            <Button
+                android:id="@+id/bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:onClick="showDatePickerDialog"
+                android:text="Aumentar Calendario" />
         </LinearLayout>
 
     </LinearLayout>
+
+
 
 
 </LinearLayout>

@@ -67,7 +67,6 @@ public class Communication {
 
     /**
      * AsyncTask usada para enviar a mensagem e não travar a UI MainThread do aplicativo
-     *
      */
     private class AsyncActionSendData extends AsyncTask<Void, Void, Void> {
         @Override
@@ -184,8 +183,6 @@ public class Communication {
 
         @Override
         protected void onPostExecute(Void c){
-
-
             switch (serverPort){
                 case Util.SENSOR_PORT:
                     if ((tvResponse == null) || (response == null)) return;

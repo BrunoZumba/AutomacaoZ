@@ -34,7 +34,7 @@
                 android:gravity="center"
                 android:text="\?? ºC"
                 android:textColor="@color/colorBlack"
-                android:tag="{&quot;sensorName&quot;:&quot;temperatura&quot;,&quot;action&quot;:&quot;getValue&quot;}"
+                android:tag="{&quot;sensorName&quot;:&quot;temperatura&quot;,&quot;sensorAction&quot;:&quot;getValue&quot;}"
                 android:textSize="20sp" />
 
             <TextView
@@ -45,7 +45,7 @@
                 android:gravity="center"
                 android:text="\?? %"
                 android:textColor="@color/colorBlack"
-                android:tag="{&quot;sensorName&quot;:&quot;umidade&quot;,&quot;action&quot;:&quot;getValue&quot;}"
+                android:tag="{&quot;sensorName&quot;:&quot;umidade&quot;,&quot;sensorAction&quot;:&quot;getValue&quot;}"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -136,8 +136,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/colorBlack"
-            android:text="Ações" />
+            android:text="Ações"
+            android:textColor="@color/colorBlack" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -183,34 +183,6 @@
             </ScrollView>
         </LinearLayout>
     </LinearLayout>
-<!--
-    <com.squareup.timessquare.CalendarPickerView
-        android:id="@+id/calendar_view"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:clipToPadding="false"
-        android:background="#FFFFFF"
-        />
--->
-    <Button
-    android:id="@+id/done_button"
-    android:layout_width="wrap_content"
-    android:layout_height="30dp"
-    android:layout_gravity="center"
-    android:onClick="done"
-    android:text="Done" />
-    <Button
-        android:id="@+id/aumentarCalendario"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_gravity="center"
-        android:onClick="aumentar"
-        android:text="aumentar" />
 
 </LinearLayout>
 

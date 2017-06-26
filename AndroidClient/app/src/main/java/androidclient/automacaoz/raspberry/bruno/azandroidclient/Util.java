@@ -30,10 +30,12 @@ public class Util {
     public final static int COMMAND_PORT = 4391; //Comandos dos controles remotos
     public final static int SENSOR_PORT = 8742; //Sensores (temperatura, umidade, luminosidade)
     public final static int SYSTEM_ACTION_PORT = 8168; //Ação no sistema (reboot, shutdown, etc)
+    public final static int ACTION_BUTTON_PORT = 5223; //Ação no sistema (reboot, shutdown, etc)
+    public final static int RECURRING_ACTION_BUTTON_PORT = 6292; //Ação no sistema (reboot, shutdown, etc)
     public final static int BUFFER_SIZE = 4096;
-    public static String SERVER_IP = "192.168.25.50"; //IP do Raspberry
+//    public static String SERVER_IP = "192.168.25.50"; //IP do Raspberry
 //    public static String SERVER_IP = "191.33.154.250"; //IP de Internet (port forwarding)
-//    public static String SERVER_IP = "192.168.25.7"; //IP VirtualBox
+    public static String SERVER_IP = "192.168.25.7"; //IP VirtualBox
 
     private static Util instance = new Util();
 

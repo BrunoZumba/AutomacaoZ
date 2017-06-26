@@ -12,6 +12,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidclient.automacaoz.raspberry.bruno.azandroidclient.AppClasses.TaskClass;
+import androidclient.automacaoz.raspberry.bruno.azandroidclient.CommandClasses.TaskCommand;
+
 public class DeviceDisplayActivity extends AppCompatActivity {
     private final String TAG = "DEVICE_DISPLAY_ACTIVITY";
 
@@ -60,8 +63,10 @@ public class DeviceDisplayActivity extends AppCompatActivity {
         public void onClick(View v) {
             String jsonCommand = v.getTag().toString();
 
-            Communication comm = new Communication(jsonCommand, Util.SERVER_IP, Util.COMMAND_PORT, tvResponse);
-            comm.sendData();
+            TaskCommand taskCommand = new TaskCommand("taskCommand", false, Util.SERVER_IP, Util.COMMAND_PORT, tvResponse, new TaskClass(jsonCommand));
+            taskCommand.sendData();
+//            Communication comm = new Communication(jsonCommand, Util.SERVER_IP, Util.COMMAND_PORT, tvResponse);
+//            comm.sendData();
         }
 
     }

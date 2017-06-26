@@ -36,13 +36,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
+import androidclient.automacaoz.raspberry.bruno.azandroidclient.AppClasses.ActionButtonClass;
+import androidclient.automacaoz.raspberry.bruno.azandroidclient.AppClasses.ActionClass;
+import androidclient.automacaoz.raspberry.bruno.azandroidclient.CommandClasses.ActionButtonCommand;
+
 public class ManageActionActivity extends AppCompatActivity {
     private final String TAG = "MANAGE_ACTION_ACTIVITY";
 
     //Caminho onde todos os SharedPrefs serão gravados no dispositivo
     public final static String ACTION_FILE_KEY = "androidclient.automacaoz.raspberry.bruno.azandroidclient.ACTION_FILE_KEY";
 
-    Activity activity;
+    //Feito public static para criação do AlertDialog na classe ActionButtonCommand
+    public static Activity activity;
 
     LinearLayout dropLayout;
     HorizontalScrollView scrollView;
@@ -165,11 +170,9 @@ public class ManageActionActivity extends AppCompatActivity {
                     { android.nfc.tech.NdefFormatable.class.getName() }
             };
             nfcAdpt.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, techList);
-            Log.i(TAG, "Habilitou foregroud");
         }
         catch(Exception e) {
             e.printStackTrace();
-            Log.i(TAG, "Erro");
         }
 //        MainActivity.activity = this;
 
@@ -246,6 +249,9 @@ public class ManageActionActivity extends AppCompatActivity {
             return;
         }
 
+        Log.i(TAG, "nomeAções: "+etNomeAcoes.getText().toString());
+        Log.i(TAG, "Ação: "+action.toString());
+
         //Para cada BOTAO {ID+TASK}...
         for (int i = 0; i < action.length(); i++){
 
@@ -253,7 +259,7 @@ public class ManageActionActivity extends AppCompatActivity {
             int btId = 0;
             try {
                 JSONObject json = new JSONObject(action.get(i).toString());
-                btId = json.getInt("ID");
+                btId = json.getInt("buttonId");
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.e(TAG, "Erro ao criar o obj json");
@@ -280,21 +286,12 @@ public class ManageActionActivity extends AppCompatActivity {
             return;
         }
 
-        //Verifica se ha alguma acao com este nome no SharedPref
-        sharedPref = getApplicationContext().getSharedPreferences(ManageActionActivity.ACTION_FILE_KEY, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        String action = sharedPref.getString(etNomeAcoes.getText().toString(), "");
-        if (action == "") {
-            Toast.makeText(getApplicationContext(), "Não há ação com este nome", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        //Para deletar a ação não é necessário passar toda o JSONString da ação, basta o nome. Portanto a ActionClass é criada como um array vazio "[]"
+        ActionButtonClass actionButtonClass = new ActionButtonClass(etNomeAcoes.getText().toString(), new ActionClass("[]"));
+        ActionButtonCommand actionButtonCommand = new ActionButtonCommand("deleteList", false, Util.SERVER_IP, Util.ACTION_BUTTON_PORT, null, actionButtonClass);
 
-        //Remove a acao do SharedPref
-        editor.remove(etNomeAcoes.getText().toString());
-        editor.commit();
+        actionButtonCommand.sendData(this);
 
-        Toast.makeText(getApplicationContext(), "Ação deletada com sucesso", Toast.LENGTH_SHORT).show();
-        finish();
     }
 
     /**
@@ -324,74 +321,107 @@ public class ManageActionActivity extends AppCompatActivity {
 
     }
 
+
     /**
      * Botao definidio no arquivo de layout para salvar uma acao no SharedPref
      * @param v
      */
     public void salvarAcao(View v){
-        sharedPref = getApplicationContext().getSharedPreferences(ACTION_FILE_KEY, Context.MODE_PRIVATE);
-
         //Valida os dados do nome da acao e se ha botoes de acao
         if(!validarDados()) return;
 
-        //Cria uma String para armazenar todos os botoes desta acao no formato
-        //{ID+TASK}!-!{ID+TASK}!-!
         action = new JSONArray();
         //acoes = "";
         for (int i = 0; i < actionsButtons.size(); i++){
             Button bt = (Button) actionsButtons.get(i);
             JSONObject jsonObj = new JSONObject();
             try {
-                jsonObj.put("ID", bt.getId());
-                jsonObj.put("Task", bt.getTag().toString());
+                jsonObj.put("buttonId", bt.getId());
+                jsonObj.put("task", new JSONObject(bt.getTag().toString()));
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.e(TAG, "Erro ao criar o obj jason");
                 return;
             }
+
             action.put(jsonObj);
-            //acoes = acoes + jsonObj.toString() + ManageActionActivity.BUTTON_SEPARATOR;
         }
 
-        //Verifica se já ha uma acao com este nome no SharedPref
-        String actionName = sharedPref.getString(etNomeAcoes.getText().toString(), "");
-        if(actionName != ""){
-            //Se já existir uma acao com este nome, exibe um alertBox para sobrescrever
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Salvar Ação");
-            builder.setMessage("Já existe uma ação '" + etNomeAcoes.getText().toString() + "'. Substituir pela nova?");
-            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface arg0, int arg1) {
-                    alerta.dismiss();
-                    return;
-                }
-            });
-            builder.setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface arg0, int arg1) {
-                    //Grava o nome da acao e os dados da acao no SharedPref
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString(etNomeAcoes.getText().toString(), action.toString());
-                    editor.commit();
+        ActionButtonClass actionButtonClass = new ActionButtonClass(etNomeAcoes.getText().toString(), new ActionClass(action.toString()));
+        ActionButtonCommand actionButtonCommand = new ActionButtonCommand("saveList", false, Util.SERVER_IP, Util.ACTION_BUTTON_PORT, null, actionButtonClass);
 
-                    Toast.makeText(getApplicationContext(), "Ação criada com sucesso", Toast.LENGTH_SHORT).show();
-                    alerta.dismiss();
-                    finish();
-                    return;
-                }
-            });
-            alerta = builder.create();
-            alerta.show();
-        } else {
-            //Grava o nome da acao e os dados da acao no SharedPref
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString(etNomeAcoes.getText().toString(), action.toString());
-            editor.commit();
-
-            Toast.makeText(getApplicationContext(), "Ação criada com sucesso", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
+        actionButtonCommand.sendData(this);
     }
+
+//    /**
+//     * Botao definidio no arquivo de layout para salvar uma acao no SharedPref
+//     * @param v
+//     */
+//    public void salvarAcao(View v){
+//        sharedPref = getApplicationContext().getSharedPreferences(ACTION_FILE_KEY, Context.MODE_PRIVATE);
+//
+//        //Valida os dados do nome da acao e se ha botoes de acao
+//        if(!validarDados()) return;
+//
+//        //Cria uma String para armazenar todos os botoes desta acao no formato
+//        //{ID+TASK}!-!{ID+TASK}!-!
+//        action = new JSONArray();
+//        //acoes = "";
+//        for (int i = 0; i < actionsButtons.size(); i++){
+//            Button bt = (Button) actionsButtons.get(i);
+//            JSONObject jsonObj = new JSONObject();
+//            try {
+//                jsonObj.put("ID", bt.getId());
+//                jsonObj.put("Task", new JSONObject(bt.getTag().toString()));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//                Log.e(TAG, "Erro ao criar o obj jason");
+//                return;
+//            }
+//
+//            action.put(jsonObj);
+//            //acoes = acoes + jsonObj.toString() + ManageActionActivity.BUTTON_SEPARATOR;
+//        }
+//
+//        //Verifica se já ha uma acao com este nome no SharedPref
+//        String actionName = sharedPref.getString(etNomeAcoes.getText().toString(), "");
+//        if(actionName != ""){
+//            //Se já existir uma acao com este nome, exibe um alertBox para sobrescrever
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            builder.setTitle("Salvar Ação");
+//            builder.setMessage("Já existe uma ação '" + etNomeAcoes.getText().toString() + "'. Substituir pela nova?");
+//            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+//                public void onClick(DialogInterface arg0, int arg1) {
+//                    alerta.dismiss();
+//                    return;
+//                }
+//            });
+//            builder.setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
+//                public void onClick(DialogInterface arg0, int arg1) {
+//                    //Grava o nome da acao e os dados da acao no SharedPref
+//                    SharedPreferences.Editor editor = sharedPref.edit();
+//                    editor.putString(etNomeAcoes.getText().toString(), action.toString());
+//                    editor.commit();
+//
+//                    Toast.makeText(getApplicationContext(), "Ação criada com sucesso", Toast.LENGTH_SHORT).show();
+//                    alerta.dismiss();
+//                    finish();
+//                    return;
+//                }
+//            });
+//            alerta = builder.create();
+//            alerta.show();
+//        } else {
+//            //Grava o nome da acao e os dados da acao no SharedPref
+//            SharedPreferences.Editor editor = sharedPref.edit();
+//            editor.putString(etNomeAcoes.getText().toString(), action.toString());
+//            editor.commit();
+//
+//            Toast.makeText(getApplicationContext(), "Ação criada com sucesso", Toast.LENGTH_SHORT).show();
+//            finish();
+//            return;
+//        }
+//    }
 
     /**
      * Chamada quando o usuário clica em botao para adiciona-lo a acao
