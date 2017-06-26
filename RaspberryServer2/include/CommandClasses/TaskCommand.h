@@ -10,10 +10,11 @@ using namespace std;
 
 class TaskCommand : public Command {
     public:
-        TaskCommand();
+        TaskCommand(string json);
         virtual ~TaskCommand();
 
         bool execute();
+        bool createRequestFromJson();
 
         TaskClass getTask();
         void setTask(TaskClass);

@@ -11,14 +11,14 @@ using namespace std;
 
 class SystemActionCommand : public Command {
     public:
-        SystemActionCommand(string);
+        SystemActionCommand(string json);
         SystemActionCommand();
         virtual ~SystemActionCommand();
 
         string getActionName();
         void setActionName(string);
 
-        bool ParseRequestFromJason(string);
+        bool createRequestFromJson();
         bool execute();
 
     protected:

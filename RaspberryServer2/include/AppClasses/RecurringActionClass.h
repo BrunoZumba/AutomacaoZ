@@ -14,29 +14,29 @@ class RecurringActionClass {
         virtual ~RecurringActionClass();
 
 
-        string getName();
-        ActionButtonClass getActionButton();
-        vector<long> getDates();
-        vector<long> getTimes();
+        string getRecActName();
+        ActionButtonClass getRecActActionButton();
+        vector<long> getRecActDates();
+        vector<long> getRecActTimes();
 
-        void setName(string);
-        void setActionButton(ActionButtonClass);
-        void setDates(vector<long>);
-        void setTimes(vector<long>);
+        void setRecActName(string);
+        void setRecActActionButton(ActionButtonClass);
+        void setRecActDates(vector<long>);
+        void setRecActTimes(vector<long>);
 
         bool createFromJson(string);
         string parseToJson();
 
         //Queues nao foram declaradas privadas pq dava problema no queue.pop();
-        vector<long> times;
-        ActionButtonClass actionButton;
-        vector<long> dates;
+        vector<long> recActTimes;
+        ActionButtonClass recActActionButton;
+        vector<long> recActDates;
 
     protected:
 
 
     private:
-        string name;
+        string recActName;
 };
 
 #endif // RecurringActionClass_H

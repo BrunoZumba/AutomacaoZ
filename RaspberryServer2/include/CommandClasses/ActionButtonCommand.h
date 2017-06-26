@@ -4,10 +4,12 @@
 #include<string>
 #include<fstream>
 #include<iostream>
+#include<unistd.h>
 
 #include "Command.h"
 #include "ActionButtonClass.h"
 #include "ArduinoJson.h"
+#include "TaskCommand.h"
 
 using namespace std;
 
@@ -15,25 +17,19 @@ using namespace std;
 
 class ActionButtonCommand : public Command{
     public:
-        ActionButtonCommand();
+        ActionButtonCommand(string json);
         virtual ~ActionButtonCommand();
 
         bool execute();
-        bool createFromJson(string);
+        bool createRequestFromJson();
 
         ActionButtonClass getActionButton();
         void setActionButton(ActionButtonClass);
 
-        string getActionType();
-        void setActionType(string);
-        bool getOverwrite();
-        void setOverwrite(bool);
 
     protected:
 
     private:
-        string actionType;
-        bool overwrite;
         ActionButtonClass actionButton;
 };
 

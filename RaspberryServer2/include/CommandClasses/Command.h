@@ -17,7 +17,7 @@ using namespace std;
 
 class Command{
     public:
-        Command();
+        Command(string);
         virtual ~Command();
 
 
@@ -30,18 +30,31 @@ class Command{
 		void setResponseAction(string);
 		void setResponseParm(string);
 
-		void createResponse(int, string, string, string);
+		string getRequestAction();
+        void setRequestAction(string);
+        bool getRequestOverwrite();
+        void setRequestOverwrite(bool);
+
+		void createResponse(int, /*string,*/ string, string);
 
         string ParseResponseToJason();
 
 //        virtual bool execute() = 0;//Subclass must implement
         virtual bool execute() = 0;//Subclass must implement
+        virtual bool createRequestFromJson();
 
     protected:
+        string requestAction;
+        bool requestOverwrite;
+
 		int responseStatus;
         string responseAction;
 		string responseDesc;
 		string responseParm;
+
+		//Usado para fazer o parse
+		DynamicJsonBuffer rootJsonBuffer;
+        JsonObject& jsonRoot ;
 
     private:
 };

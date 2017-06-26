@@ -42,10 +42,10 @@ void ConnectionHandler::working(){
 
         switch(port){
 			case 4391: {
-			    TaskCommand taskCommand;
+			    TaskCommand taskCommand = TaskCommand(buffer);
 
-			    if (!taskCommand.getTask().createFromJson(buffer)){
-					taskCommand.createResponse(STATUS_ERROR, "responseCommand", "Erro ao interpretar a mensagem JSON", "");
+			    if (!taskCommand.createRequestFromJson()){
+					taskCommand.createResponse(STATUS_ERROR, /*"responseCommand",*/ "Erro ao interpretar a mensagem JSON", "");
 				} else {
                     taskCommand.execute();
 				}
@@ -55,9 +55,9 @@ void ConnectionHandler::working(){
 
 			break;}
 			case 8742:{
-				SensorCommand sensorCommand;
-				if (!sensorCommand.ParseRequestFromJason(buffer)){
-					sensorCommand.createResponse(STATUS_ERROR, "responseSensor", "Erro ao interpretar a mensagem JSON", "");
+				SensorCommand sensorCommand = SensorCommand(buffer);
+				if (!sensorCommand.createRequestFromJson()){
+					sensorCommand.createResponse(STATUS_ERROR, /*"responseSensor",*/ "Erro ao interpretar a mensagem JSON", "");
 				} else {
                     sensorCommand.execute();
 				}
@@ -66,9 +66,9 @@ void ConnectionHandler::working(){
 				sprintf(buffer, "%s", sensorCommand.ParseResponseToJason().c_str());
 			break;}
 			case 8168:{
-                SystemActionCommand systemActionCommand;
-				if (!systemActionCommand.ParseRequestFromJason(buffer)){
-					systemActionCommand.createResponse(STATUS_ERROR, "responseSystemAction", "Erro ao interpretar a mensagem JSON", "");
+                SystemActionCommand systemActionCommand = SystemActionCommand(buffer);
+				if (!systemActionCommand.createRequestFromJson()){
+					systemActionCommand.createResponse(STATUS_ERROR, /*"responseSystemAction",*/ "Erro ao interpretar a mensagem JSON", "");
 				} else {
 				    shutdownTask = systemActionCommand.execute();
 
@@ -79,26 +79,29 @@ void ConnectionHandler::working(){
 			}
 			break;
 			case 5223:{
-			    ActionButtonCommand actionButtonCommand;
-			    if(!actionButtonCommand.createFromJson(buffer)){
-                    actionButtonCommand.createResponse(STATUS_ERROR, "responseActionButton", "Erro ao interpretar a mensagem JSON", "");
+			    ActionButtonCommand actionButtonCommand = ActionButtonCommand(buffer);
+			    if(!actionButtonCommand.createRequestFromJson()){
+                    actionButtonCommand.createResponse(STATUS_ERROR, /*"responseActionButton",*/ "Erro ao interpretar a mensagem JSON", "");
 			    } else {
                     actionButtonCommand.execute();
 			    }
 
 			    bzero(buffer, BUFFER_SIZE);
 			    sprintf(buffer, "%s", actionButtonCommand.ParseResponseToJason().c_str());
-
-//                RecurringActionCommand recurringActionCommand;
-//                if (!recurringActionCommand.createFromJson(buffer)){
-//                    recurringActionCommand.createResponse(STATUS_ERROR, "responseRecurringAction", "Erro ao interpretar a mensagem JSON", "");
-//                } else {
-//                    recurringActionCommand.execute();
-//                }
-//
-//                bzero(buffer, BUFFER_SIZE);
-//                sprintf(buffer, "%s", recurringActionCommand.ParseResponseToJason().c_str());
 			}
+            break;
+            case 6292:{
+			    RecurringActionCommand recurringActionCommand = RecurringActionCommand(buffer);
+			    if(!recurringActionCommand.createRequestFromJson()){
+                    recurringActionCommand.createResponse(STATUS_ERROR, /*"responseActionButton",*/ "Erro ao interpretar a mensagem JSON", "");
+			    } else {
+                    recurringActionCommand.execute();
+			    }
+
+			    bzero(buffer, BUFFER_SIZE);
+			    sprintf(buffer, "%s", recurringActionCommand.ParseResponseToJason().c_str());
+			}
+            break;
 		}
 
         //cout << buffer << "\n";d

@@ -1,10 +1,56 @@
 #include "ActionButtonCommand.h"
 
-ActionButtonCommand::ActionButtonCommand(){}
+ActionButtonCommand::ActionButtonCommand(string json) : Command(json){}
 
 ActionButtonCommand::~ActionButtonCommand(){}
 
+bool ActionButtonCommand::createRequestFromJson(){
+    Command::createRequestFromJson();
+
+    JsonObject& actBt = this->jsonRoot["actionButton"];
+    string actBtStr;
+    actBt.printTo(actBtStr);
+    this->actionButton = ActionButtonClass();
+    this->actionButton.createFromJson(actBtStr);
+
+    return true;
+}
+
 bool ActionButtonCommand::execute(){
+    if(this->requestAction == "executeActionButton"){
+        bool error = false;
+
+        //Percorre o array de ações e criando TaskCommands e executando elas
+        for (unsigned short int i = 0; i < this->actionButton.getAction().getActions().size(); i++){
+            DynamicJsonBuffer jsonBuffer;
+            JsonObject& jsonObj = jsonBuffer.createObject();
+
+            DynamicJsonBuffer jsonBuffer2;
+            JsonObject& jsonObj2 = jsonBuffer2.parseObject(this->actionButton.getAction().getActions().at(i).getTask().parseToJson());
+            jsonObj["requestAction"] = "taskCommand";
+            jsonObj["requestOverwrite"] = false;
+            jsonObj["task"] = jsonObj2;
+
+            string taskCmdStr;
+            jsonObj.printTo(taskCmdStr);
+            TaskCommand taskCmd = TaskCommand(taskCmdStr);
+            if (!taskCmd.createRequestFromJson() || (!taskCmd.execute())){
+                //Se der erro em um comando, não deixa de enviar os outros. Ou deveria deixar?
+                error = true;
+            }
+            usleep(200000); // espera 0.2 segundos entre um comando e outro.
+        }
+
+        if (error){
+            this->createResponse(STATUS_ERROR, /*"responseCommand",*/ "Erro ao executar a ação", "");
+            return false;
+        }
+
+        this->createResponse(STATUS_ERROR, /*"responseCommand",*/ "Ação executada com sucesso", "");
+        return true;
+
+    }
+
     fstream file (ACTION_BUTTON_FILE, fstream::out | fstream::in);
 
     if (!file.is_open()) {
@@ -15,7 +61,7 @@ bool ActionButtonCommand::execute(){
     }
     if (!file.is_open()){
         //Resposta em caso de erro ao abrir o arquivo
-        this->createResponse(STATUS_ERROR, "saveResponse", "Erro ao criar o arquivo", "Erro ao acessar o HD");
+        this->createResponse(STATUS_ERROR, /*"saveResponse",*/ "Erro ao criar o arquivo", "Erro ao acessar o HD");
         return false;
     }
 
@@ -34,11 +80,11 @@ bool ActionButtonCommand::execute(){
     }
 
 
-    if(this->actionType == "getList"){
+    if(this->requestAction == "getList"){
         //Se a ação for getList, cria a resposta com uma string do JsonArray
         string arrayStr;
         root.printTo(arrayStr);
-        this->createResponse(STATUS_OK, "getListResponse", "Sucesso", arrayStr);
+        this->createResponse(STATUS_OK, /*"getListResponse",*/ "Sucesso", arrayStr);
         return true;
 
     } else { //coloquei esse else separado pois tanto saveList quanto deleteList preicsa percorrer o arquivo até achar a ocorrencia
@@ -53,29 +99,33 @@ bool ActionButtonCommand::execute(){
             if (actBtClass.getActionName() == this->actionButton.getActionName()){
                 existeAcao = true;
 
-                if (this->actionType == "saveList"){
-                    if (this->overwrite){
+                if (this->requestAction == "saveList"){
+                    if (this->requestOverwrite){
                         //sobrescreve a ação na posição corrente 'i'
                         util::saveToFile(file, (string)this->actionButton.parseToJson(), i, ACTION_BUTTON_FILE);
-
+                        this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação inserida com sucesso","");
                     } else {
-                        cout<<"overwrite é falso. não fez nada\n";
-                        this->createResponse(STATUS_ERROR, "saveListResponse", "Já existe ação com este nome","Overwrite?");
+                        cout<<"requestOverwrite é falso. não fez nada\n";
+                        this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Já existe Ação com este nome","requestOverwrite");
                         return false;
                     }
-
-                } else if (this->actionType == "deleteList"){
+                } else if (this->requestAction == "deleteList"){
                     util::deleteFromFile(file, i, ACTION_BUTTON_FILE);
+                    this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação deletada com sucesso","");
                 }
-
                 break;
             }
         }
 
         //se a acao nao foi encontrada no arquivo, adiciona ela no final do arquivo.
-        if((!existeAcao) && (this->actionType == "saveList")){
-            cout<<"Nao achou a ação. Adicionando ao final\n";
-            util::saveToFile(file, this->actionButton.parseToJson(), -1, ACTION_BUTTON_FILE);
+        if(!existeAcao) {
+            if (this->requestAction == "saveList"){
+                cout<<"Nao achou a ação. Adicionando ao final\n";
+                util::saveToFile(file, this->actionButton.parseToJson(), -1, ACTION_BUTTON_FILE);
+                this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação inserida com sucesso","");
+            } else if (this->requestAction == "deleteList"){
+                this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Não há Ação com este nome","");
+            }
         }
     }
 
@@ -83,37 +133,7 @@ bool ActionButtonCommand::execute(){
         file.close();
     }
     return true;
-
-
 }
-
-bool ActionButtonCommand::createFromJson(string json){
-    DynamicJsonBuffer jsonBuffer;
-    JsonObject& root = jsonBuffer.parseObject(json);
-
-    //TODO: tirar essa gambs de primeiro usar um char*
-    const char* tmp = root["actionType"];
-    bool tmp2 = root["overwrite"];
-
-    if ((tmp == NULL) /*|| (tmp2 == NULL)*/) {
-        return false;
-    }
-    this->actionType = string(tmp);
-    this->overwrite = bool(tmp2);
-
-    JsonObject& actBt = root["actionButton"];
-    string actBtStr;
-    actBt.printTo(actBtStr);
-    this->actionButton = ActionButtonClass();
-    this->actionButton.createFromJson(actBtStr);
-
-
-    return true;
-}
-
-
-
-
 
 
 ActionButtonClass ActionButtonCommand::getActionButton(){
@@ -121,16 +141,4 @@ ActionButtonClass ActionButtonCommand::getActionButton(){
 }
 void ActionButtonCommand::setActionButton(ActionButtonClass _actionButton){
     this->actionButton = _actionButton;
-}
-string ActionButtonCommand::getActionType(){
-    return this->actionType;
-}
-void ActionButtonCommand::setActionType(string _actionType){
-    this->actionType = _actionType;
-}
-bool ActionButtonCommand::getOverwrite(){
-    return this->overwrite;
-}
-void ActionButtonCommand::setOverwrite(bool _overwrite){
-    this->overwrite = _overwrite;
 }

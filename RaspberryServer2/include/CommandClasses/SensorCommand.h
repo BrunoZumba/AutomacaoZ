@@ -4,6 +4,7 @@
 
 
 #include "Command.h"
+#include "SensorClass.h"
 
 using namespace std;
 
@@ -12,26 +13,20 @@ using namespace std;
 
 class SensorCommand : public Command {
     public:
-        SensorCommand(string, string);
-        SensorCommand();
+        SensorCommand(string json);
         virtual ~SensorCommand();
 
-        string getSensorName();
-        string getAction();
-
-        void setSensorName(string);
-        void setAction(string);
+        SensorClass getSensor();
+        void setSensor(SensorClass);
 
         bool execute();
-
-        bool ParseRequestFromJason(string);
+        bool createRequestFromJson();
 
     protected:
 
 
     private:
-        string sensorName;
-        string action;
+        SensorClass sensor;
 
 };
 

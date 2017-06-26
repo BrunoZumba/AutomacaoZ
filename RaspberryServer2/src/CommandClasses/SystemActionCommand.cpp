@@ -1,10 +1,7 @@
 #include "SystemActionCommand.h"
 
-SystemActionCommand::SystemActionCommand(string _actionName){
-    this->actionName = _actionName;
-}
+SystemActionCommand::SystemActionCommand(string json) : Command(json){}
 
-SystemActionCommand::SystemActionCommand(){}
 SystemActionCommand::~SystemActionCommand(){}
 
 string SystemActionCommand::getActionName(){
@@ -15,12 +12,13 @@ void SystemActionCommand::setActionName(string _actionName){
     this->actionName = _actionName;
 }
 
-bool SystemActionCommand::ParseRequestFromJason(string json) {
-    StaticJsonBuffer<BUFFER_SIZE> jsonBuffer;
-    JsonObject& root = jsonBuffer.parseObject(json);
+bool SystemActionCommand::createRequestFromJson() {
+    Command::createRequestFromJson();
+//    StaticJsonBuffer<BUFFER_SIZE> jsonBuffer;
+//    JsonObject& root = jsonBuffer.parseObject(json);
 
     //TODO: tirar essa gambs de primeiro usar um char*
-    const char* tmp = root["actionName"];
+    const char* tmp = this->jsonRoot["actionName"];
 
     if (tmp == NULL) {
         return false;
@@ -34,10 +32,10 @@ bool SystemActionCommand::ParseRequestFromJason(string json) {
 bool SystemActionCommand::execute(){
     if (actionName == "shutdown") {
         //system("netstat -na | grep 8168");
-        this->createResponse(STATUS_OK, "responseSystemAction", "Shutdown executado", "");
+        this->createResponse(STATUS_OK, /*"responseSystemAction", */"Shutdown executado", "");
         return true;
     } else {
-        this->createResponse(STATUS_ERROR, "responseSystemAction", "Comando não reconhecido", "");
+        this->createResponse(STATUS_ERROR, /*"responseSystemAction",*/ "Comando não reconhecido", "");
         return false;
     }
 
