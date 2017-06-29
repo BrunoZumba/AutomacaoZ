@@ -13,40 +13,22 @@ bool RecurringActionClass::createFromJson(string json){
     DynamicJsonBuffer jsonBuffer;
     JsonObject& root = jsonBuffer.parseObject(json);
 
-    JsonArray& recActTimesArray = root["recActTimes"];
-    for (unsigned short i = 0; i < recActTimesArray.size(); i++) {
-        long time = recActTimesArray[i];
-        this->recActTimes.insert(this->recActTimes.end(),time);
-    }
-
-
     JsonArray& recActDatesArray = root["recActDates"];
     for (unsigned short i = 0; i < recActDatesArray.size(); i++){
         long date = recActDatesArray[i];
         this->recActDates.insert(this->recActDates.end(), date);
     }
 
+    JsonArray& recActTimesArray = root["recActTimes"];
+    for (unsigned short i = 0; i < recActTimesArray.size(); i++) {
+        long time = recActTimesArray[i];
+        this->recActTimes.insert(this->recActTimes.end(),time);
+    }
+
     JsonObject& recActActionButton = root["recActActionButton"];
     string actionBtStr;
     recActActionButton.printTo(actionBtStr);
     this->recActActionButton = ActionButtonClass();
-
-//    JsonArray& action = actionButton["action"];
-//    for (unsigned short i = 0; i < action.size(); i++){
-//        JsonObject& cmdTask = action[i]["Task"];
-//        const char* devName = cmdTask["deviceName"];
-//        const char* buttonName = cmdTask["buttonName"];
-//        const char* mode = cmdTask["mode"];
-//        if ((devName == NULL) | (buttonName == NULL) || (mode == NULL)) {
-//            return false;
-//        }
-//
-////        CommandTask commandTask = CommandTask(devName, buttonName, mode);
-//        CommandTask commandTask = CommandTask();
-//
-//        commandTask.setTask(TaskClass(devName, buttonName, mode));
-//        this->commandTasks.push(commandTask);
-//    }
 
     const char* tmp = root["recActName"];
     if ((tmp == NULL) /*|| (tmp2 == NULL) || (tmp3 == NULL)*/) {
@@ -70,10 +52,14 @@ string RecurringActionClass::parseToJson(){
     JsonObject& actionObj = actionBuffer.parseObject(actionJson);
 
     for (unsigned short i = 0; i < this->recActTimes.size(); i++){
-        recActTimesArray.add(this->recActTimes.at(i));
+        stringstream ss;
+        ss << this->recActTimes.at(i);
+        recActTimesArray.add(ss.str());
     }
     for (unsigned short i = 0; i < this->recActDates.size(); i++){
-        recActDatesArray.add(this->recActDates.at(i));
+        stringstream ss;
+        ss << this->recActDates.at(i);
+        recActDatesArray.add(ss.str());
     }
 
     root["recActName"] = this->recActName;

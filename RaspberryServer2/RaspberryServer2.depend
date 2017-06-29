@@ -514,25 +514,32 @@
 	"ArduinoJson.h"
 	"Util.h"
 
-1498349622 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/SensorCommand.h
+1498611662 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/SensorCommand.h
 	"Command.h"
 	"SensorClass.h"
+	<wiringPi.h>
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<sstream>
 
 1498340716 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/SystemActionCommand.h
 	"Command.h"
 
-1498364333 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/SensorCommand.cpp
+1498612441 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/SensorCommand.cpp
 	"SensorCommand.h"
 
 1498364328 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/SystemActionCommand.cpp
 	"SystemActionCommand.h"
 
-1498418494 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/TaskCommand.cpp
+1498619376 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/TaskCommand.cpp
 	"TaskCommand.h"
 
-1498340722 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/TaskCommand.h
+1498739360 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/TaskCommand.h
 	"Command.h"
 	"TaskClass.h"
+	<wiringPi.h>
+	"rc-switch/RCSwitch.h"
 
 1498433719 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/RecurringActionCommand.cpp
 	"RecurringActionCommand.h"
@@ -556,11 +563,12 @@
 1498428415 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/ActionButtonCommand.cpp
 	"ActionButtonCommand.h"
 
-1498433380 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/AppClasses/RecurringActionClass.h
+1498569998 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/AppClasses/RecurringActionClass.h
 	"ActionButtonClass.h"
 	<vector>
+	<sstream>
 
-1498433698 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/AppClasses/RecurringActionClass.cpp
+1498570503 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/AppClasses/RecurringActionClass.cpp
 	"RecurringActionClass.h"
 
 1498349725 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/AppClasses/SensorClass.h
@@ -572,4 +580,10 @@
 
 1498349931 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/AppClasses/SensorClass.cpp
 	"SensorClass.h"
+
+1498618928 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/rc-switch/RCSwitch.h
+	<string.h>
+	<stdlib.h>
+	<wiringPi.h>
+	<stdint.h>
 

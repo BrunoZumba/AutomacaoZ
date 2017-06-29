@@ -27,32 +27,91 @@ bool SensorCommand::createRequestFromJson(){
 
 }
 
-//bool SensorCommand::createRequestFromJson(string json){
-//    StaticJsonBuffer<BUFFER_SIZE> jsonBuffer;
-//    JsonObject& root = jsonBuffer.parseObject(json);
-//
-//    //TODO: tirar essa gambs de primeiro usar um char*
-//    const char* tmp = root["sensorName"];
-//    const char* tmp2 = root["action"];
-//
-//    if ((tmp == NULL) || (tmp2 == NULL)) {
+bool SensorCommand::execute(){
+    //Qtd de vezes que o servidor vai tentar pegar o valor do sensor
+    int retry = 5;
+
+    int dht11_dat[5] = { 0, 0, 0, 0, 0 };
+    uint8_t laststate;
+    uint8_t counter;
+    uint8_t j, i;
+    float   f; /* fahrenheit */
+
+    for (int a = 0; a < retry; a++){
+        laststate       = HIGH;
+        counter         = 0;
+        j               = 0;
+        dht11_dat[0] = dht11_dat[1] = dht11_dat[2] = dht11_dat[3] = dht11_dat[4] = 0;
+
+        /* pull pin down for 18 milliseconds */
+        pinMode( DHTPIN, OUTPUT );
+        digitalWrite( DHTPIN, LOW );
+        delay( 18 );
+        /* then pull it up for 40 microseconds */
+        digitalWrite( DHTPIN, HIGH );
+        delayMicroseconds( 40 );
+        /* prepare to read the pin */
+        pinMode( DHTPIN, INPUT );
+
+        /* detect change and read data */
+        for ( i = 0; i < MAXTIMINGS; i++ ){
+            counter = 0;
+            while ( digitalRead( DHTPIN ) == laststate ){
+                    counter++;
+                    delayMicroseconds( 1 );
+                    if ( counter == 255 ){
+                            break;
+                    }
+            }
+            laststate = digitalRead( DHTPIN );
+
+            if ( counter == 255 )
+                    break;
+
+            /* ignore first 3 transitions */
+            if ( (i >= 4) && (i % 2 == 0) ){
+                /* shove each bit into the storage bytes */
+                dht11_dat[j / 8] <<= 1;
+                if ( counter > 16 )
+                        dht11_dat[j / 8] |= 1;
+                j++;
+            }
+        }
+
+        /*
+         * check we read 40 bits (8bit x 5 ) + verify checksum in the last byte
+         * print it out if data is good
+         */
+        if ( (j >= 40) && (dht11_dat[4] == ( (dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF))){
+            f = dht11_dat[2] * 9. / 5. + 32;
+            printf( "Humidity = %d.%d %% Temperature = %d.%d *C (%.1f *F)\n",dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], f );
+            stringstream ss;
+            if (this->sensor.getSensorName() == "temperatura") {
+                ss << dht11_dat[2];
+                this->createResponse(STATUS_OK, /*"responseSensor",*/ ss.str(), "");
+            } else if (this->sensor.getSensorName() == "umidade") {
+                ss << dht11_dat[0];
+                this->createResponse(STATUS_OK, /*"responseSensor",*/ ss.str(), "");
+            } else {
+                this->createResponse(STATUS_ERROR, /*"responseSensor",*/ "Sensor não reconhecido", "");
+                return false;
+            }
+            return true;
+        }
+    }
+
+
+
+//    if (this->sensor.getSensorName() == "temperatura") {
+//        this->createResponse(STATUS_OK, /*"responseSensor",*/ "27", "");
+//    } else if (this->sensor.getSensorName() == "umidade") {
+//        this->createResponse(STATUS_OK, /*"responseSensor",*/ "57", "");
+//    } else {
+//        this->createResponse(STATUS_ERROR, /*"responseSensor",*/ "Sensor não reconhecido", "");
 //        return false;
 //    }
-//    this->sensorName = string(tmp);
-//    this->action = string(tmp2);
-//
-//    return true;
-//}
 
-bool SensorCommand::execute(){
-    if (this->sensor.getSensorName() == "temperatura") {
-        this->createResponse(STATUS_OK, /*"responseSensor",*/ "27", "");
-    } else if (this->sensor.getSensorName() == "umidade") {
-        this->createResponse(STATUS_OK, /*"responseSensor",*/ "57", "");
-    } else {
-        this->createResponse(STATUS_ERROR, /*"responseSensor",*/ "Sensor não reconhecido", "");
-        return false;
-    }
-    return true;
+    this->createResponse(STATUS_ERROR, /*"responseSensor",*/ "Erro com os sensores", "");
+    return false;
 }
 

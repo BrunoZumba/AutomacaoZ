@@ -3,6 +3,7 @@
 
 #include "ActionButtonClass.h"
 #include <vector>
+#include <sstream>
 
 using namespace std;
 

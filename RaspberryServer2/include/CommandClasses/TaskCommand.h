@@ -1,9 +1,12 @@
 #ifndef COMMANDTASK_H
 #define COMMANDTASK_H
 
-
 #include "Command.h"
 #include "TaskClass.h"
+#include <wiringPi.h>
+#include "rc-switch/RCSwitch.h"
+
+#define PIN 28
 
 using namespace std;
 
