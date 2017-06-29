@@ -28,10 +28,11 @@ bool TaskCommand::execute(){
 
     cout<<"DeviceName: " << this->task.getDeviceName() << "\n";
     if (this->task.getDeviceName().compare("ControleLuz") == 0){
+	cout<<"E controleLuz\n";
         //Prepara os itens para enviar o sinal RF
         int pulseLength = 0;
         if (wiringPiSetup () == -1) {
-            sprintf(buffer, "ERRO! Nao foi possivel identificar o botão pressionado\n");
+            sprintf(buffer, "ERRO! Nao foi possivel inicializar WiringPi\n");
             cout << buffer;
             this->createResponse(STATUS_ERROR, /*"responseCommand",*/ "Erro ao preparar a lib WiringPi", "");
             responseStatus = STATUS_ERROR;
@@ -44,15 +45,18 @@ bool TaskCommand::execute(){
         if (pulseLength != 0) mySwitch.setPulseLength(pulseLength);
         mySwitch.enableTransmit(PIN);
 
-        if (this->task.getButtonName().compare("KEY_ON")){
+        if (this->task.getButtonName().compare("KEY_ON") == 0){
+	    cout<<"Identificou Key ON: "<<this->task.getButtonName()<<"\n";
             int code = 8080;
             mySwitch.send(code, 24);
 
-        } else if (this->task.getButtonName().compare("KEY_OFF")){
+        } else if (this->task.getButtonName().compare("KEY_OFF") == 0){
+	    cout<<"Identificou key off: " << this->task.getButtonName() <<"\n";
             int code = 1;
             mySwitch.send(code, 24);
 
         } else {
+	    cout<<"Identificou porra nenhuma\n";
             sprintf(buffer, "ERRO! Nao foi possivel identificar o botão pressionado\n");
             cout << buffer;
             this->createResponse(STATUS_ERROR, /*"responseCommand",*/ "Erro ao identificar o comando RF", "");

@@ -29,16 +29,19 @@ bool SensorCommand::createRequestFromJson(){
 
 bool SensorCommand::execute(){
     //Qtd de vezes que o servidor vai tentar pegar o valor do sensor
-    int retry = 5;
+    int retry = 10;
 
     int dht11_dat[5] = { 0, 0, 0, 0, 0 };
     uint8_t laststate;
     uint8_t counter;
     uint8_t j, i;
-    float   f; /* fahrenheit */
+    //float   f; /* fahrenheit */
+
+    if ( wiringPiSetup() == -1 )
+                exit( 1 );
 
     for (int a = 0; a < retry; a++){
-        laststate       = HIGH;
+	laststate       = HIGH;
         counter         = 0;
         j               = 0;
         dht11_dat[0] = dht11_dat[1] = dht11_dat[2] = dht11_dat[3] = dht11_dat[4] = 0;
@@ -82,14 +85,14 @@ bool SensorCommand::execute(){
          * check we read 40 bits (8bit x 5 ) + verify checksum in the last byte
          * print it out if data is good
          */
-        if ( (j >= 40) && (dht11_dat[4] == ( (dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF))){
-            f = dht11_dat[2] * 9. / 5. + 32;
-            printf( "Humidity = %d.%d %% Temperature = %d.%d *C (%.1f *F)\n",dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], f );
+	if ( (j >= 40) && (dht11_dat[4] == ( (dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF))){
+	    //f = dht11_dat[2] * 9. / 5. + 32;
+            //printf( "Humidity = %d.%d %% Temperature = %d.%d *C (%.1f *F)\n",dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], f );
             stringstream ss;
-            if (this->sensor.getSensorName() == "temperatura") {
+            if (this->sensor.getSensorName().compare("temperatura") == 0) {
                 ss << dht11_dat[2];
                 this->createResponse(STATUS_OK, /*"responseSensor",*/ ss.str(), "");
-            } else if (this->sensor.getSensorName() == "umidade") {
+            } else if (this->sensor.getSensorName().compare("umidade") == 0) {
                 ss << dht11_dat[0];
                 this->createResponse(STATUS_OK, /*"responseSensor",*/ ss.str(), "");
             } else {
@@ -98,18 +101,8 @@ bool SensorCommand::execute(){
             }
             return true;
         }
+	usleep(200000);
     }
-
-
-
-//    if (this->sensor.getSensorName() == "temperatura") {
-//        this->createResponse(STATUS_OK, /*"responseSensor",*/ "27", "");
-//    } else if (this->sensor.getSensorName() == "umidade") {
-//        this->createResponse(STATUS_OK, /*"responseSensor",*/ "57", "");
-//    } else {
-//        this->createResponse(STATUS_ERROR, /*"responseSensor",*/ "Sensor não reconhecido", "");
-//        return false;
-//    }
 
     this->createResponse(STATUS_ERROR, /*"responseSensor",*/ "Erro com os sensores", "");
     return false;

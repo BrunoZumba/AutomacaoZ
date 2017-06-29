@@ -1,6 +1,6 @@
 #!/bin/bash
-MAIN_PATH="/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2"
-#MAIN_PATH="/home/pi/Desktop/AutomacaoZ.git/trunk/RaspberryServer2"
+#MAIN_PATH="/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2"
+MAIN_PATH="/home/pi/Desktop/AutomacaoZ.git/trunk/RaspberryServer2"
 
 
 g++ -Wall -g -I/usr/local/lib -I$MAIN_PATH/include -I$MAIN_PATH/include/AppClasses -I$MAIN_PATH/src/AppClasses -I$MAIN_PATH/include/CommandClasses -c $MAIN_PATH/main.cpp -o $MAIN_PATH/obj/Debug/main.o
