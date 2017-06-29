@@ -37,8 +37,13 @@ bool SensorCommand::execute(){
     uint8_t j, i;
     //float   f; /* fahrenheit */
 
-    if ( wiringPiSetup() == -1 )
-                exit( 1 );
+    cout<<"lala\n";
+    if ( wiringPiSetup() == -1 ){
+        cout<<"lele\n";
+        this->createResponse(STATUS_ERROR, /*"responseSensor",*/ "Erro ao inicializar wiringPi", "");
+        return false;
+    }
+    cout <<"lili\n";
 
     for (int a = 0; a < retry; a++){
 	laststate       = HIGH;
@@ -85,7 +90,7 @@ bool SensorCommand::execute(){
          * check we read 40 bits (8bit x 5 ) + verify checksum in the last byte
          * print it out if data is good
          */
-	if ( (j >= 40) && (dht11_dat[4] == ( (dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF))){
+        if ( (j >= 40) && (dht11_dat[4] == ( (dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF))){
 	    //f = dht11_dat[2] * 9. / 5. + 32;
             //printf( "Humidity = %d.%d %% Temperature = %d.%d *C (%.1f *F)\n",dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], f );
             stringstream ss;
@@ -101,7 +106,7 @@ bool SensorCommand::execute(){
             }
             return true;
         }
-	usleep(200000);
+        usleep(200000);
     }
 
     this->createResponse(STATUS_ERROR, /*"responseSensor",*/ "Erro com os sensores", "");

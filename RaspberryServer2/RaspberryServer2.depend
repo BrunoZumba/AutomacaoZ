@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1498439815 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
+1498746172 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
 	<stdio.h>
 	<pthread.h>
 	<iostream>
@@ -66,7 +66,7 @@
 	"RecurringActionCommand.h"
 	"ActionButtonCommand.h"
 
-1498439815 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ConnectionHandler.cpp
+1498745516 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ConnectionHandler.cpp
 	"ConnectionHandler.h"
 
 1497963450 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/Task.cpp
@@ -526,13 +526,13 @@
 1498340716 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/SystemActionCommand.h
 	"Command.h"
 
-1498612441 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/SensorCommand.cpp
+1498745425 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/SensorCommand.cpp
 	"SensorCommand.h"
 
 1498364328 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/SystemActionCommand.cpp
 	"SystemActionCommand.h"
 
-1498619376 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/TaskCommand.cpp
+1498744991 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/TaskCommand.cpp
 	"TaskCommand.h"
 
 1498739360 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/TaskCommand.h
@@ -541,7 +541,7 @@
 	<wiringPi.h>
 	"rc-switch/RCSwitch.h"
 
-1498433719 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/RecurringActionCommand.cpp
+1498745164 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/RecurringActionCommand.cpp
 	"RecurringActionCommand.h"
 
 1498340520 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/RecurringActionCommand.h
@@ -560,7 +560,7 @@
 	"ArduinoJson.h"
 	"TaskCommand.h"
 
-1498428415 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/ActionButtonCommand.cpp
+1498744998 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/ActionButtonCommand.cpp
 	"ActionButtonCommand.h"
 
 1498569998 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/AppClasses/RecurringActionClass.h

@@ -54,9 +54,9 @@ bool RecurringActionCommand::execute(){
         this->createResponse(STATUS_OK, /*"getListResponse",*/ "Sucesso", arrayStr);
         return true;
 
-    } else { //coloquei esse else separado pois tanto saveList quanto deleteList preicsa percorrer o arquivo até achar a ocorrencia
+    } else { //coloquei esse else separado pois tanto saveRecurringAction quanto deleteRecurringAction preicsa percorrer o arquivo até achar a ocorrencia
         bool existeAcao = false;
-        //Se a ação for saveList, percorre todo o arquivo de ações recorrentes verificando se não existe uma ação com esse nome
+        //Se a ação for saveRecurringAction, percorre todo o arquivo de ações recorrentes verificando se não existe uma ação com esse nome
         for(unsigned int i = 0; i < root.size(); i++){
 
             RecurringActionClass recActTask = RecurringActionClass();
@@ -66,7 +66,7 @@ bool RecurringActionCommand::execute(){
             if (recActTask.getRecActName() == this->recurringAction.getRecActName()){
                 existeAcao = true;
 
-                if (this->requestAction == "saveList"){
+                if (this->requestAction == "saveRecurringAction"){
                     if (this->requestOverwrite){
                         //sobrescreve a ação na posição corrente 'i'
                         util::saveToFile(file, (string)this->recurringAction.parseToJson(), i, RECURRING_ACTION_FILE);
@@ -76,7 +76,7 @@ bool RecurringActionCommand::execute(){
                         this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Já existe Ação Recorrente com este nome","requestOverwrite");
                         return false;
                     }
-                } else if (this->requestAction == "deleteList"){
+                } else if (this->requestAction == "deleteRecurringAction"){
                     util::deleteFromFile(file, i, RECURRING_ACTION_FILE);
                     this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação Recorrente deletada com sucesso","");
                 }
@@ -86,11 +86,11 @@ bool RecurringActionCommand::execute(){
 
         //se a acao nao foi encontrada no arquivo, adiciona ela no final do arquivo.
         if(!existeAcao){
-            if (this->requestAction == "saveList"){
+            if (this->requestAction == "saveRecurringAction"){
                 cout<<"Nao achou a ação. Adicionando ao final\n";
                 util::saveToFile(file, this->recurringAction.parseToJson(), -1, RECURRING_ACTION_FILE);
                 this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação Recorrente inserida com sucesso","");
-            } else if (this->requestAction == "deleteList"){
+            } else if (this->requestAction == "deleteRecurringAction"){
                 this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Não há Ação Recorrente com este nome","");
             }
         }

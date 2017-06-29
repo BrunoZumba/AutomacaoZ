@@ -99,7 +99,7 @@ bool ActionButtonCommand::execute(){
             if (actBtClass.getActionName() == this->actionButton.getActionName()){
                 existeAcao = true;
 
-                if (this->requestAction == "saveList"){
+                if (this->requestAction == "saveActionButton"){
                     if (this->requestOverwrite){
                         //sobrescreve a ação na posição corrente 'i'
                         util::saveToFile(file, (string)this->actionButton.parseToJson(), i, ACTION_BUTTON_FILE);
@@ -109,7 +109,7 @@ bool ActionButtonCommand::execute(){
                         this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Já existe Ação com este nome","requestOverwrite");
                         return false;
                     }
-                } else if (this->requestAction == "deleteList"){
+                } else if (this->requestAction == "deleteActionButton"){
                     util::deleteFromFile(file, i, ACTION_BUTTON_FILE);
                     this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação deletada com sucesso","");
                 }
@@ -119,11 +119,11 @@ bool ActionButtonCommand::execute(){
 
         //se a acao nao foi encontrada no arquivo, adiciona ela no final do arquivo.
         if(!existeAcao) {
-            if (this->requestAction == "saveList"){
+            if (this->requestAction == "saveActionButton"){
                 cout<<"Nao achou a ação. Adicionando ao final\n";
                 util::saveToFile(file, this->actionButton.parseToJson(), -1, ACTION_BUTTON_FILE);
                 this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação inserida com sucesso","");
-            } else if (this->requestAction == "deleteList"){
+            } else if (this->requestAction == "deleteActionButton"){
                 this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Não há Ação com este nome","");
             }
         }

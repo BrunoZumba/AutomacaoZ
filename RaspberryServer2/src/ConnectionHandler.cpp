@@ -56,10 +56,13 @@ void ConnectionHandler::working(){
 			break;}
 			case 8742:{
 				SensorCommand sensorCommand = SensorCommand(buffer);
+				cout<<"criou\n";
 				if (!sensorCommand.createRequestFromJson()){
+                    cout<<"erro no parse\n";
 					sensorCommand.createResponse(STATUS_ERROR, /*"responseSensor",*/ "Erro ao interpretar a mensagem JSON", "");
 				} else {
                     sensorCommand.execute();
+                    cout<<"executou \n";
 				}
 
                 bzero(buffer, BUFFER_SIZE);
