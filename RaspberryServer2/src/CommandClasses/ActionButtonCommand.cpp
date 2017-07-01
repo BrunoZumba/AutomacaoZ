@@ -38,7 +38,7 @@ bool ActionButtonCommand::execute(){
                 //Se der erro em um comando, não deixa de enviar os outros. Ou deveria deixar?
                 error = true;
             }
-            usleep(200000); // espera 0.2 segundos entre um comando e outro.
+            usleep(1000000); // espera 0.2 segundos entre um comando e outro.
         }
 
         if (error){
@@ -46,7 +46,7 @@ bool ActionButtonCommand::execute(){
             return false;
         }
 
-        this->createResponse(STATUS_ERROR, /*"responseCommand",*/ "Ação executada com sucesso", "");
+        this->createResponse(STATUS_OK, /*"responseCommand",*/ "Ação executada com sucesso", "");
         return true;
 
     }
