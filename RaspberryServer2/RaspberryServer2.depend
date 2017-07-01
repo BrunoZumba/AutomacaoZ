@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1498746172 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
+1498746512 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/main.cpp
 	<stdio.h>
 	<pthread.h>
 	<iostream>
@@ -526,13 +526,13 @@
 1498340716 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/SystemActionCommand.h
 	"Command.h"
 
-1498745425 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/SensorCommand.cpp
+1498746701 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/SensorCommand.cpp
 	"SensorCommand.h"
 
 1498364328 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/SystemActionCommand.cpp
 	"SystemActionCommand.h"
 
-1498744991 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/TaskCommand.cpp
+1498746703 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/TaskCommand.cpp
 	"TaskCommand.h"
 
 1498739360 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/TaskCommand.h

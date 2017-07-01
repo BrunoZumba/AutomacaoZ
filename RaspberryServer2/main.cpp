@@ -26,13 +26,6 @@ using namespace std;
 
 
 int main(){
-    #ifdef __arm__
-        cout <<"To num arm\n";
-    #else
-        cout <<"nao to no arm\n";
-    #endif
-
-    cout<<"UserName: " << getenv("USER")<<"\n";
     int portas[QTD_SERVICOS] = {4391, 8742, 8168, 5223,6292};
     pthread_t threads[QTD_SERVICOS];
     int i, rc;

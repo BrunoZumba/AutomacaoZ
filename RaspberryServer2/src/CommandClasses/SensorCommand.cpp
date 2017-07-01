@@ -28,6 +28,11 @@ bool SensorCommand::createRequestFromJson(){
 }
 
 bool SensorCommand::execute(){
+    #ifndef __arm__ //Verifica se o codigo esta rodando no RaspberryPi. Caso contrario, retorna false
+        this->createResponse(STATUS_ERROR, /*"responseSensor",*/ "Necessário server estar no RPi para este serviço", "");
+        return false;
+    #endif // __arm__
+
     //Qtd de vezes que o servidor vai tentar pegar o valor do sensor
     int retry = 10;
 
@@ -37,16 +42,13 @@ bool SensorCommand::execute(){
     uint8_t j, i;
     //float   f; /* fahrenheit */
 
-    cout<<"lala\n";
     if ( wiringPiSetup() == -1 ){
-        cout<<"lele\n";
-        this->createResponse(STATUS_ERROR, /*"responseSensor",*/ "Erro ao inicializar wiringPi", "");
+        this->createResponse(STATUS_ERROR, /*"responseSensor",*/ "Erro ao iniciar a lib WiringPi", "");
         return false;
     }
-    cout <<"lili\n";
 
     for (int a = 0; a < retry; a++){
-	laststate       = HIGH;
+        laststate       = HIGH;
         counter         = 0;
         j               = 0;
         dht11_dat[0] = dht11_dat[1] = dht11_dat[2] = dht11_dat[3] = dht11_dat[4] = 0;

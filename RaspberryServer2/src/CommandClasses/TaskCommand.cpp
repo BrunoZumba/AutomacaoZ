@@ -26,9 +26,11 @@ bool TaskCommand::execute(){
     int lircSock = util::GetLircSocket();
     char buffer[BUFFER_SIZE];
 
-    cout<<"DeviceName: " << this->task.getDeviceName() << "\n";
     if (this->task.getDeviceName().compare("ControleLuz") == 0){
-	cout<<"E controleLuz\n";
+        #ifndef __arm__ //Verifica se o codigo esta rodando no RaspberryPi. Caso contrario, retorna false
+            this->createResponse(STATUS_ERROR, /*"responseSensor",*/ "Necessário server estar no RPi para este serviço", "");
+            return false;
+        #endif // __arm__
         //Prepara os itens para enviar o sinal RF
         int pulseLength = 0;
         if (wiringPiSetup () == -1) {
@@ -46,17 +48,14 @@ bool TaskCommand::execute(){
         mySwitch.enableTransmit(PIN);
 
         if (this->task.getButtonName().compare("KEY_ON") == 0){
-	    cout<<"Identificou Key ON: "<<this->task.getButtonName()<<"\n";
             int code = 8080;
             mySwitch.send(code, 24);
 
         } else if (this->task.getButtonName().compare("KEY_OFF") == 0){
-	    cout<<"Identificou key off: " << this->task.getButtonName() <<"\n";
             int code = 1;
             mySwitch.send(code, 24);
 
         } else {
-	    cout<<"Identificou porra nenhuma\n";
             sprintf(buffer, "ERRO! Nao foi possivel identificar o botão pressionado\n");
             cout << buffer;
             this->createResponse(STATUS_ERROR, /*"responseCommand",*/ "Erro ao identificar o comando RF", "");

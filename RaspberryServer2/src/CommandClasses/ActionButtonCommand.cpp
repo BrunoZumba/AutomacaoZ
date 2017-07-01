@@ -79,8 +79,23 @@ bool ActionButtonCommand::execute(){
         root.add(jsonBuffer.parseObject(jsonDuplicate));
     }
 
+    if(this->requestAction.compare("getAction") == 0){
 
-    if(this->requestAction == "getList"){
+        for (unsigned short i = 0; i < root.size(); i++) {
+            ActionButtonClass actBt = ActionButtonClass();
+            actBt.createFromJson(root[i]);
+
+            if(actBt.getActionName().compare(this->actionButton.getActionName()) == 0){
+                string returnStr = actBt.parseToJson();
+                cout<<"Achou no indice: "<<i<<". Resposta: "<<returnStr<<"\n";
+                this->createResponse(STATUS_OK, /*"getListResponse",*/ "Sucesso", returnStr);
+                return true;
+            }
+        }
+        cout<<"Não achou nada com nome "<<this->actionButton.getActionName()<<"\n";
+        this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Não existe ação com o nome '"+this->actionButton.getActionName()+"'","");
+        return false;
+    } else if(this->requestAction == "getList"){
         //Se a ação for getList, cria a resposta com uma string do JsonArray
         string arrayStr;
         root.printTo(arrayStr);
