@@ -1,6 +1,6 @@
 #include "RecurringActionClass.h"
 
-RecurringActionClass::RecurringActionClass(string _name, ActionButtonClass _recActActionButton, vector<long> _recActDates, vector<long> _recActTimes){
+RecurringActionClass::RecurringActionClass(string _name, ActionButtonClass _recActActionButton, vector<long long> _recActDates, vector<long long> _recActTimes){
     this->recActName = _name;
     this->recActActionButton = _recActActionButton;
     this->recActDates = _recActDates;
@@ -15,13 +15,14 @@ bool RecurringActionClass::createFromJson(string json){
 
     JsonArray& recActDatesArray = root["recActDates"];
     for (unsigned short i = 0; i < recActDatesArray.size(); i++){
-        long date = recActDatesArray[i];
+	string str = recActDatesArray[i];
+        long long date = atoll(str.c_str());
         this->recActDates.insert(this->recActDates.end(), date);
     }
 
     JsonArray& recActTimesArray = root["recActTimes"];
     for (unsigned short i = 0; i < recActTimesArray.size(); i++) {
-        long time = recActTimesArray[i];
+        long long time = atoll(recActTimesArray[i]);
         this->recActTimes.insert(this->recActTimes.end(),time);
     }
 
@@ -76,5 +77,5 @@ string RecurringActionClass::parseToJson(){
 
 string RecurringActionClass::getRecActName(){return this->recActName;}
 ActionButtonClass RecurringActionClass::getRecActActionButton(){ return this->recActActionButton;}
-vector<long> RecurringActionClass::getRecActDates(){return this->recActDates;}
-vector<long> RecurringActionClass::getRecActTimes(){return this->recActTimes;}
+vector<long long> RecurringActionClass::getRecActDates(){return this->recActDates;}
+vector<long long> RecurringActionClass::getRecActTimes(){return this->recActTimes;}

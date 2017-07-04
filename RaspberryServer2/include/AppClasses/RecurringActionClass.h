@@ -4,6 +4,7 @@
 #include "ActionButtonClass.h"
 #include <vector>
 #include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -11,27 +12,27 @@ using namespace std;
 class RecurringActionClass {
     public:
         RecurringActionClass();
-        RecurringActionClass(string, ActionButtonClass, vector<long>, vector<long>);
+        RecurringActionClass(string, ActionButtonClass, vector<long long>, vector<long long>);
         virtual ~RecurringActionClass();
 
 
         string getRecActName();
         ActionButtonClass getRecActActionButton();
-        vector<long> getRecActDates();
-        vector<long> getRecActTimes();
+        vector<long long> getRecActDates();
+        vector<long long> getRecActTimes();
 
         void setRecActName(string);
         void setRecActActionButton(ActionButtonClass);
-        void setRecActDates(vector<long>);
-        void setRecActTimes(vector<long>);
+        void setRecActDates(vector<long long>);
+        void setRecActTimes(vector<long long>);
 
         bool createFromJson(string);
         string parseToJson();
 
         //Queues nao foram declaradas privadas pq dava problema no queue.pop();
-        vector<long> recActTimes;
+        vector<long long> recActTimes;
         ActionButtonClass recActActionButton;
-        vector<long> recActDates;
+        vector<long long> recActDates;
 
     protected:
 
