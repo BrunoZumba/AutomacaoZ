@@ -117,7 +117,7 @@ public class Communication {
 
             //Envia todas as TASKS do array para o servidor enquanto a resposta do servidor
             //estiver sendo sucesso. Se alguma mensagem falhar e obtiver resposta de erro
-            //já sai do "for" e emite alerta de erro
+            //já sai do "for" e emite nfcAlert de erro
             responseStatus = STATUS_OK;
             for (int i = 0; ((i < taskArray.length()) && (responseStatus == STATUS_OK)); i++) {
                 try {

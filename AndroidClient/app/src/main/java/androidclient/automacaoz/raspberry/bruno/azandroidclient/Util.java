@@ -19,6 +19,8 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Bruno on 24/05/2017.
@@ -39,6 +41,9 @@ public class Util {
 
     private static Util instance = new Util();
 
+    public static final Calendar nextYear = Calendar.getInstance();
+    public static final Calendar lastYear = Calendar.getInstance();
+
 
     private TextView responseTextView;
 
@@ -49,6 +54,24 @@ public class Util {
         return instance;
     }
 
+    /**
+     * Compara uma List<Long> retornando o menor e o maior valor
+     * @param list
+     * @return [0] retorno o menor valor e [1] retorna o maior
+     */
+    public static Long[] getMinMax(List<Long> list){
+        if(list.size() == 0) {
+            Log.e(TAG, "Tentativa de comprar Lista vazia");
+            return null;
+        }
+        Long[] longArray = {list.get(0), list.get(0)};
+
+        for(int i = 0; i < list.size(); i++){
+            if(list.get(i) < longArray[0]) longArray[0] = list.get(i);
+            else if(list.get(i) > longArray[1]) longArray[1] = list.get(i);
+        }
+        return longArray;
+    }
     /**
      * A partir do Intent de um NDEF_DISCOVERY_ACTION, busca todas NdefMessage desta acao
      * @param intent

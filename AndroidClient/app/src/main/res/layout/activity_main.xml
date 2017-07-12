@@ -13,13 +13,28 @@
         android:background="@drawable/simple_black_border"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/editText4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Dados do Ambiente"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/editText4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:text="Temperatura"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/editText5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:text="Umidade Relativa"
             android:textColor="@color/colorBlack" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,7 +70,7 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="10dp" />
-
+<!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -120,7 +135,7 @@
 
         </LinearLayout>
     </LinearLayout>
-
+-->
     <Space
         android:layout_width="match_parent"
         android:layout_height="10dp" />

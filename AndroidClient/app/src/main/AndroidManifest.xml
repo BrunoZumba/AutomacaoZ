@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -25,25 +26,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".DeviceDisplayActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".ManageActionActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".NfcReadActivity"
+            android:theme="@android:style/Theme.NoDisplay"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
+
+
+        <receiver android:name=".NfcReadActivity"
+            android:screenOrientation="portrait">
+            <intent-filter android:priority="100">
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"
+                    android:enabled="true"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".RecurringActionActivity" />
         <activity android:name=".ManageRecurringActionActivity"/>
     </application>
 
 </manifest>
+    <!-- android:theme="@android:style/Theme.Translucent.NoTitleBar" -->

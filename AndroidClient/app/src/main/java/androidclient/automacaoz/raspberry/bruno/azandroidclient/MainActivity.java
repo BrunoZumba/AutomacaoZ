@@ -8,6 +8,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +26,7 @@ import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.timessquare.CalendarPickerView;
 
@@ -42,6 +44,7 @@ import java.util.Map;
 import androidclient.automacaoz.raspberry.bruno.azandroidclient.AppClasses.ActionButtonClass;
 import androidclient.automacaoz.raspberry.bruno.azandroidclient.AppClasses.SensorClass;
 import androidclient.automacaoz.raspberry.bruno.azandroidclient.CommandClasses.ActionButtonCommand;
+import androidclient.automacaoz.raspberry.bruno.azandroidclient.CommandClasses.Command;
 import androidclient.automacaoz.raspberry.bruno.azandroidclient.CommandClasses.SensorCommand;
 /** Documentação técnica/teórica:
  *
@@ -62,9 +65,13 @@ import androidclient.automacaoz.raspberry.bruno.azandroidclient.CommandClasses.S
  */
 
 /**
- * TODO: Se o usuário já gravou uma ação e altera algo no botão, não muda a string da ação. R: Gravar o ID do botão e pegar a string de comando on the fly?
  * TODO: Quando eu adiciono botões no layout, o ID dos botões mudam, cagando as ações que já existem.
  * TODO: Colocar o IP do edit text do devicesDisplay no SERVER_IP da classe UTIL
+ *
+ * TODO: quando o usuario apaga uma ação, verificar se essa ação está relacionada em alguma Ação Recorrente
+ *       R: Colocar o arquivo do RPi num BD.
+ *
+ * TODO: QUANDO ACTION TÁ GRANDE, VERIFICAR BUFFER NO RPI
  */
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MAIN_ACTIVITY";
@@ -139,8 +146,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
-        super.onResume();
+    protected void onStart(){
+        super.onStart();
         savedActionsLayout.removeAllViews();
 
         //Pega as ações salvas no servidor e cria a lista com botões das ações
@@ -153,6 +160,22 @@ public class MainActivity extends AppCompatActivity {
 
         SensorCommand sensorCommandUmidade = new SensorCommand("sensorCommand", false, Util.SERVER_IP, Util.SENSOR_PORT, tvUmidade, new SensorClass(tvUmidade.getTag().toString()));
         sensorCommandUmidade.sendData();
+    }
+
+    public static void processResponse(final ActionButtonCommand response){
+        if (response.getRequestAction().equals("getList")){
+            switch (response.getResponseStatus()) {
+                case (Command.STATUS_ERROR):
+                    Toast.makeText(MainActivity.activity.getApplicationContext(), response.getResponseDesc(), Toast.LENGTH_SHORT).show();
+                    break;
+
+                case (Command.STATUS_OK):
+                    MainActivity.inflateActionButtonLayout(response.getResponseParm());
+                    break;
+            }
+        } else if (response.getRequestAction().equals("executeActionButton")){
+            Toast.makeText(MainActivity.activity.getApplicationContext(), response.getResponseDesc(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -216,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
                 comm.sendData();
                 return true;
             case R.id.miRecAction:
-                Intent intent = new Intent(this, ManageRecurringActionActivity.class);
+                Intent intent = new Intent(this, RecurringActionActivity.class);
                 startActivity(intent);
                 return true;
             default:

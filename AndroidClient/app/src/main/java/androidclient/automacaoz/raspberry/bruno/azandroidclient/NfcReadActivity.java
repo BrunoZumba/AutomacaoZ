@@ -1,27 +1,25 @@
 package androidclient.automacaoz.raspberry.bruno.azandroidclient;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import androidclient.automacaoz.raspberry.bruno.azandroidclient.AppClasses.ActionButtonClass;
+import androidclient.automacaoz.raspberry.bruno.azandroidclient.CommandClasses.ActionButtonCommand;
 
-public class NfcReadActivity extends AppCompatActivity {
-    private final String TAG = "NFC_READ_ACTIVITY";
+public class NfcReadActivity extends Activity {
+    private static final String TAG = "NFC_READ_ACTIVITY";
+
+    public static Activity activity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nfc_read);
+//        setContentView(R.layout.activity_nfc_read);
+
+        activity = this;
 
     }
 
@@ -29,42 +27,60 @@ public class NfcReadActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
 
+        NfcAdapter.getDefaultAdapter(getApplicationContext()).disableForegroundDispatch(NfcReadActivity.activity);
         Intent intent = getIntent();
+        NfcReadSingleton.getInstance().readNFC(this, intent);
+        this.finish();
 
         //Verifica se o INTENT recebido e um ACTION_NDEF_DISCOVERED
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+//        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
+//            //Pega todas as NdefMessages do INTENT.
+//            // Só terá 1 NDEF = Nome da Acao
+//            NdefMessage[] msgs = Util.getInstance().getAllNdefMessages(intent);
+//
+//            for (int i = 0; i < msgs.length; i++){
+//                for (int j = 0; j < msgs[i].getRecords().length; j++){
+//
+//                    //Baseado no nome da acao, recuperado no NFC, busca a acao no SharedPref
+//                    String actionName =  parseNFCPayload(msgs[i].getRecords()[j].getPayload());
+//
+//                    //Para evitar que a mesma etiqueta fique disparando várias ações enquanto o usuário está com ela perto,
+//                    //Verifica se esta ação já não está sendo executada:
+//                    Log.i(TAG, "Active Actions size antes: "+NfcReadActivity.activeActions.size());
+//                    for (int a = 0; a < NfcReadActivity.activeActions.size(); a++){
+//                        Log.i(TAG, "A: "+a);
+//                        if (NfcReadActivity.activeActions.get(a).equals(actionName)){
+//                            Log.i(TAG, "Ação '"+actionName+"' já está em execução");
+//                            return;
+//                        }
+//                    }
+//                    NfcReadActivity.activeActions.add(actionName);
+//                    Log.i(TAG, "Adicionou '"+actionName+"' no array");
+//                    Log.i(TAG, "Active Actions size depois: "+NfcReadActivity.activeActions.size()+"\n\n");
+//
+//
+//                    //Pega as ações salvas no servidor e cria a lista com botões das ações
+//                    ActionButtonClass actBtClass = new ActionButtonClass(actionName, new ActionClass("[]"));
+//                    ActionButtonCommand actionButtonCommand = new ActionButtonCommand("getAction", false, Util.SERVER_IP, Util.ACTION_BUTTON_PORT, null, actBtClass);
+//                    actionButtonCommand.sendData(this);
+//
+//                }
+//            }
+//        }
+//        this.finish();
+    }
 
-            //Pega todas as NdefMessages do INTENT.
-            // Só terá 1 NDEF = Nome da Acao
-            NdefMessage[] msgs = Util.getInstance().getAllNdefMessages(intent);
-
-            for (int i = 0; i < msgs.length; i++){
-                for (int j = 0; j < msgs[i].getRecords().length; j++){
-
-                    //Baseado no nome da acao, recuperado no NFC, busca a acao no SharedPref
-                    String actionName =  parseNFCPayload(msgs[i].getRecords()[j].getPayload());
-                    SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(ManageActionActivity.ACTION_FILE_KEY, Context.MODE_PRIVATE);
-                    String actionString = sharedPref.getString(actionName, "");
-
-                    //Verifica se ha uma acao no SharedPref com esse nome
-                    if (actionString == ""){
-                        Toast.makeText(getApplicationContext(), "Não há ação cadastrada para este comando ("+actionName+")", Toast.LENGTH_LONG).show();
-                        finish();
-                        return;
-                    }
-
-
-                    Communication comm = new Communication(actionString, Util.SERVER_IP, Util.COMMAND_PORT, null);
-                    if ((actionString == null) || (!comm.sendData())){
-                        Toast.makeText(getApplicationContext(), "Erro ao enviar o comando", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    Toast.makeText(getApplicationContext(), "Comando enviado", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        }
-        this.finish();
+    /**
+     * Processa o retorno da solicitação do 'getAction' enviada pelo metodo "onResume", acima.
+     * Se o metodo 'getAction' retornar uma ação válida, o método abaixo envia essa ação para o servidor.
+     *
+     * Se o metodo 'getAction' não retornar uma ação válida, a resposta é tratada diretamente pelo 'actionButtonCommand.sendData(this);'
+     * @param actionButton
+     */
+    public static void processReturn(ActionButtonClass actionButton){
+        ActionButtonCommand actionButtonCommand = new ActionButtonCommand("executeActionButton", false, Util.SERVER_IP, Util.ACTION_BUTTON_PORT, null, actionButton);
+//        Log.i("NFC_READ_ACTIVITY", "Chamando a ação. Lista: "+NfcReadActivity.activeActions.toString() );
+        actionButtonCommand.sendData(NfcReadActivity.activity);
     }
 
     public static String parseNFCPayload(byte[] payload){
@@ -102,4 +118,6 @@ public class NfcReadActivity extends AppCompatActivity {
             throw new RuntimeException("Record Parsing Failure!!");
         }
     }
+
+
 }

@@ -49,13 +49,13 @@ public class RecurringActionClass {
             this.recActDates = new ArrayList<>();
             JSONArray datesJson = json.getJSONArray("recActDates");
             for(int i = 0; i < datesJson.length(); i++){
-                this.recActDates.add(Long.getLong(datesJson.get(i).toString()));
+                this.recActDates.add(Long.valueOf(datesJson.get(i).toString()));
             }
 
             this.recActTimes = new ArrayList<>();
             JSONArray timesJson = json.getJSONArray("recActTimes");
             for(int i = 0; i < timesJson.length(); i++){
-                this.recActTimes.add(Long.getLong(timesJson.get(i).toString()));
+                this.recActTimes.add(Long.valueOf(timesJson.get(i).toString()));
             }
 
             this.recActActionButton = new ActionButtonClass(json.getString("recActActionButton"));
@@ -72,10 +72,10 @@ public class RecurringActionClass {
         JSONObject json = new JSONObject();
 
         for (int i = 0; i < recActDates.size(); i ++){
-            jsonDates.put(recActDates.get(i));
+            jsonDates.put(recActDates.get(i).toString());
         }
         for (int i = 0; i < recActTimes.size(); i ++){
-            jsonTimes.put(recActTimes.get(i));
+            jsonTimes.put(recActTimes.get(i).toString());
         }
 
         try {
@@ -89,6 +89,7 @@ public class RecurringActionClass {
             return null;
         }
 
+        Log.i(TAG, "ParseJson todo: "+json.toString());
         return json.toString();
     }
 

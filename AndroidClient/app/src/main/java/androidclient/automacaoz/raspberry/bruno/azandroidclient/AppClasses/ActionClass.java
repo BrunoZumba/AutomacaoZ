@@ -21,7 +21,6 @@ public class ActionClass {
         this.actions = actions;
     }
     public ActionClass(String jsonArray){
-        Log.i(TAG, "jsonObj da action: "+jsonArray);
         JSONArray array = null;
         try {
             array = new JSONArray(jsonArray);

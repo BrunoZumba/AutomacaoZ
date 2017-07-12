@@ -320,6 +320,7 @@
                     android:tag="{&quot;deviceName&quot;:&quot;ControleLuz&quot;,&quot;buttonName&quot;:&quot;KEY_OFF&quot;,&quot;mode&quot;:&quot;SEND_ONCE&quot;}"
                     android:text="Off" />
 
+                <!--
                 <Button
                     android:id="@+id/btLuz25"
                     android:layout_width="match_parent"
@@ -370,6 +371,7 @@
                         android:text="Down" />
 
                 </LinearLayout>
+                -->
             </LinearLayout>
 
         </LinearLayout>

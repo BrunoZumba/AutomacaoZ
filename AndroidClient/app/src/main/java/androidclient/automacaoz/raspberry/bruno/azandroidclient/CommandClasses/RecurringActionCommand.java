@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import androidclient.automacaoz.raspberry.bruno.azandroidclient.AppClasses.RecurringActionClass;
 import androidclient.automacaoz.raspberry.bruno.azandroidclient.MainActivity;
 import androidclient.automacaoz.raspberry.bruno.azandroidclient.ManageRecurringActionActivity;
+import androidclient.automacaoz.raspberry.bruno.azandroidclient.RecurringActionActivity;
 
 /**
  * Created by Bruno on 25/06/2017.
@@ -41,10 +42,10 @@ public class RecurringActionCommand extends Command {
      * Envia a mensagem para o servidor
      * @return True se sucesso; False caso contrario
      */
-    public boolean sendData(){
+    public boolean sendData(Activity act){
         super.parseRequestToJson();
 
-        if(recurringAction != null) {
+        if (recurringAction != null) {
             try {
                 requestJson.put("recurringAction", new JSONObject(recurringAction.parseToJson()));
             } catch (JSONException e) {
@@ -54,8 +55,9 @@ public class RecurringActionCommand extends Command {
             }
         }
 
+
         if (getTvResponse()!= null) getTvResponse().setText("");
-        new RecActCmdAsyncSendData().execute();
+        new RecActCmdAsyncSendData().execute(act);
 
         return true;
     }
@@ -63,16 +65,16 @@ public class RecurringActionCommand extends Command {
     /**
      * AsyncTask usada para enviar a mensagem e não travar a UI MainThread do aplicativo
      */
-    private class RecActCmdAsyncSendData extends AsyncTask<Void, Void, Void> {
+    private class RecActCmdAsyncSendData extends AsyncTask<Activity, Void, Activity> {
         @Override
-        protected Void doInBackground(Void... b){
+        protected Activity doInBackground(Activity... b){
             fatherClass.sendAndReceiveData();
 
-            return null;
+            return b[0];
         }
 
         @Override
-        protected void onPostExecute(Void c){
+        protected void onPostExecute(Activity c){
             //Analisa a resposta do servidor, analisando se já existe a ação e perguntando se o usuário quer overwrite
             if (fatherClass.getResponseAction() == null){
                 //responseAction ser null significa que não houve conexão com o servidor
@@ -101,7 +103,7 @@ public class RecurringActionCommand extends Command {
                                 //Altera para overwrite = true e envia a ação de novo
                                 public void onClick(DialogInterface arg0, int arg1) {
                                     fatherClass.setRequestOverwrite(true);
-                                    sendData();
+                                    sendData(ManageRecurringActionActivity.activity);
 
                                     alerta.dismiss();
                                 }
@@ -115,46 +117,7 @@ public class RecurringActionCommand extends Command {
                     break;
                 case (STATUS_OK):
                     if(getRequestAction().equals("getList")){
-//                        JSONArray jsonArray;
-//                        try {
-//                            jsonArray = new JSONArray(fatherClass.getResponseParm());
-//                            List<ActionButtonClass> actionButtons = new ArrayList<>();
-//                            for(int i = 0; i < jsonArray.length(); i++){
-//                                ActionButtonClass actBt = new ActionButtonClass(jsonArray.get(i).toString());
-//                                LinearLayout line = new LinearLayout(MainActivity.activity);
-//
-//                                //Cria o botão da ação em si
-//                                Button btAction = new Button(MainActivity.activity);
-//                                btAction.setText(actBt.getActionName());
-//                                btAction.setTag(actBt.getAction().parseToJson());
-//                                btAction.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,150,0.5f));
-//                                btAction.setOnClickListener(new ExecuteActionClickListener());
-//                                btAction.setTransformationMethod(null);
-//
-//                                //Cria o botão para editar a ação
-//                                Button btEdit = new Button(MainActivity.activity);
-//                                btEdit.setText("Edit");
-//                                btEdit.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,100,1f));
-//                                JSONObject actionButton = new JSONObject();
-//                                try {
-//                                    actionButton.put("actionName", btAction.getText().toString());
-//                                    actionButton.put("action",new JSONArray(actBt.getAction().parseToJson()));
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//
-//                                btEdit.setTag(actionButton.toString());
-//                                btEdit.setOnClickListener(new EditActionClickListener());
-//
-//                                line.addView(btAction);
-//                                line.addView(btEdit);
-//                                MainActivity.savedActionsLayout.addView(line);
-//                            }
-//
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
+                        RecurringActionActivity.inflateRecurringActionLayout(fatherClass.getResponseParm());
                     } else {
                         Toast.makeText(ManageRecurringActionActivity.activity.getApplicationContext(), fatherClass.getResponseDesc(), Toast.LENGTH_SHORT).show();
                         ManageRecurringActionActivity.activity.finish();

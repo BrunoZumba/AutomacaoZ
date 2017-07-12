@@ -34,7 +34,7 @@ public class DeviceDisplayActivity extends AppCompatActivity {
             "btNetKey0","btNetKey1","btNetKey2","btNetKey3","btNetKey4","btNetKey5","btNetKey6",
             "btNetKey7","btNetKey8","btNetKey9",
             "btTVPower","btTVVolumeUp","btTvVolueDown","btTvMute",
-            "btLuzOn","btLuzOff","btLuzDown", "btLuzUp","btLuz25","btLuz50","btLuz75","btLuz100"};
+            "btLuzOn","btLuzOff"/*,"btLuzDown", "btLuzUp","btLuz25","btLuz50","btLuz75","btLuz100"*/};
 
 
     @Override
@@ -42,8 +42,8 @@ public class DeviceDisplayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_display);
         tvResponse = (TextView) findViewById(R.id.tvResponse);
-        etIp = (EditText) findViewById(R.id.tvIp);
-        ip = etIp.getText().toString();
+//        etIp = (EditText) findViewById(R.id.tvIp);
+//        ip = etIp.getText().toString();
 
         //Cria o array de botoes e adiciona o listener para executar a acao em cada um
         buttonList = new ArrayList<>();

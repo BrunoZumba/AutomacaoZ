@@ -5,11 +5,13 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.util.SortedList;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.Gravity;
@@ -29,18 +31,24 @@ import com.squareup.timessquare.CalendarPickerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import androidclient.automacaoz.raspberry.bruno.azandroidclient.AppClasses.ActionButtonClass;
 import androidclient.automacaoz.raspberry.bruno.azandroidclient.AppClasses.ActionClass;
 import androidclient.automacaoz.raspberry.bruno.azandroidclient.AppClasses.RecurringActionClass;
 import androidclient.automacaoz.raspberry.bruno.azandroidclient.AppClasses.TaskButtonClass;
 import androidclient.automacaoz.raspberry.bruno.azandroidclient.CommandClasses.ActionButtonCommand;
+import androidclient.automacaoz.raspberry.bruno.azandroidclient.CommandClasses.Command;
 import androidclient.automacaoz.raspberry.bruno.azandroidclient.CommandClasses.RecurringActionCommand;
 
 public class ManageRecurringActionActivity extends AppCompatActivity {
@@ -57,12 +65,10 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
 //    static List<Long> times; //A Lista que armazendo as "horas" e "minutos" desta ação recorrente
 
 
-    private CalendarPickerView calendar; //Instancia do Calendar dentro desta tela
+    private static CalendarPickerView calendar; //Instancia do Calendar dentro desta tela
 
     /** Feito static para ser acessado de dentro de uma subclasse */
     private static List<Date> selecteDates; //Datas selecionadas no CalendarPickerView
-    private static final Calendar nextYear = Calendar.getInstance();
-    private static final Calendar lastYear = Calendar.getInstance();
 
     /** DialogFragment usado para mostrar o calendario em tela cheia.
      * Feito static para ser acessado de dentro do clickListener dos bt "Cancelar" e "OK" */
@@ -75,13 +81,20 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
 
     static List<RadioButton> radioButtonList; //Gerenciar a lista com todas as ações cadastradas
     static RadioGroup rgActions; //RadioGroup onde estão os radioButtons com as Ações
-    EditText etRecurringActionName; //Nome desta Ação Recorrente
+    static EditText etRecurringActionName; //Nome desta Ação Recorrente
 
     public static Activity activity; //public static para ser acessado pela RecActCommand
+
+    /** Guarda a TAG do intent que trouxe o usuario aqui, caso ela tenha chegado nesta
+     * tela a partir do botao de editar uma ação recorrente. Neste caso, a TAG possui
+     * o JSON de toda a ação recorrente
+     */
+    private static String intentTag = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_manage_recurring_action);
 
         activity = this;
 
@@ -90,7 +103,6 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
         radioButtonList = new ArrayList<>();
 //        times = new ArrayList<>();
 
-        setContentView(R.layout.activity_manage_recurring_action);
         layoutHourMinute = (LinearLayout) findViewById(R.id.layoutHourMinute);
         layoutDeleteBt = (LinearLayout) findViewById(R.id.layoutDeleteBt);
         calendar = (CalendarPickerView) findViewById(R.id.calendarPicker);
@@ -98,18 +110,81 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
         etRecurringActionName = (EditText) findViewById(R.id.etRecurringActionName);
 
 
-        nextYear.add(Calendar.YEAR, 1);
-        lastYear.add(Calendar.YEAR, -1);
-        calendar.init(lastYear.getTime(), nextYear.getTime()) //
+        Util.nextYear.add(Calendar.YEAR, 1);
+        Util.lastYear.add(Calendar.YEAR, -1);
+        calendar.init(Util.lastYear.getTime(), Util.nextYear.getTime()) //
                 .inMode(CalendarPickerView.SelectionMode.MULTIPLE) //
                 .withSelectedDates(selecteDates);
+
+        /**
+         * Verificar se o Intent que trouxe o usuario a esta tela é para editar
+         * alguma Ação Recorrente especifica. Em caso positivo, a "Tag" do Intent possui a TAG
+         * completa da Ação Recorrente: {"recActName":"NOME_ACAO", "recActDates":[...], etc...}
+         *
+         * Apenas guarda a TAG em 'intentTag'. A tela só pode ser preenchida após a lista
+         * de radioButtons ser "inflada" no método 'InflateActionsButtonLaoyt'
+         */
+        Intent intent = getIntent();
+        intentTag = intent.getStringExtra("Tag");
+
     }
 
+    /**
+     * Cria a tela de editar a Ação Recorrente com todos os campos preenchidos
+     */
+    private static void inflateRecurringAction(String tag){
+        RecurringActionClass recAct = new RecurringActionClass(tag);
+        etRecurringActionName.setText(recAct.getRecActName());
+
+        //Marca o RadioButton com a ação desejada
+        for (int i = 0; i < radioButtonList.size(); i++){
+            if (radioButtonList.get(i).getText().equals(recAct.getRecActActionButton().getActionName())){
+                rgActions.check(radioButtonList.get(i).getId());
+            }
+        }
+
+        //Preenche a lista com horários
+        for (int i = 0; i < recAct.getRecActTimes().size(); i++){
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+            TextView tv = new TextView(ManageRecurringActionActivity.activity);
+            tv.setText(dateFormat.format(new Date(recAct.getRecActTimes().get(i))));
+            tv.setGravity(Gravity.CENTER_HORIZONTAL);
+            tv.setTextSize(35);
+            tv.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+
+            ManageRecurringActionActivity.layoutHourMinute.addView(tv);
+            //Adiciona o TextView na List
+            ManageRecurringActionActivity.hourMinuteList.add(tv);
+
+            //Cria o botao 'X' e adicionar no layout de botao
+            Button bt = new Button(MainActivity.activity);
+            bt.setText("X");
+            bt.setTag(tv);
+            bt.setOnClickListener(new clickListenerDeleteHour());
+            bt.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+            ManageRecurringActionActivity.layoutDeleteBt.addView(bt);
+        }
+
+        //preenche a lista de datas no CalendarPickerView
+        selecteDates = new ArrayList<>();
+        for (int i = 0; i < recAct.getRecActDates().size(); i++){
+            selecteDates.add(new Date(recAct.getRecActDates().get(i)));
+        }
+        calendar.init(Util.lastYear.getTime(), Util.nextYear.getTime()) //
+                .inMode(CalendarPickerView.SelectionMode.MULTIPLE) //
+                .withSelectedDates(selecteDates);
+
+    }
+
+    /**
+     * Cria a lista de RadioButtons baseado nas ações disponíveis ao usuário
+     * @param responseParm
+     */
     public static void inflateActionButtonLayout(String responseParm){
         JSONArray jsonArray;
         try {
             jsonArray = new JSONArray(responseParm);
-            List<ActionButtonClass> actionButtons = new ArrayList<>();
             for(int i = 0; i < jsonArray.length(); i++){
                 ActionButtonClass actBt = new ActionButtonClass(jsonArray.get(i).toString());
                 LinearLayout line = new LinearLayout(MainActivity.activity);
@@ -129,13 +204,17 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        /**Se houver um intent com EXTRA = RECURRING ACTION, é para editar a ação **/
+        if ((intentTag != null) && (!intentTag.equals(""))){
+            inflateRecurringAction(intentTag);
+        }
     }
 
     @Override
     protected void onResume(){
         super.onResume();
 
-//        RecurringActionCommand recurringActionCommand = new RecurringActionCommand()
         //Pega as ações salvas no servidor e cria a lista com botões das ações
         ActionButtonCommand actionButtonCommand = new ActionButtonCommand("getList", false, Util.SERVER_IP, Util.ACTION_BUTTON_PORT, null, null);
         actionButtonCommand.sendData(this);
@@ -153,7 +232,7 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
             @Override
             public void handleDialogClose(DialogInterface dialog) {
                 calendar = (CalendarPickerView) findViewById(R.id.calendarPicker);
-                calendar.init(lastYear.getTime(), nextYear.getTime()) //
+                calendar.init(Util.lastYear.getTime(), Util.nextYear.getTime()) //
                         .inMode(CalendarPickerView.SelectionMode.MULTIPLE) //
                         .withSelectedDates(selecteDates);
             }
@@ -195,7 +274,7 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
                 }
             });
 
-            calendarInsideFragment.init(lastYear.getTime(), nextYear.getTime()) //
+            calendarInsideFragment.init(Util.lastYear.getTime(), Util.nextYear.getTime()) //
                     .inMode(CalendarPickerView.SelectionMode.MULTIPLE) //
                     .withSelectedDates(selecteDates);
 
@@ -247,35 +326,24 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-//            Calendar now = Calendar.getInstance();
-//            now.set(Calendar.HOUR_OF_DAY, hourOfDay);
-//            now.set(Calendar.MINUTE, minuteOfHour);
-//            times.add(now.getTimeInMillis());
-//            now.getTime().getTime();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+            //HH:mm transformado em milisegundos (do dia 01/01/1970)
+            long milis = ((hourOfDay * 60) + minuteOfHour) * 60 * 1000;
 
-            //Cria a string com horario, adicionando '0' antes se for menor que 10
-            String hour = "", minute = "";
-            if (hourOfDay < 10) hour = hour.concat("0");
-            hour = hour.concat(String.valueOf(hourOfDay));
-            if (minuteOfHour < 10) minute = minute.concat("0");
-            minute = minute.concat(String.valueOf(minuteOfHour));
-
-            //Cria o text view e adiciona no layout de TextView
-            TextView tv = new TextView(MainActivity.activity);
-            tv.setText(hour+":"+minute);
+            TextView tv = new TextView(ManageRecurringActionActivity.activity);
+            tv.setText(dateFormat.format(new Date(milis)));
             tv.setGravity(Gravity.CENTER_HORIZONTAL);
             tv.setTextSize(35);
             tv.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
             ManageRecurringActionActivity.layoutHourMinute.addView(tv);
 
-
             //Adiciona o TextView na List
             ManageRecurringActionActivity.hourMinuteList.add(tv);
 
-            //Cria o botao 'X' e adicionar no layout de botao
+            //Cria o botao 'X' e adiciona no layout de botao
             Button bt = new Button(MainActivity.activity);
             bt.setText("X");
-//            bt.setTag(ManageRecurringActionActivity.hourMinuteList.size()-1);
             bt.setTag(tv);
             bt.setOnClickListener(new clickListenerDeleteHour());
             bt.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
@@ -303,6 +371,36 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
         public void handleDialogClose(DialogInterface dialog);
     }
 
+    public void deleteRecurringAction(View v){
+        //Verifica se o nome da acao esta vazio
+        if (etRecurringActionName.getText().toString() == ""){
+            Toast.makeText(getApplicationContext(), "Digite o nome da Ação Recorrente que deseja excluir", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //Para deletar a ação recorrente não é necessário passar toda o JSONString da ação recorrente, basta o nome. Portanto Dates, Times e ActionButtonClass são criados vazios
+        RecurringActionClass recurringActionClass = new RecurringActionClass(etRecurringActionName.getText().toString(), new ArrayList<Long>(), new ArrayList<Long>(), new ActionButtonClass("", "[]"));
+        RecurringActionCommand recurringActionCommand = new RecurringActionCommand("deleteRecurringAction", false, Util.SERVER_IP, Util.RECURRING_ACTION_BUTTON_PORT, null, recurringActionClass);
+
+        recurringActionCommand.sendData(this);
+    }
+
+    public static void processResponse(final ActionButtonCommand response){
+        if (response.getRequestAction().equals("getList")){
+            switch (response.getResponseStatus()) {
+                case (Command.STATUS_ERROR):
+                    Toast.makeText(ManageRecurringActionActivity.activity.getApplicationContext(), response.getResponseDesc(), Toast.LENGTH_SHORT).show();
+                    break;
+
+                case (Command.STATUS_OK):
+                    ManageRecurringActionActivity.inflateActionButtonLayout(response.getResponseParm());
+                    break;
+            }
+        } else { //deleteRecurringAction e saveRecurringAction
+            Toast.makeText(ManageRecurringActionActivity.activity.getApplicationContext(), response.getResponseDesc(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     /** Chamado quando o usuário clica para salvar uma nova Ação Recorrente */
     public void saveRecurringAction(View v){
         //Realiza checagens dos dados
@@ -326,38 +424,48 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
         //RadioButton selecionado
         RadioButton selectedRadio = (RadioButton) findViewById(rgActions.getCheckedRadioButtonId());
 
-        //Transforma o array de TextView contendo a hora no formato hh:mm em um array de Long
+        //Transforma o array de TextView contendo a hora no formato hh:mm em um array de Long em ordem crescente
         List<Long> times = new ArrayList<>();
-        Calendar now = Calendar.getInstance();
-        for (int i = 0; i < hourMinuteList.size(); i++){
-            String[] split = hourMinuteList.get(i).getText().toString().split(":");
-            int hour = Integer.valueOf(split[0]);
-            int minutes = Integer.valueOf(split[1]);
-            now.set(Calendar.HOUR_OF_DAY, hour);
-            now.set(Calendar.MINUTE, minutes);
-            times.add(now.getTimeInMillis() / 1000); /** Divido por 1000 para pegar em segundos*/
+        Date date;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        try {
+            date = dateFormat.parse(hourMinuteList.get(0).getText().toString());
+            //date = new SimpleDateFormat("HH:mm", Locale.getDefault()).parse(hourMinuteList.get(0).getText().toString());
+            times.add(date.getTime());
+            for (int i = 1; i < hourMinuteList.size(); i++){
+                date = dateFormat.parse(hourMinuteList.get(i).getText().toString());
+
+                times.add(date.getTime()); //adiciona no final
+                for(int a = 0; a < times.size(); a++){
+                    if (date.getTime() < times.get(a)){
+                        times.add(a, date.getTime());
+                        times.remove(times.size()-1); //remove o último, adicionado antes do for
+                        break;
+                    }
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.e(TAG, "Nao foi possivel realizer o DateParse do horário selecionado.");
         }
 
         //Transforma o array de Dates contendo as datas em um um array de long
         List<Long> dates = new ArrayList<>();
         for (int i = 0; i < calendar.getSelectedDates().size(); i++){
-            //Dividido por 1000 para pegar em segundos
-            dates.add(calendar.getSelectedDates().get(i).getTime() / 1000);
+            dates.add(calendar.getSelectedDates().get(i).getTime());
         }
 
         //Transforma os dados do radioButton escolhido em um ActionButtonClass
         ActionButtonClass actionButton = new ActionButtonClass(selectedRadio.getText().toString(), selectedRadio.getTag().toString());
-//        Log.i(TAG, "Action: "+actionButton.parseToJson());
 
 
 
         RecurringActionClass recurringAction = new RecurringActionClass(
                 etRecurringActionName.getText().toString(), dates, times, actionButton);
-        Log.i(TAG,"Dates: "+recurringAction.getRecActDates());
 
-        RecurringActionCommand recurringActionCommand = new RecurringActionCommand("saveList", false, Util.SERVER_IP, Util.RECURRING_ACTION_BUTTON_PORT, null, recurringAction);
-        recurringActionCommand.sendData();
-
+        RecurringActionCommand recurringActionCommand = new RecurringActionCommand("saveRecurringAction", false, Util.SERVER_IP, Util.RECURRING_ACTION_BUTTON_PORT, null, recurringAction);
+        recurringActionCommand.sendData(this);
     }
 
 }

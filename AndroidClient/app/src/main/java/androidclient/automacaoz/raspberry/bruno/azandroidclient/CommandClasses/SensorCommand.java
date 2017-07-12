@@ -54,7 +54,13 @@ public class SensorCommand extends Command {
         protected void onPostExecute(Void c){
             if ((fatherClass.getTvResponse() == null) || (fatherClass.getResponseDesc()== null)) return;
             if (fatherClass.getResponseStatus() == STATUS_OK) {
-                fatherClass.getTvResponse().setText(fatherClass.getResponseDesc());
+                String resposta = "";
+                if(sensor.getSensorName().equals("temperatura")) {
+                    resposta = fatherClass.getResponseDesc() + "ºC";
+                }else if(sensor.getSensorName().equals("umidade")) {
+                    resposta = fatherClass.getResponseDesc() + "%";
+                }
+                fatherClass.getTvResponse().setText(resposta);
             } else {
                 fatherClass.getTvResponse().setText("??");
             }
