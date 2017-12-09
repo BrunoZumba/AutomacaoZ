@@ -1,28 +1,51 @@
 pi@raspberrypi:~ $ sudo apt-get update
 pi@raspberrypi:~ $ sudo apt-get install postgresql libpq-dev postgresql-client
+pi@raspberrypi:~ $ sudo su postgres
+postgres@raspberrypi:/home/pi$ createuser azdb -P --interactive
+Enter password for new role:
+Enter it again:
+Shall the new role be a superuser? (y/n) n
+Shall the new role be allowed to create databases? (y/n) n
+Shall the new role be allowed to create more new roles? (y/n) n
+postgres@raspberrypi:/home/pi$
+
+(senha 'normal fraca')
+
+postgres@raspberrypi:/home/pi$ psql
+psql (9.4.15)
+Type "help" for help.
+
+postgres=# create database automazaozdb;
+CREATE DATABASE
+postgres=# create schema azschema;
+CREATE SCHEMA
+
+
+
+
 
 
 POstgres no virtualbox
 
 
 
-CREATE SEQUENCE public.aztb030_actionbutton_id_actionbutton_seq;
+CREATE SEQUENCE azschema.aztb030_actionbutton_id_actionbutton_seq;
 
-CREATE TABLE public.AZTB030_actionButton (
-                id_actionButton INTEGER NOT NULL DEFAULT nextval('public.aztb030_actionbutton_id_actionbutton_seq'),
+CREATE TABLE azschema.AZTB030_actionButton (
+                id_actionButton INTEGER NOT NULL DEFAULT nextval('azschema.aztb030_actionbutton_id_actionbutton_seq'),
                 no_action VARCHAR(50) NOT NULL,
                 seq_acao INTEGER NOT NULL,
                 json_actoin VARCHAR NOT NULL,
                 CONSTRAINT id_actionbutton PRIMARY KEY (id_actionButton, no_action, seq_acao)
 );
-COMMENT ON TABLE public.AZTB030_actionButton IS 'Dados de um ActionButton';
-COMMENT ON COLUMN public.AZTB030_actionButton.id_actionButton IS 'Identificador único do Action Button';
-COMMENT ON COLUMN public.AZTB030_actionButton.seq_acao IS 'Sequencia da ação dentro do action button';
-COMMENT ON COLUMN public.AZTB030_actionButton.json_actoin IS 'Json contendo cada ação, identificada pelo nome e o sequencial';
+COMMENT ON TABLE azschema.AZTB030_actionButton IS 'Dados de um ActionButton';
+COMMENT ON COLUMN azschema.AZTB030_actionButton.id_actionButton IS 'Identificador único do Action Button';
+COMMENT ON COLUMN azschema.AZTB030_actionButton.seq_acao IS 'Sequencia da ação dentro do action button';
+COMMENT ON COLUMN azschema.AZTB030_actionButton.json_actoin IS 'Json contendo cada ação, identificada pelo nome e o sequencial';
 
 
-ALTER SEQUENCE public.aztb030_actionbutton_id_actionbutton_seq OWNED BY public.AZTB030_actionButton.id_actionButton;
+ALTER SEQUENCE azschema.aztb030_actionbutton_id_actionbutton_seq OWNED BY azschema.AZTB030_actionButton.id_actionButton;
 
 CREATE INDEX aztb030_actionbutton_idx
- ON public.AZTB030_actionButton
+ ON azschema.AZTB030_actionButton
  ( no_action ASC, seq_acao ASC );
