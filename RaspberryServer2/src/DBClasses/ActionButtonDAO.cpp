@@ -42,7 +42,7 @@ ActionButtonClass getActionButton(string actionName){
          return actionButton;
         }
 
-        string sql = "SELECT * FROM azschema.aztb030_actionbutton WHERE no_action = '" + actionName + "' ORDER BY seq_action ASC;";
+        string sql = "SELECT id_action, no_action, seq_action, json_action FROM azschema.aztb030_actionbutton WHERE no_action = '" + actionName + "' ORDER BY seq_action ASC;";
 
         vector<TaskButtonClass> tbVector;
 
@@ -86,7 +86,7 @@ vector<ActionButtonClass> getAllActionButtons(){
          return vector<ActionButtonClass>();
         }
 
-        char sql[] = "SELECT * FROM azschema.aztb030_actionbutton ORDER BY no_action ASC, seq_action ASC;";
+        char sql[] = "SELECT id_action, no_action, seq_action, json_action FROM azschema.aztb030_actionbutton ORDER BY no_action ASC, seq_action ASC;";
 
         nontransaction N(co);
         result R( N.exec( sql ));
