@@ -6,7 +6,6 @@
 #include "Command.h"
 #include "RecurringActionClass.h"
 
-#define RECURRING_ACTION_FILE "recurringActionFile"
 
 class RecurringActionCommand : public Command {
     public:

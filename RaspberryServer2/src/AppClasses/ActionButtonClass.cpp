@@ -61,6 +61,6 @@ void ActionButtonClass::setActionName(string _actionName){
 ActionClass ActionButtonClass::getAction(){
     return this->action;
 }
-void ActionButtonClass::setActionName(ActionClass _action){
+void ActionButtonClass::setAction(ActionClass _action){
     this->action = _action;
 }

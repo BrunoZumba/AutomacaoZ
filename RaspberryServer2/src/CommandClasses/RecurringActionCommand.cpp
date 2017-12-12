@@ -17,16 +17,21 @@ bool RecurringActionCommand::createRequestFromJson(){
 }
 
 bool RecurringActionCommand::execute(){
-    fstream file (RECURRING_ACTION_FILE, fstream::out | fstream::in);
-
-    if (!file.is_open()) {
-        //Testa se o arquivo existe. Se nao existir cria (apenas escrita ) e depois abre para escrita e leitura
-        file.open(RECURRING_ACTION_FILE, fstream::out);
-        file.close();
-        file.open(RECURRING_ACTION_FILE, fstream::in | fstream::out);
-    }
-    if (!file.is_open()){
-        //Resposta em caso de erro ao abrir o arquivo
+//    fstream file (RECURRING_ACTION_FILE, fstream::out | fstream::in);
+//
+//    if (!file.is_open()) {
+//        //Testa se o arquivo existe. Se nao existir cria (apenas escrita ) e depois abre para escrita e leitura
+//        file.open(RECURRING_ACTION_FILE, fstream::out);
+//        file.close();
+//        file.open(RECURRING_ACTION_FILE, fstream::in | fstream::out);
+//    }
+//    if (!file.is_open()){
+//        //Resposta em caso de erro ao abrir o arquivo
+//        this->createResponse(STATUS_ERROR, /*"saveResponse",*/ "Erro ao criar o arquivo", "Erro ao acessar o HD");
+//        return false;
+//    }
+    fstream file;
+    if (!util::openFile(RECURRING_ACTION_FILE, file)){
         this->createResponse(STATUS_ERROR, /*"saveResponse",*/ "Erro ao criar o arquivo", "Erro ao acessar o HD");
         return false;
     }

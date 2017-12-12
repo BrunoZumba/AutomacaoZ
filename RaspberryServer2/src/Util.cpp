@@ -42,6 +42,24 @@ bool deleteFromFile(fstream& file, int pos, string fileName){
 
 }
 
+
+bool openFile(string filename, fstream& file){
+    file.open(filename.c_str(), fstream::out | fstream::in);
+
+    if (!file.is_open()) {
+        //Testa se o arquivo existe. Se nao existir cria (apenas escrita ) e depois abre para escrita e leitura
+        file.open(filename.c_str(), fstream::out);
+        file.close();
+        file.open(filename.c_str(), fstream::in | fstream::out);
+    }
+    if (!file.is_open()){
+        //Resposta em caso de erro ao abrir o arquivo
+        return false;
+    }
+
+    return true;
+}
+
 bool saveToFile(fstream& file, string saveString, int pos, string fileName){
 
     file.clear();
@@ -73,6 +91,26 @@ bool saveToFile(fstream& file, string saveString, int pos, string fileName){
 
     return true;
 }
+
+//connection getConnection(){
+//    try {
+//          connection co("dbname = automacaozdb user = azdbuser password = teste123 hostaddr = 127.0.0.1 port = 5432");
+//            cout<< "1"<<endl;
+//          if (co.is_open()) {
+//             cout << "Opened database successfully: " << co.dbname() << endl;
+//          } else {
+//             cout << "Can't open database" << endl;
+//             return co;
+//          }
+//            cout<< "2"<<endl;
+//          return co;
+//       } catch (const std::exception &e) {
+//          cerr << e.what() << std::endl;
+//          return co;
+//       }
+//
+//}
+
 
 
 

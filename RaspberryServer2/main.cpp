@@ -5,16 +5,20 @@
 #include<string.h>  //usado pela strerror
 #include<unistd.h>
 
-#include"include/ListenThreadPool.h"
-#include"include/Util.h"
-#include "ArduinoJson.h"
+#include "ListenThreadPool.h"
 #include "Util.h"
+#include "ArduinoJson.h"
+#include "ExecuteRecurringActionThread.h"
+
 #include "RecurringActionClass.h"
 #include "TaskButtonClass.h"
 #include "ActionClass.h"
 #include "ActionButtonClass.h"
 #include "RecurringActionCommand.h"
 #include "ActionButtonCommand.h"
+
+#include<signal.h>
+
 
 #include <fstream>
 
@@ -28,8 +32,10 @@ using namespace std;
 int main(){
     int portas[QTD_SERVICOS] = {4391, 8742, 8168, 5223,6292};
     pthread_t threads[QTD_SERVICOS];
+    pthread_t recActThread; //Thread para executar as recurringActions
     int i, rc;
     char buffer[BUFFER_SIZE];
+
 
 //    string actBtCmdBuffer = "{\"requestAction\":\"saveList\",\"requestOverwrite\":true,\"actionButton\":{\"actionName\":\"aço\",\"action\":[{\"buttonId\":\"111\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}}";
 //    string actBtCmdBuffer1 = "{\"requestAction\":\"getList\",\"requestOverwrite\":false,\"actionButton\":{}}";
@@ -135,6 +141,9 @@ int main(){
      * Quando uma tarefa chega, uma thread a pega, trata, delete e volta a esperar novas.
      */
     ListenThreadPool::createThreadPool();
+
+
+    rc = pthread_create(&recActThread, NULL, ExecuteRecurringActionThread::Execute, (void*) &portas[0]);
 
 //return 0;
     for (i = 0; i < QTD_SERVICOS; i++){

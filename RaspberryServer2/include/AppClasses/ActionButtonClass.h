@@ -15,7 +15,7 @@ class ActionButtonClass
         string getActionName();
         void setActionName(string);
         ActionClass getAction();
-        void setActionName(ActionClass);
+        void setAction(ActionClass);
 
         string parseToJson();
         bool createFromJson(string);
