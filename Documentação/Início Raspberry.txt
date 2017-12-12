@@ -61,3 +61,14 @@ int main(int argc, char** argv)
 gcc -o main /usr/local/lib/liblirc_client.so main.cpp
 ./main
 
+
+
+################## Instalar RCSwitch ################
+Eu preciso linkar o RCSwitch.o para compilar o RaspberryPiServer. Para isso eu preciso compilar ele na
+própria máquina que estou usando (VM do Ubuntu ou no Raspberry). Ainda não consegui compilar ele sozinho, usando 
+apenas o RCSwitch.cpp e RCSwitch.hpp, então eu baixo a 433Utils toda, boto o RCSwitch dentro da pasta rc-switch e dou 
+um "make" na 433Utils. Aí esse make compila o RCSwitch, gera o RCSwitch.o e eu adiciono ele no projeto
+
+
+<<<<<<< .mine
+=======>>>>>>> .theirs

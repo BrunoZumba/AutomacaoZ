@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<architect-project version="1.0" appversion="1.0.8">
+ <project-name>AZDB</project-name>
+ <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
+ <project-data-sources>
+  <data-source id="DS0">
+   <property key="Logical" value="Modelo de Dados" />
+  </data-source>
+  <data-source id="DS2">
+   <property key="Connection Type" value="PostgreSQL" />
+   <property key="Logical" value="AutomaçãoZDB" />
+   <property key="JDBC URL" value="jdbc:postgresql://localhost:5432/AZDB" />
+   <property key="UID" value="postgres" />
+   <property key="PWD" value="teste123" />
+   <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.port" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.hostname" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.login" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.password" value="" />
+  </data-source>
+  <data-source id="DS4">
+   <property key="Connection Type" value="PostgreSQL" />
+   <property key="Logical" value="IzaDB" />
+   <property key="JDBC URL" value="jdbc:postgresql://localhost:5432/IzaDB" />
+   <property key="UID" value="postgres" />
+   <property key="PWD" value="teste123" />
+   <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.port" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.hostname" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.login" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.password" value="" />
+  </data-source>
+ </project-data-sources>
+ <source-databases>
+  <database id="DB0" populated="true" UUID="00c8e272-2f94-486a-8a27-00ce34420f5e" dbcs-ref="DS2" name="AutomaçãoZDB" physicalName="AutomaçãoZDB" >
+   <catalog id="CAT1" populated="true" UUID="fa829585-aecc-4e64-a40a-7ab796051b1c" name="AZDB" nativeTerm="database" physicalName="AZDB" >
+    <schema id="SCH2" populated="false" UUID="92aa36bb-8f2c-4264-ad6f-4e23198c1d10" name="information_schema" nativeTerm="schema" physicalName="information_schema" >
+    </schema>
+    <schema id="SCH3" populated="false" UUID="70dad0ba-b0c8-40d3-9a71-377b9504e970" name="pg_catalog" nativeTerm="schema" physicalName="pg_catalog" >
+    </schema>
+    <schema id="SCH4" populated="false" UUID="607227f9-a79f-40a2-9891-7781beb0f77a" name="pg_toast_temp_1" nativeTerm="schema" physicalName="pg_toast_temp_1" >
+    </schema>
+    <schema id="SCH5" populated="true" UUID="5ef89fe3-6665-4ae8-a2e4-4add9c6f4470" name="public" nativeTerm="schema" physicalName="public" >
+    </schema>
+   </catalog>
+   <relationships>
+   </relationships>
+  </database>
+  <database id="DB6" populated="true" UUID="97510679-0354-4f26-81b7-229f0b42df33" dbcs-ref="DS4" name="IzaDB" physicalName="IzaDB" >
+   <catalog id="CAT7" populated="true" UUID="9bf129f7-6c3e-41fa-9606-5df639758ccc" name="IzaDB" nativeTerm="database" physicalName="IzaDB" >
+    <schema id="SCH8" populated="true" UUID="f78562c4-f04a-45d9-b2ee-f302bfb2d36e" name="information_schema" nativeTerm="schema" physicalName="information_schema" >
+    </schema>
+    <schema id="SCH9" populated="true" UUID="e81db778-aa69-4c34-a7ae-071bc9d17d7b" name="pg_catalog" nativeTerm="schema" physicalName="pg_catalog" >
+    </schema>
+    <schema id="SCH10" populated="true" UUID="98094637-f640-44e0-b03c-c56c7083b9e8" name="pg_toast_temp_1" nativeTerm="schema" physicalName="pg_toast_temp_1" >
+    </schema>
+    <schema id="SCH11" populated="true" UUID="36df1506-2130-4e94-813f-3c3e0533be3c" name="public" nativeTerm="schema" physicalName="public" >
+    </schema>
+   </catalog>
+   <relationships>
+   </relationships>
+  </database>
+ </source-databases>
+ <target-database id="ppdb" dbcs-ref="DS0">
+  <table id="TAB13" populated="true" UUID="9a9657e9-c010-4a26-ab60-8adb0963235f" name="AZTB030_actionButton" objectType="TABLE" physicalName="AZTB030_actionButton" >
+   <remarks>Dados de um ActionButton</remarks>
+   <folder id="FOLTAB131" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL14" populated="true" UUID="d1f73d27-b90b-4b15-b0a4-df39675dd794" autoIncrement="false" autoIncrementSequenceName="AZTB030_actionButton_no_action_seq" defaultValue="" name="no_action" nullable="0" physicalName="no_action" precision="50" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL15" populated="true" UUID="30065068-a581-44cf-a2b0-ace32e8104fd" autoIncrement="false" autoIncrementSequenceName="AZTB030_actionButton_seq_action_seq" defaultValue="" name="seq_action" nullable="0" physicalName="seq_action" precision="0" primaryKeySeq="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks>Sequencia da ação dentro do action button</remarks>
+    </column>
+    <column id="COL16" populated="true" UUID="3568d5f4-961e-457f-b5ca-98bb0b4fcae0" autoIncrement="true" autoIncrementSequenceName="AZTB030_actionButton_id_actionButton_seq" defaultValue="" name="id_actionButton" nullable="0" physicalName="id_actionButton" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks>Identificador único do Action Button</remarks>
+    </column>
+    <column id="COL17" populated="true" UUID="1ee7b794-4f98-4b12-b65d-6b4c3dc69aff" autoIncrement="false" autoIncrementSequenceName="AZTB030_actionButton_json_action_seq" defaultValue="" name="json_action" nullable="0" physicalName="json_action" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks>Json contendo cada ação, identificada pelo nome e o sequencial</remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB133" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB132" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB134" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX18" populated="true" UUID="8be4d64f-baaa-4fee-ac68-32b65bbc70a1" clustered="false" name="id_actionButton" physicalName="id_actionbutton" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC19" populated="true" UUID="7c3a0bce-8acc-487e-a13f-5b937f3c87d6" ascendingOrDescending="UNSPECIFIED" column-ref="COL14" name="no_action" physicalName="no_action" />
+     <index-column id="IDC20" populated="true" UUID="705c1afe-5bbd-4f77-867a-57aba62f9af0" ascendingOrDescending="UNSPECIFIED" column-ref="COL15" name="seq_action" physicalName="seq_action" />
+    </index>
+    <index id="IDX21" populated="true" UUID="926bc80e-89f7-496e-b768-f2b3f7daf368" clustered="false" name="AZTB030_actionButton_idx" physicalName="aztb030_actionbutton_idx" primaryKeyIndex="false" unique="false" >
+     <index-column id="IDC22" populated="true" UUID="9c1f1bbb-8a82-4ef7-9040-dfcb9d4b1790" ascendingOrDescending="ASCENDING" column-ref="COL14" name="no_action" physicalName="no_action" />
+     <index-column id="IDC23" populated="true" UUID="275c5d64-e9dd-49ee-9e75-d185ea93a8a3" ascendingOrDescending="ASCENDING" column-ref="COL15" name="seq_action" physicalName="seq_action" />
+    </index>
+   </folder>
+  </table>
+  <relationships>
+  </relationships>
+ </target-database>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="azschema"> </ddl-generator>
+ <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
+ <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
+ <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+  <table-pane table-ref="TAB13" x="351" y="333" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+ </play-pen>
+ <critic-manager>
+  <critic-grouping platformType="Generic" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.PrimaryKeyCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.RelationshipMappingTypeCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.EmptyRelationshipCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.AlphaNumericNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.AlphaNumericSequenceNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SetDefaultOnColumnWithNoDefaultCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SetNullOnNonNullableColumnCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.DuplicateNameCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="DB2" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.DB2UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="H2" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.H2UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="HSQLDB" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.HSQLDBUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="MySQL" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLCommentCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLReservedWordsCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="Oracle" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OraclePhysicalNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OracleReservedWordsCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OracleUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="PostgreSQL" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.PostgreSQLReservedWordsCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServerUnsupportedFeaturesCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServerReservedWordsCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server 2000" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServer2000UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server 2005" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServer2005UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+ </critic-manager>
+ <profiles topNCount="10">
+  </profiles>
+  <olap>
+  </olap>
+  <olap-gui>
+  </olap-gui>
+</architect-project>

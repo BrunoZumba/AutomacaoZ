@@ -8,12 +8,17 @@ Type "help" for help.
 
 postgres=# create database automacaozdb;
 CREATE DATABASE
+
+ctrl+d para sair do psql
+postgres@raspberrypi:/home/pi$ psql automacaozdb
+
 postgres=# create schema azschema;
 CREATE SCHEMA
 postgres=# create user "azdbuser" with password 'normal fraco';
 CREATE ROLE
-postgres=# grant all privileges on database automacaozdb to azdbuser;
-GRANT
+postgres=# grant usage on schema azschema to azdbuser;
+postgres=# grant all privileges on all tables in schema azschema to azdbuser;
+postgres=# grant usage, select on all sequences in schema azschema to azdbuser;
 
 
 
@@ -52,15 +57,15 @@ POstgres no virtualbox
 CREATE SEQUENCE azschema.aztb030_actionbutton_id_actionbutton_seq;
 
 CREATE TABLE azschema.AZTB030_actionButton (
-                id_actionButton INTEGER NOT NULL DEFAULT nextval('azschema.aztb030_actionbutton_id_actionbutton_seq'),
                 no_action VARCHAR(50) NOT NULL,
                 seq_action INTEGER NOT NULL,
+                id_actionButton INTEGER NOT NULL DEFAULT nextval('azschema.aztb030_actionbutton_id_actionbutton_seq'),
                 json_action VARCHAR NOT NULL,
-                CONSTRAINT id_actionbutton PRIMARY KEY (id_actionButton, no_action, seq_action)
+                CONSTRAINT id_actionbutton PRIMARY KEY (no_action, seq_action)
 );
 COMMENT ON TABLE azschema.AZTB030_actionButton IS 'Dados de um ActionButton';
-COMMENT ON COLUMN azschema.AZTB030_actionButton.id_actionButton IS 'Identificador único do Action Button';
 COMMENT ON COLUMN azschema.AZTB030_actionButton.seq_action IS 'Sequencia da ação dentro do action button';
+COMMENT ON COLUMN azschema.AZTB030_actionButton.id_actionButton IS 'Identificador único do Action Button';
 COMMENT ON COLUMN azschema.AZTB030_actionButton.json_action IS 'Json contendo cada ação, identificada pelo nome e o sequencial';
 
 
