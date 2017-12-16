@@ -79,19 +79,19 @@ CREATE INDEX aztb030_actionbutton_idx
 
 ################################################################
 
-CREATE SEQUENCE azschema.aztb032_actionbutton_id_actionbutton_seq_1;
+CREATE SEQUENCE azschema.aztb032_actionbutton_id_actionbutton1_seq_1;
 
 CREATE TABLE azschema.AZTB032_actionButton (
                 no_action VARCHAR NOT NULL,
-                id_actionButton INTEGER NOT NULL DEFAULT nextval('azschema.aztb032_actionbutton_id_actionbutton_seq_1'),
-                CONSTRAINT id_actionbutton PRIMARY KEY (no_action)
+                id_actionButton1 INTEGER NOT NULL DEFAULT nextval('azschema.aztb032_actionbutton_id_actionbutton1_seq_1'),
+                CONSTRAINT id_actionbutton1 PRIMARY KEY (no_action)
 );
 COMMENT ON TABLE azschema.AZTB032_actionButton IS 'Armazena dados de cada ActionButton';
 COMMENT ON COLUMN azschema.AZTB032_actionButton.no_action IS 'Nome da Acao';
-COMMENT ON COLUMN azschema.AZTB032_actionButton.id_actionButton IS 'Identificador unico de cada ActionButton';
+COMMENT ON COLUMN azschema.AZTB032_actionButton.id_actionButton1 IS 'Identificador unico de cada ActionButton';
 
 
-ALTER SEQUENCE azschema.aztb032_actionbutton_id_actionbutton_seq_1 OWNED BY azschema.AZTB032_actionButton.id_actionButton;
+ALTER SEQUENCE azschema.aztb032_actionbutton_id_actionbutton1_seq_1 OWNED BY azschema.AZTB032_actionButton.id_actionButton1;
 
 CREATE SEQUENCE azschema.aztb040_recurringaction_id_recurringaction_seq;
 
