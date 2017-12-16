@@ -79,20 +79,19 @@ CREATE INDEX aztb030_actionbutton_idx
 
 ################################################################
 
-CREATE SEQUENCE azschema.aztb032_actionbutton_id_actionbutton_seq;
+CREATE SEQUENCE azschema.aztb032_actionbutton_id_actionbutton_seq_1;
 
 CREATE TABLE azschema.AZTB032_actionButton (
                 no_action VARCHAR NOT NULL,
-                id_actionButton INTEGER NOT NULL DEFAULT nextval('azschema.aztb032_actionbutton_id_actionbutton_seq'),
+                id_actionButton INTEGER NOT NULL DEFAULT nextval('azschema.aztb032_actionbutton_id_actionbutton_seq_1'),
                 CONSTRAINT id_actionbutton PRIMARY KEY (no_action)
 );
 COMMENT ON TABLE azschema.AZTB032_actionButton IS 'Armazena dados de cada ActionButton';
-COMMENT ON COLUMN azschema.AZTB032_actionButton.no_action IS 'Nome da Acao
-';
+COMMENT ON COLUMN azschema.AZTB032_actionButton.no_action IS 'Nome da Acao';
 COMMENT ON COLUMN azschema.AZTB032_actionButton.id_actionButton IS 'Identificador unico de cada ActionButton';
 
 
-ALTER SEQUENCE azschema.aztb032_actionbutton_id_actionbutton_seq OWNED BY azschema.AZTB032_actionButton.id_actionButton;
+ALTER SEQUENCE azschema.aztb032_actionbutton_id_actionbutton_seq_1 OWNED BY azschema.AZTB032_actionButton.id_actionButton;
 
 CREATE SEQUENCE azschema.aztb040_recurringaction_id_recurringaction_seq;
 
@@ -104,15 +103,12 @@ CREATE TABLE azschema.AZTB040_recurringAction (
                 no_action VARCHAR NOT NULL,
                 CONSTRAINT no_recurringaction PRIMARY KEY (no_recurringAction)
 );
-COMMENT ON TABLE azschema.AZTB040_recurringAction IS 'Armazena dados de cada RecurringAction
-';
-COMMENT ON COLUMN azschema.AZTB040_recurringAction.no_recurringAction IS 'Nome da Recurring Action
-';
+COMMENT ON TABLE azschema.AZTB040_recurringAction IS 'Armazena dados de cada RecurringAction';
+COMMENT ON COLUMN azschema.AZTB040_recurringAction.no_recurringAction IS 'Nome da Recurring Action';
 COMMENT ON COLUMN azschema.AZTB040_recurringAction.ts_execution IS 'Timestamp de execução da RecurringAction';
 COMMENT ON COLUMN azschema.AZTB040_recurringAction.bl_executed IS 'Boolean indicando se a ação já foi executada ou não';
 COMMENT ON COLUMN azschema.AZTB040_recurringAction.id_recurringAction IS 'Identificador único de cada RecurringAction';
-COMMENT ON COLUMN azschema.AZTB040_recurringAction.no_action IS 'Nome da Acao
-';
+COMMENT ON COLUMN azschema.AZTB040_recurringAction.no_action IS 'Nome da Acao';
 
 
 ALTER SEQUENCE azschema.aztb040_recurringaction_id_recurringaction_seq OWNED BY azschema.AZTB040_recurringAction.id_recurringAction;
@@ -130,8 +126,7 @@ COMMENT ON TABLE azschema.AZTB031_jsonTask IS 'Armazena cada Task de um ActionBu
 COMMENT ON COLUMN azschema.AZTB031_jsonTask.id_jsonTask IS 'Identificador unico desta Task';
 COMMENT ON COLUMN azschema.AZTB031_jsonTask.json_task IS 'String Json com a Task a ser executada';
 COMMENT ON COLUMN azschema.AZTB031_jsonTask.nu_seq IS 'Sequencial indicando qual a ordem de execucao desta Task no ActionButton';
-COMMENT ON COLUMN azschema.AZTB031_jsonTask.no_action IS 'Nome da Acao
-';
+COMMENT ON COLUMN azschema.AZTB031_jsonTask.no_action IS 'Nome da Acao';
 
 
 ALTER SEQUENCE azschema.aztb031_jsontask_id_jsontask_seq OWNED BY azschema.AZTB031_jsonTask.id_jsonTask;
