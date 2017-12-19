@@ -112,8 +112,8 @@ bool ActionButtonCommand::execute(){
         actionButtons = actionButtonDAO::getAllActionButtons();
 
         if (actionButtons.size() <= 0){
-            this->createResponse(STATUS_OK, /*"getListResponse",*/ "Sucesso", "[]");
-            return true;
+            this->createResponse(STATUS_OK, /*"getListResponse",*/ "Não há Ações cadastradas", "[]");
+            return false;
         }
 
         //Transforma o vector<ActionButtonClass> em um JsonArray
@@ -136,32 +136,33 @@ bool ActionButtonCommand::execute(){
 
 
     } else if (this->requestAction == "saveActionButton"){
-        //Salva o novo ActionButton no Banco de Dados
-        int res = actionButtonDAO::insertActionButton(this->actionButton);
-
-        if (res == 1) {
-            //Inseriu com sucesso
-            this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação inserida com sucesso","");
-        } else if (res == -2) {
-            //Ação já existe. Verifica RequestOverwrite
-            if (this->requestOverwrite){
-                //Delete depois insere de novo
-                actionButtonDAO::deleteActionButton(this->actionButton.getActionName());
-                res = actionButtonDAO::insertActionButton(this->actionButton);
-                    if (res == 1){
-                        this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação inserida com sucesso","");
-                    } else {
-                        this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Erro ao inserer a Ação","");
-                    }
+        if (this->requestOverwrite){
+            //Faz update da ação
+            int res = actionButtonDAO::updateActionButton(this->actionButton);
+            if (res == 1){
+                this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação alterada com sucesso","");
+                return true;
             } else {
-                //Solicita ao usuario confirmação de sobrescrita da Ação
-                this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Já existe Ação com este nome","requestOverwrite");
+                this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Erro ao alterar a Ação","");
+                return false;
             }
         } else {
-            this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Erro ao inserer a Ação","");
+            //Salva o novo ActionButton no Banco de Dados
+            int res = actionButtonDAO::insertActionButton(this->actionButton);
+
+            if (res == 1) {
+                //Inseriu com sucesso
+                this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação inserida com sucesso","");
+                return true;
+            } else if (res == -2) {
+                //Ação já existe. Solicita RequestOverwrite
+                this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Já existe Ação com este nome","requestOverwrite");
+                return true;
+            } else {
+                this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Erro ao inserer a Ação","");
+                return false;
+            }
         }
-
-
 
     } else if (this->requestAction == "deleteActionButton"){
         int r = actionButtonDAO::deleteActionButton(this->actionButton.getActionName());

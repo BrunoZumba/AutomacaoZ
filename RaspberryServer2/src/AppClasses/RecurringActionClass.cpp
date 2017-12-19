@@ -79,3 +79,10 @@ string RecurringActionClass::getRecActName(){return this->recActName;}
 ActionButtonClass RecurringActionClass::getRecActActionButton(){ return this->recActActionButton;}
 vector<long long> RecurringActionClass::getRecActDates(){return this->recActDates;}
 vector<long long> RecurringActionClass::getRecActTimes(){return this->recActTimes;}
+
+
+
+void RecurringActionClass::setRecActName(string name){this->recActName = name;};
+void RecurringActionClass::setRecActActionButton(ActionButtonClass _actionButton){this->recActActionButton = _actionButton;};
+void RecurringActionClass::setRecActDates(vector<long long> dates){this->recActDates = dates;};
+void RecurringActionClass::setRecActTimes(vector<long long> times){this->recActTimes = times;};

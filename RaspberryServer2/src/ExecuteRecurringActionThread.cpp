@@ -50,7 +50,7 @@ void *ExecuteRecurringActionThread::Execute(void * parm){
     signal(SIGUSR1, funcao);
 
     RecurringActionClass nextRecAct = getNextAction();
-    cout<<"Proxima Ação a ser executada: "<<nextRecAct.getRecActName();
+//    cout<< util::currentDateTime() << "Proxima Ação a ser executada: "<<nextRecAct.getRecActName();
 
 }
 

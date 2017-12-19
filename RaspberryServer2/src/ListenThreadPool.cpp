@@ -29,22 +29,22 @@ void *ListenThreadPool::Manage(void * parm){
     listenSocket = prepareSocket(port);
     if (listenSocket < 0){
         sprintf(msg, "ERRO ao preparar o socket na porta %d.\n%s\n", port, strerror(errno));
-        cout<<msg;
+        cout<<util::currentDateTime() << msg;
         pthread_exit(NULL);
     }
-    cout<<"Criada Thread na porta " << port << "\n";
+//    cout<<util::currentDateTime() << "Criada Thread na porta " << port << "\n";
 
 
     while (true){
         newSocket = accept(listenSocket, (struct sockaddr*)&clientAddr, (socklen_t*)&clientSize);
         if(newSocket < 0){
             sprintf(msg, "ERRO ao aceitar a conexao no socket %d (porta %d)\n%s\n", listenSocket, port, strerror(errno));
-            cout << msg;
+            cout << util::currentDateTime() << msg;
             exit (-3);
         }
 
         sprintf(msg, "O client %s se conectou na porta %d pelo socket %d\n", inet_ntoa(clientAddr.sin_addr), port, newSocket);
-        cout << msg;
+//        cout << util::currentDateTime() << msg;
 
         //Quando ha nova conexao, cria-se um novo job, o coloca na fila
         ConnectionHandler *connectionHandler = new ConnectionHandler(newSocket, port, clientAddr);
@@ -65,7 +65,7 @@ void *ListenThreadPool::Manage(void * parm){
  * Ela fica parada esperando uma nova tarefa estar disponível na fila.
  */
 void *executeThread(void *){
-    cout << "Passando por execute Thread\n";
+    cout << util::currentDateTime() << "Passando por execute Thread\n";
     ConnectionHandler *oneConnectionHandler = NULL;
 
     while (true){
@@ -88,7 +88,7 @@ void *executeThread(void *){
 
 //Cria a quantidade de threads especificada para trabalhar
 void ListenThreadPool::createThreadPool(){
-    cout << "Creating Thread Pool\n";
+    cout << util::currentDateTime() << "Creating Thread Pool\n";
     int i;
     pthread_t threads[THREAD_POOL_SIZE];
 

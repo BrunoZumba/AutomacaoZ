@@ -10,6 +10,7 @@ int insertActionButton(ActionButtonClass);
 vector<ActionButtonClass> getAllActionButtons();
 ActionButtonClass getActionButton(string);
 int deleteActionButton(string);
+int updateActionButton(ActionButtonClass);
 
 
 }

@@ -12,13 +12,25 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-g" />
 					<Add option="-Wall" />
+					<Add option="-g" />
 					<Add directory="include" />
+					<Add directory="include/AppClasses" />
+					<Add directory="src/AppClasses" />
+					<Add directory="include/CommandClasses" />
+					<Add directory="src/CommandClasses" />
+					<Add directory="src/DBClasses" />
+					<Add directory="include/DBClasses" />
 				</Compiler>
 				<Linker>
+					<Add option="include/rc-switch/RCSwitch.o" />
 					<Add library="pthread" />
 					<Add library="../../../../../../usr/local/lib/liblirc_client.so" />
+					<Add library="wiringPi" />
+					<Add library="rt" />
+					<Add library="crypt" />
+					<Add library="pqxx" />
+					<Add library="pq" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -29,6 +41,8 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add directory="include" />
+					<Add directory="include/AppClasses" />
+					<Add directory="include/CommandClasses" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -38,25 +52,44 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="include/AppClasses/ActionButtonClass.h" />
+		<Unit filename="include/AppClasses/ActionClass.h" />
+		<Unit filename="include/AppClasses/RecurringActionClass.h" />
+		<Unit filename="include/AppClasses/SensorClass.h" />
+		<Unit filename="include/AppClasses/TaskButtonClass.h" />
+		<Unit filename="include/AppClasses/TaskClass.h" />
 		<Unit filename="include/ArduinoJson.h" />
-		<Unit filename="include/CommandTask.h" />
+		<Unit filename="include/CommandClasses/ActionButtonCommand.h" />
+		<Unit filename="include/CommandClasses/Command.h" />
+		<Unit filename="include/CommandClasses/RecurringActionCommand.h" />
+		<Unit filename="include/CommandClasses/SensorCommand.h" />
+		<Unit filename="include/CommandClasses/SystemActionCommand.h" />
+		<Unit filename="include/CommandClasses/TaskCommand.h" />
 		<Unit filename="include/ConnectionHandler.h" />
+		<Unit filename="include/DBClasses/ActionButtonDAO.h" />
+		<Unit filename="include/ExecuteRecurringActionThread.h" />
 		<Unit filename="include/Job.h" />
 		<Unit filename="include/ListenThreadPool.h" />
-		<Unit filename="include/RecurringActionTask.h" />
-		<Unit filename="include/SensorTask.h" />
-		<Unit filename="include/SystemActionTask.h" />
-		<Unit filename="include/Task.h" />
 		<Unit filename="include/Util.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src/CommandTask.cpp" />
+		<Unit filename="src/AppClasses/ActionButtonClass.cpp" />
+		<Unit filename="src/AppClasses/ActionClass.cpp" />
+		<Unit filename="src/AppClasses/RecurringActionClass.cpp" />
+		<Unit filename="src/AppClasses/SensorClass.cpp" />
+		<Unit filename="src/AppClasses/TaskButtonClass.cpp" />
+		<Unit filename="src/AppClasses/TaskClass.cpp" />
+		<Unit filename="src/CommandClasses/ActionButtonCommand.cpp" />
+		<Unit filename="src/CommandClasses/Command.cpp" />
+		<Unit filename="src/CommandClasses/RecurringActionCommand.cpp" />
+		<Unit filename="src/CommandClasses/SensorCommand.cpp" />
+		<Unit filename="src/CommandClasses/SystemActionCommand.cpp" />
+		<Unit filename="src/CommandClasses/TaskCommand.cpp" />
 		<Unit filename="src/ConnectionHandler.cpp" />
+		<Unit filename="src/DBClasses/ActionButtonDAO.cpp" />
+		<Unit filename="src/DBClasses/RecurringActionDAO.cpp" />
+		<Unit filename="src/ExecuteRecurringActionThread.cpp" />
 		<Unit filename="src/Job.cpp" />
 		<Unit filename="src/ListenThreadPool.cpp" />
-		<Unit filename="src/RecurringActionTask.cpp" />
-		<Unit filename="src/SensorTask.cpp" />
-		<Unit filename="src/SystemActionTask.cpp" />
-		<Unit filename="src/Task.cpp" />
 		<Unit filename="src/Util.cpp" />
 		<Extensions>
 			<code_completion />

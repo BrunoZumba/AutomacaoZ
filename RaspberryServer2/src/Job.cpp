@@ -23,13 +23,13 @@ void Job::working(){
     while (n > 0){
         bzero(buffer, BUFFER_SIZE);
         sprintf(buffer, "Iteracao %d do socket %d na porta %d", i, sock, port);
-        //cout << buffer << "\n";
+        //cout << util::currentDateTime() << buffer << "\n";
 
         n = write(sock, buffer, strlen(buffer));
         if (n < 0) {
             bzero(buffer, BUFFER_SIZE);
             sprintf(buffer, "ERRO ao escrever no socket %d na porta %d: %s\n", sock, port, strerror(errno));
-            cout << buffer;
+            cout << util::currentDateTime() << buffer;
             break;
         }
 
@@ -39,16 +39,16 @@ void Job::working(){
         if (n < 0){
             bzero(buffer, BUFFER_SIZE);
             sprintf(buffer, "ERRO ao ler no socket %d na porta %d: %s\n", sock, port, strerror(errno));
-            cout << buffer;
+            cout << util::currentDateTime() << buffer;
             break;
         }
 
         //sprintf(buffer, "Msg rcv do host \'%s\' no socket %d na porta  %d\n", , sock, port);
-        cout << "Msg rcv do host \'" << inet_ntoa(clientAddr.sin_addr) << "\' no socket "<< sock <<" na porta "<<port<<": "<<buffer <<"\n";
+//        cout << util::currentDateTime() << "Msg rcv do host \'" << inet_ntoa(clientAddr.sin_addr) << "\' no socket "<< sock <<" na porta "<<port<<": "<<buffer <<"\n";
         i++;
     }
 
-    cout << "Fechando conexão com o host \'"<<inet_ntoa(clientAddr.sin_addr)<<"\' no socket " << sock << " na porta "<<port<<".\n";
+//    cout << util::currentDateTime() << "Fechando conexão com o host \'"<<inet_ntoa(clientAddr.sin_addr)<<"\' no socket " << sock << " na porta "<<port<<".\n";
     close(sock);
 
 }

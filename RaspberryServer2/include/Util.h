@@ -23,6 +23,7 @@ namespace util {
 
 //static int lircSock = -1;
 
+const std::string currentDateTime();
 
 int GetLircSocket();
 

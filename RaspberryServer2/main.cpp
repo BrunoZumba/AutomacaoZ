@@ -21,6 +21,7 @@
 
 
 #include <fstream>
+#include "Util.h"
 
 using namespace std;
 
@@ -35,6 +36,7 @@ int main(){
     pthread_t recActThread; //Thread para executar as recurringActions
     int i, rc;
     char buffer[BUFFER_SIZE];
+
 
 
 //    string actBtCmdBuffer = "{\"requestAction\":\"saveList\",\"requestOverwrite\":true,\"actionButton\":{\"actionName\":\"aço\",\"action\":[{\"buttonId\":\"111\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_EXIT\",\"mode\":\"SEND_ONCE\"}},{\"buttonId\":\"2131558569\",\"task\":{\"deviceName\":\"ControleNet\",\"buttonName\":\"KEY_POWER\",\"mode\":\"SEND_ONCE\"}}]}}";
@@ -150,7 +152,7 @@ int main(){
         rc = pthread_create(&threads[i], NULL, ListenThreadPool::Manage, (void*) &portas[i]);
         if (rc < 0){
             printf(buffer, "ERROR: Erro ao criar a thread na porta %d\n%s\n", portas[i], strerror(errno));
-            cout << buffer;
+            cout << util::currentDateTime() << buffer;
             return -1;
         }
 	    usleep(500);

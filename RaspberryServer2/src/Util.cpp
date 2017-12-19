@@ -2,6 +2,16 @@
 
 namespace util {
 
+const std::string currentDateTime(){
+    time_t now = time(0);
+    struct tm tstruct;
+    char buf[80];
+    tstruct = *localtime(&now);
+    strftime(buf, sizeof(buf), "%d/%m/%Y %X - ", &tstruct);
+
+    return buf;
+}
+
 int GetLircSocket(){
     int lircSock;
 //    if (lircSock < 0){
@@ -10,7 +20,7 @@ int GetLircSocket(){
         if (lircSock < 0){
             char buffer[255];
             sprintf(buffer, "ERRO ao criar o socket LIRC %d\n%s\n", lircSock, strerror(errno));
-            cout << buffer;
+            cout << util::currentDateTime() << buffer;
             return -1;
         }
 //    }

@@ -5,6 +5,7 @@
 #include <fstream>
 #include "Command.h"
 #include "RecurringActionClass.h"
+#include "RecurringActionDAO.h"
 
 
 class RecurringActionCommand : public Command {
