@@ -37,7 +37,7 @@ public class Util {
     public final static int BUFFER_SIZE = 4096;
 //    public static String SERVER_IP = "192.168.25.50"; //IP do Raspberry
 //    public static String SERVER_IP = "191.33.154.250"; //IP de Internet (port forwarding)
-    public static String SERVER_IP = "192.168.25.7"; //IP VirtualBox
+    public static String SERVER_IP = "192.168.25.10"; //IP VirtualBox
 
     private static Util instance = new Util();
 

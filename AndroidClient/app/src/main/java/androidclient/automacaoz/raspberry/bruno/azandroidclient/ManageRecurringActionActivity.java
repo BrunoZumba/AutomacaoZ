@@ -79,7 +79,7 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
      * https://stackoverflow.com/questions/24151891/callback-when-dialogfragment-is-dismissed */
     private static MyDialogCloseListener closeListener;
 
-    static List<RadioButton> radioButtonList; //Gerenciar a lista com todas as ações cadastradas
+//    static List<RadioButton> radioButtonList; //Gerenciar a lista com todas as ações cadastradas
     static RadioGroup rgActions; //RadioGroup onde estão os radioButtons com as Ações
     static EditText etRecurringActionName; //Nome desta Ação Recorrente
 
@@ -100,7 +100,7 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
 
         hourMinuteList = new ArrayList<>();
         selecteDates = new ArrayList<>();
-        radioButtonList = new ArrayList<>();
+//        radioButtonList = new ArrayList<>();
 //        times = new ArrayList<>();
 
         layoutHourMinute = (LinearLayout) findViewById(R.id.layoutHourMinute);
@@ -136,12 +136,12 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
         RecurringActionClass recAct = new RecurringActionClass(tag);
         etRecurringActionName.setText(recAct.getRecActName());
 
-        //Marca o RadioButton com a ação desejada
-        for (int i = 0; i < radioButtonList.size(); i++){
-            if (radioButtonList.get(i).getText().equals(recAct.getRecActActionButton().getActionName())){
-                rgActions.check(radioButtonList.get(i).getId());
-            }
-        }
+//        //Marca o RadioButton com a ação desejada
+//        for (int i = 0; i < radioButtonList.size(); i++){
+//            if (radioButtonList.get(i).getText().equals(recAct.getRecActActionButton().getActionName())){
+//                rgActions.check(radioButtonList.get(i).getId());
+//            }
+//        }
 
         //Preenche a lista com horários
         for (int i = 0; i < recAct.getRecActTimes().size(); i++){
@@ -199,7 +199,7 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
 
 
                 rgActions.addView(radioAction);
-                radioButtonList.add(radioAction);
+//                radioButtonList.add(radioAction);
             }
         } catch (JSONException e) {
             e.printStackTrace();

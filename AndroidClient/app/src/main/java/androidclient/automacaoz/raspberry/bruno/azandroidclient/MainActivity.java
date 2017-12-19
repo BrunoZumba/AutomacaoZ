@@ -72,6 +72,8 @@ import androidclient.automacaoz.raspberry.bruno.azandroidclient.CommandClasses.S
  *       R: Colocar o arquivo do RPi num BD.
  *
  * TODO: QUANDO ACTION TÁ GRANDE, VERIFICAR BUFFER NO RPI
+ *
+ * TODO: no GetAllActionButtons, alterar o server para só enviar o nome das ações e se executar a ação ou clicar nela para aparecer as tasks, aí sim ir no banco pegar os json.
  */
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MAIN_ACTIVITY";
