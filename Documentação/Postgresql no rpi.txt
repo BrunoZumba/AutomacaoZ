@@ -1,3 +1,11 @@
+########### Comandos #########
+sudo su postgres - para virar postgres
+psql - logar com o usuario postgres
+psq -d automacaozdb - entrar como postgres no DB automacaozdb
+psq -d automacaozdb -U azdbuser - entrar no DB automacaozdb como usuario azdbuser
+CTRL + D - sair do psql
+########### Comandos #########
+
 pi@raspberrypi:~ $ sudo apt-get update
 pi@raspberrypi:~ $ sudo apt-get install postgresql libpq-dev postgresql-client
 pi@raspberrypi:~ $ sudo su postgres
@@ -19,6 +27,9 @@ CREATE ROLE
 postgres=# grant usage on schema azschema to azdbuser;
 postgres=# grant all privileges on all tables in schema azschema to azdbuser;
 postgres=# grant usage, select on all sequences in schema azschema to azdbuser;
+
+grant all privileges on all tables in schema azschema to azdbuser;
+grant usage, select on all sequences in schema azschema to azdbuser;
 
 
 
@@ -78,40 +89,80 @@ CREATE INDEX aztb030_actionbutton_idx
 
 
 ################################################################
+******* select * from pg_tables; ********
+drop table azschema.aztb032_actionbutton cascade;
+drop table azschema.aztb030_actionbutton cascade;
+drop table azschema.aztb031_jsontask cascade;
+drop table azschema.aztb040_recurringaction cascade;
+drop table azschema.aztb041_recurringActionExecution cascade;
 
-CREATE SEQUENCE azschema.aztb032_actionbutton_id_actionbutton1_seq_1;
+***** select c.relname from pg_class c where c.relkind = 'S'; ****
+drop sequence azschema.aztb032_actionbutton_id_actionbutton_seq_1 cascade;
+drop sequence azschema.aztb041_recurringactionexecution_id_recurringactionexecution576;
+
+
+
+
+
+CREATE SEQUENCE azschema.aztb032_actionbutton_id_actionbutton_seq;
 
 CREATE TABLE azschema.AZTB032_actionButton (
+                id_actionButton INTEGER NOT NULL DEFAULT nextval('azschema.aztb032_actionbutton_id_actionbutton_seq'),
                 no_action VARCHAR NOT NULL,
-                id_actionButton1 INTEGER NOT NULL DEFAULT nextval('azschema.aztb032_actionbutton_id_actionbutton1_seq_1'),
-                CONSTRAINT id_actionbutton1 PRIMARY KEY (no_action)
+                CONSTRAINT id_actionbutton PRIMARY KEY (id_actionButton)
 );
 COMMENT ON TABLE azschema.AZTB032_actionButton IS 'Armazena dados de cada ActionButton';
+COMMENT ON COLUMN azschema.AZTB032_actionButton.id_actionButton IS 'Identificador unico de cada ActionButton';
 COMMENT ON COLUMN azschema.AZTB032_actionButton.no_action IS 'Nome da Acao';
-COMMENT ON COLUMN azschema.AZTB032_actionButton.id_actionButton1 IS 'Identificador unico de cada ActionButton';
 
 
-ALTER SEQUENCE azschema.aztb032_actionbutton_id_actionbutton1_seq_1 OWNED BY azschema.AZTB032_actionButton.id_actionButton1;
+ALTER SEQUENCE azschema.aztb032_actionbutton_id_actionbutton_seq OWNED BY azschema.AZTB032_actionButton.id_actionButton;
+
+CREATE UNIQUE INDEX aztb032_actionbutton_idx
+ ON azschema.AZTB032_actionButton
+ ( no_action ASC );
 
 CREATE SEQUENCE azschema.aztb040_recurringaction_id_recurringaction_seq;
 
 CREATE TABLE azschema.AZTB040_recurringAction (
-                no_recurringAction VARCHAR NOT NULL,
-                ts_execution TIMESTAMP NOT NULL,
-                bl_executed BOOLEAN NOT NULL,
                 id_recurringAction INTEGER NOT NULL DEFAULT nextval('azschema.aztb040_recurringaction_id_recurringaction_seq'),
-                no_action VARCHAR NOT NULL,
-                CONSTRAINT no_recurringaction PRIMARY KEY (no_recurringAction)
+                no_recurringAction VARCHAR NOT NULL,
+                id_actionButton INTEGER NOT NULL,
+                CONSTRAINT id_recurringaction PRIMARY KEY (id_recurringAction)
 );
 COMMENT ON TABLE azschema.AZTB040_recurringAction IS 'Armazena dados de cada RecurringAction';
-COMMENT ON COLUMN azschema.AZTB040_recurringAction.no_recurringAction IS 'Nome da Recurring Action';
-COMMENT ON COLUMN azschema.AZTB040_recurringAction.ts_execution IS 'Timestamp de execução da RecurringAction';
-COMMENT ON COLUMN azschema.AZTB040_recurringAction.bl_executed IS 'Boolean indicando se a ação já foi executada ou não';
 COMMENT ON COLUMN azschema.AZTB040_recurringAction.id_recurringAction IS 'Identificador único de cada RecurringAction';
-COMMENT ON COLUMN azschema.AZTB040_recurringAction.no_action IS 'Nome da Acao';
+COMMENT ON COLUMN azschema.AZTB040_recurringAction.no_recurringAction IS 'Nome da Recurring Action';
+COMMENT ON COLUMN azschema.AZTB040_recurringAction.id_actionButton IS 'Identificador unico de cada ActionButton';
 
 
 ALTER SEQUENCE azschema.aztb040_recurringaction_id_recurringaction_seq OWNED BY azschema.AZTB040_recurringAction.id_recurringAction;
+
+CREATE UNIQUE INDEX aztb040_recurringaction_idx
+ ON azschema.AZTB040_recurringAction
+ ( no_recurringAction ASC );
+
+CREATE SEQUENCE azschema.aztb041_recurringactionexecution_id_recurringactionexecution576;
+
+CREATE TABLE azschema.AZTB041_recurringActionExecution (
+                id_recurringActionExecution INTEGER NOT NULL DEFAULT nextval('azschema.aztb041_recurringactionexecution_id_recurringactionexecution576'),
+                bl_executed BOOLEAN NOT NULL,
+                ts_execution TIMESTAMP NOT NULL,
+                nu_dayInSecs BIGINT NOT NULL,
+                nu_timeInSecs INTEGER NOT NULL,
+                id_recurringAction INTEGER NOT NULL,
+                CONSTRAINT id_recurringactionexecution PRIMARY KEY (id_recurringActionExecution)
+);
+COMMENT ON TABLE azschema.AZTB041_recurringActionExecution IS 'Armazena cada execução de uma RecurringAction';
+COMMENT ON COLUMN azschema.AZTB041_recurringActionExecution.id_recurringActionExecution IS 'Identificador único da RecurringActionExecution';
+COMMENT ON COLUMN azschema.AZTB041_recurringActionExecution.bl_executed IS 'Boolean indicando se a ação já foi executada ou não';
+COMMENT ON COLUMN azschema.AZTB041_recurringActionExecution.ts_execution IS 'Timestamp de execução da RecurringAction';
+COMMENT ON COLUMN azschema.AZTB041_recurringActionExecution.nu_dayInSecs IS 'Armazena o dia que a RecurringAction sera executada em segundos desde Epoch';
+COMMENT ON COLUMN azschema.AZTB041_recurringActionExecution.nu_timeInSecs IS 'Armazena o horario (hh:mm) que a RecurringAction ira executar em segundos desde 00:00';
+COMMENT ON COLUMN azschema.AZTB041_recurringActionExecution.id_recurringAction IS 'Identificador único de cada RecurringAction';
+
+
+ALTER SEQUENCE azschema.aztb041_recurringactionexecution_id_recurringactionexecution576 OWNED BY azschema.AZTB041_recurringActionExecution.id_recurringActionExecution;
 
 CREATE SEQUENCE azschema.aztb031_jsontask_id_jsontask_seq;
 
@@ -119,49 +170,56 @@ CREATE TABLE azschema.AZTB031_jsonTask (
                 id_jsonTask INTEGER NOT NULL DEFAULT nextval('azschema.aztb031_jsontask_id_jsontask_seq'),
                 json_task VARCHAR NOT NULL,
                 nu_seq INTEGER NOT NULL,
-                no_action VARCHAR NOT NULL,
+                id_actionButton INTEGER NOT NULL,
                 CONSTRAINT json PRIMARY KEY (id_jsonTask)
 );
 COMMENT ON TABLE azschema.AZTB031_jsonTask IS 'Armazena cada Task de um ActionButton';
 COMMENT ON COLUMN azschema.AZTB031_jsonTask.id_jsonTask IS 'Identificador unico desta Task';
 COMMENT ON COLUMN azschema.AZTB031_jsonTask.json_task IS 'String Json com a Task a ser executada';
 COMMENT ON COLUMN azschema.AZTB031_jsonTask.nu_seq IS 'Sequencial indicando qual a ordem de execucao desta Task no ActionButton';
-COMMENT ON COLUMN azschema.AZTB031_jsonTask.no_action IS 'Nome da Acao';
+COMMENT ON COLUMN azschema.AZTB031_jsonTask.id_actionButton IS 'Identificador unico de cada ActionButton';
 
 
 ALTER SEQUENCE azschema.aztb031_jsontask_id_jsontask_seq OWNED BY azschema.AZTB031_jsonTask.id_jsonTask;
 
-CREATE SEQUENCE azschema.aztb030_actionbutton_id_actionbutton_seq;
+CREATE SEQUENCE azschema.aztb030_actionbutton_id_actionbutton1_seq;
 
 CREATE TABLE azschema.AZTB030_actionButton (
                 no_action VARCHAR(50) NOT NULL,
                 seq_action INTEGER NOT NULL,
-                id_actionButton INTEGER NOT NULL DEFAULT nextval('azschema.aztb030_actionbutton_id_actionbutton_seq'),
+                id_actionButton1 INTEGER NOT NULL DEFAULT nextval('azschema.aztb030_actionbutton_id_actionbutton1_seq'),
                 json_action VARCHAR NOT NULL,
-                CONSTRAINT id_actionbutton PRIMARY KEY (no_action, seq_action)
+                CONSTRAINT id_actionbutton1 PRIMARY KEY (no_action, seq_action)
 );
 COMMENT ON TABLE azschema.AZTB030_actionButton IS 'Dados de um ActionButton';
 COMMENT ON COLUMN azschema.AZTB030_actionButton.seq_action IS 'Sequencia da ação dentro do action button';
-COMMENT ON COLUMN azschema.AZTB030_actionButton.id_actionButton IS 'Identificador único do Action Button';
+COMMENT ON COLUMN azschema.AZTB030_actionButton.id_actionButton1 IS 'Identificador único do Action Button';
 COMMENT ON COLUMN azschema.AZTB030_actionButton.json_action IS 'Json contendo cada ação, identificada pelo nome e o sequencial';
 
 
-ALTER SEQUENCE azschema.aztb030_actionbutton_id_actionbutton_seq OWNED BY azschema.AZTB030_actionButton.id_actionButton;
+ALTER SEQUENCE azschema.aztb030_actionbutton_id_actionbutton1_seq OWNED BY azschema.AZTB030_actionButton.id_actionButton1;
 
 CREATE INDEX aztb030_actionbutton_idx
  ON azschema.AZTB030_actionButton
  ( no_action ASC, seq_action ASC );
 
 ALTER TABLE azschema.AZTB031_jsonTask ADD CONSTRAINT aztb031_actionbutton_aztb031_jsonaction_fk
-FOREIGN KEY (no_action)
-REFERENCES azschema.AZTB032_actionButton (no_action)
+FOREIGN KEY (id_actionButton)
+REFERENCES azschema.AZTB032_actionButton (id_actionButton)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE azschema.AZTB040_recurringAction ADD CONSTRAINT aztb032_actionbutton_aztb040_recurringaction_fk
-FOREIGN KEY (no_action)
-REFERENCES azschema.AZTB032_actionButton (no_action)
+FOREIGN KEY (id_actionButton)
+REFERENCES azschema.AZTB032_actionButton (id_actionButton)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE azschema.AZTB041_recurringActionExecution ADD CONSTRAINT aztb040_recurringaction_aztb041_recurringactionexecution_fk
+FOREIGN KEY (id_recurringAction)
+REFERENCES azschema.AZTB040_recurringAction (id_recurringAction)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
