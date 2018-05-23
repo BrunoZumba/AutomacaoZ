@@ -3,7 +3,7 @@
 namespace recurringActionDAO {
 
 int deleteRecurringAction(string recurringActionName){
-    int rowsAffected;
+    int rowsAffected, rowsAffected2;
     try {
         pqxx::connection co("dbname = automacaozdb user = azdbuser password = teste123 hostaddr = 127.0.0.1 port = 5432");
         if (! co.is_open()) {
@@ -14,10 +14,15 @@ int deleteRecurringAction(string recurringActionName){
         /* Create a transactional object. */
         work w(co);
         /* Create  SQL DELETE statement */
-        string sql = "DELETE FROM azschema.aztb040_recurringAction WHERE no_recurringAction = '" + recurringActionName + "';";
+        string sql = "DELETE FROM azschema.aztb041_recurringActionExecution WHERE id_recurringAction = ( "
+                     "select id_recurringAction FROM azschema.aztb040_recurringAction WHERE no_recurringAction = '" + recurringActionName + "');";
         result res = w.exec(sql);
-        w.commit();
         rowsAffected = res.affected_rows();
+
+        string sql2 = "DELETE FROM azschema.aztb040_recurringaction WHERE no_recurringAction = '" + recurringActionName + "';";
+        res = w.exec(sql2);
+        w.commit();
+        rowsAffected2 = res.affected_rows();
 
         co.disconnect();
     } catch (const std::exception &e) {
@@ -25,10 +30,10 @@ int deleteRecurringAction(string recurringActionName){
         return -1;
     }
 
-    if (rowsAffected == 0)
+    if (rowsAffected == 0 || rowsAffected2 == 0)
         return 0;
 
-    return rowsAffected;
+    return rowsAffected + rowsAffected2;
 }
 
 vector<RecurringActionClass> getAllRecurringActions(){
@@ -37,85 +42,115 @@ vector<RecurringActionClass> getAllRecurringActions(){
         pqxx::connection co("dbname = automacaozdb user = azdbuser password = teste123 hostaddr = 127.0.0.1 port = 5432");
 
         if (!co.is_open()) {
-         cout << util::currentDateTime() << "Can't open database" << endl;
-         return vector<RecurringActionClass>();
+            cout << util::currentDateTime() << "Can't open database" << endl;
+            return vector<RecurringActionClass>();
         }
+        nontransaction N(co);
 
-//        string sql = "SELECT a.no_recurringaction, a.ts_execution, a.bl_executed, a.nu_dayinsecs, a.nu_timeinsecs, b.no_action FROM azschema.aztb040_recurringAction as a, azschema.aztb032_actionbutton as b WHERE a.id_actionButton = b.id_actionButton ORDER BY a.no_recurringaction;";
-
-        const char *sql = "SELECT tb040.no_recurringaction, tb032.no_action, tb041.ts_execution, tb041.nu_dayinsecs, tb041.nu_timeinsecs "
-                        "FROM azschema.aztb032_actionbutton as tb032, azschema.aztb040_recurringaction as tb040, azschema.aztb041_recurringactionexecution as tb041 "
+        const char *sql = "SELECT tb040.no_recurringaction, tb032.no_action, tb040.id_recurringaction "
+                        "FROM azschema.aztb032_actionbutton as tb032, azschema.aztb040_recurringaction as tb040 "
                         "WHERE "
-                        "tb040.id_recurringaction = tb041.id_recurringAction AND "
                         "tb040.id_actionbutton = tb032.id_actionbutton "
                         "ORDER BY "
                         "tb040.no_recurringaction ASC;";
 
-        nontransaction N(co);
-        result R( N.exec( sql ));
+        result ResultQuery( N.exec( sql ));
 
-        if(R.size() == 0){
+        if(ResultQuery.size() == 0){
             return vector<RecurringActionClass>();
         }
 
         //Pega cada entrada no banco de dados e transforma em um vetor de RecurringAction
-        RecurringActionClass newRecurringAction;
         vector<long long> dates, times;
-        //Pega o primeiro elemento do retorno do BD e coloca no newActionButton
-        result::const_iterator c = R[0];
 
-        newRecurringAction.setRecActName(c[0].as<string>());
-        string recurringActionName = c[0].as<string>();
-        string actionButtonName = c[1].as<string>();
-        cout<<"1\n";
+        for (unsigned int i = 0; i < ResultQuery.size(); i++){
+            result::const_iterator c = ResultQuery[i];
+            string recurringActionName = c[0].as<string>();
+            string actionButtonName = c[1].as<string>();
+            int idRecAct = c[2].as<int>();
 
-        for (unsigned int i = 1; i <= R.size(); i++){
-            cout<<"NoRecActBD: "<<c[0].as<string>()<<endl;
-            cout<<"NoRecActVar: "<<newRecurringAction.getRecActName()<<endl;
-            if(strcmp(recurringActionName.c_str(), c[0].as<string>().c_str()) != 0){
-                cout<<"dentro loop\n";
-                RecurringActionClass newRecurringAction;
-                //Se o RecActName do retorno do banco eh diferente do anterior significa que trocou de RecurringAction
-                newRecurringAction.setRecActName(recurringActionName);
-                newRecurringAction.setRecActDates(dates);
-                newRecurringAction.setRecActTimes(times);
-                newRecurringAction.setRecActActionButton(actionButtonDAO::getActionButton(actionButtonName));
-                recurringActionsList.insert(recurringActionsList.end(), newRecurringAction);
+            RecurringActionClass newRecurringAction;
+            newRecurringAction.setRecActName(recurringActionName);
+            newRecurringAction.setRecActActionButton(actionButtonDAO::getActionButton(actionButtonName));
 
-                //newRecurringAction.setRecActName(c[0].as<string>());
-                recurringActionName = c[0].as<string>();
-                actionButtonName = c[1].as<string>();
-                dates.erase(dates.begin(), dates.end());
-                times.erase(times.begin(), times.end());
+            char sqlTimes[200];
+            strcpy(sqlTimes, "SELECT distinct nu_timeinsecs FROM azschema.aztb041_recurringactionexecution WHERE id_recurringAction = ");
+            strcat(sqlTimes, to_string(idRecAct).c_str());
+            strcat(sqlTimes, ";");
+            result ResultTimes( N.exec( sqlTimes ));
+
+            times.erase(times.begin(), times.end());
+            for (unsigned int j = 0; j < ResultTimes.size(); j++){
+                times.insert(times.end(), ResultTimes[j][0].as<long long>() * 1000);
             }
-            cout<<"fora loop\n";
+            newRecurringAction.setRecActTimes(times);
 
-            dates.insert(dates.end(), c[3].as<long long>() * 1000);
-            times.insert(times.end(), c[4].as<long long>() * 1000);
+            char sqlDates[200];
+            strcpy(sqlDates, "SELECT distinct nu_dayinsecs FROM azschema.aztb041_recurringactionexecution WHERE id_recurringAction = ");
+            strcat(sqlDates, to_string(idRecAct).c_str());
+            strcat(sqlDates, ";");
+            result ResultDates( N.exec( sqlDates ));
 
-            c = R[i];
+            dates.erase(dates.begin(), dates.end());
+            for (unsigned int j = 0; j < ResultDates.size(); j++){
+                dates.insert(dates.end(), ResultDates[j][0].as<long long>() * 1000);
+            }
+            newRecurringAction.setRecActDates(dates);
+            recurringActionsList.insert(recurringActionsList.end(), newRecurringAction);
 
         }
-        cout<<"fim loop\n";
 
-        //Pega o ultimo elemento do retorno do bd, que ficou de fora do loop acima
-        newRecurringAction.setRecActName(recurringActionName);
-        newRecurringAction.setRecActDates(dates);
-        newRecurringAction.setRecActTimes(times);
-        newRecurringAction.setRecActActionButton(actionButtonDAO::getActionButton(actionButtonName));
-        recurringActionsList.insert(recurringActionsList.end(), newRecurringAction);
 
         co.disconnect ();
-
     } catch (const std::exception &e) {
         cerr << util::currentDateTime() << e.what() << std::endl;
         return vector<RecurringActionClass>();
     }
+
     return recurringActionsList;
 
 }
 
 int insertRecurringAction(RecurringActionClass recurringAction){
+    try {
+        pqxx::connection co("dbname = automacaozdb user = azdbuser password = teste123 hostaddr = 127.0.0.1 port = 5432");
+        if (!co.is_open()) {
+         cout << "Can't open database" << endl;
+         return -1;
+        }
+
+        pqxx::work txn(co);
+        string sql = "INSERT INTO azschema.aztb040_recurringAction (no_recurringAction, id_actionButton) VALUES (" + txn.quote(recurringAction.getRecActName())
+        +", (select id_actionbutton from azschema.aztb032_actionbutton where no_action = " + txn.quote(recurringAction.getRecActActionButton().getActionName())
+        +")) returning id_recurringAction;";
+
+        pqxx::result r = txn.exec(sql);
+//        txn.commit();
+        int res = r[0][0].as<int>();
+
+        for (unsigned int i = 0; i < recurringAction.getRecActDates().size(); i++){
+            for (unsigned int j = 0; j < recurringAction.getRecActTimes().size(); j++){
+                long long ts = recurringAction.getRecActDates().at(i) + recurringAction.getRecActTimes().at(j);
+                ts = ts/1000;
+
+                string sql2 = "INSERT INTO azschema.aztb041_recurringActionExecution (bl_executed, ts_execution, nu_dayinsecs, nu_timeinsecs, id_recurringAction) values (false, to_timestamp("
+                +txn.quote(ts)+ "), "+ txn.quote(recurringAction.getRecActDates().at(i)/1000) + ", "
+                +txn.quote(recurringAction.getRecActTimes().at(j)/1000) +", "+txn.quote(res)+");";
+
+                pqxx::result r = txn.exec(sql2);
+
+            }
+        }
+        txn.commit();
+        co.disconnect();
+    } catch (const std::exception &e) {
+        cout << util::currentDateTime() << "INFO: " << e.what() << std::endl;
+        return -2;
+    }
+    return 1;
+}
+
+int updateRecurringAction(RecurringActionClass recurringAction){
     try {
         pqxx::connection co("dbname = automacaozdb user = azdbuser password = teste123 hostaddr = 127.0.0.1 port = 5432");
         if (!co.is_open()) {

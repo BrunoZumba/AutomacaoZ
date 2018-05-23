@@ -40,17 +40,36 @@ bool RecurringActionCommand::execute(){
 
 
     if(this->requestAction == "saveRecurringAction"){
-        if (recurringActionDAO::insertRecurringAction(this->getRecurringAction()) > 0){
-            this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação Recorrente inserida com sucesso","");
-            return true;
+        if (this->requestOverwrite){
+            //Faz update (delete/insert) da ação recorrente
+            int resDel = recurringActionDAO::deleteRecurringAction(this->getRecurringAction().getRecActName());
+            int resIns = recurringActionDAO::insertRecurringAction(this->getRecurringAction());
+
+            if ((resDel > 0 ) && (resIns == 1)){
+                this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação alterada com sucesso","");
+                return true;
+            } else {
+                this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Erro ao alterar a Ação","");
+                return false;
+            }
         } else {
-            this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Já existe Ação Recorrente com este nome","requestOverwrite");
-            return false;
+            int res = recurringActionDAO::insertRecurringAction(this->getRecurringAction());
+            if (res == 1){
+                //Inseriu com sucesso
+                this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação Recorrente inserida com sucesso","");
+                return true;
+            } else if (res == -2){
+                //Ação Recorrente já existe. Solicita RequestOverwrite
+                this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Já existe Ação Recorrente com este nome","requestOverwrite");
+                return true;
+            } else {
+                this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Erro ao inserir a Ação Recorrente","");
+                return false;
+            }
         }
 
     } else if(this->requestAction == "getList"){
         vector<RecurringActionClass> recurringActions = recurringActionDAO::getAllRecurringActions();
-
         if(recurringActions.size() <= 0){
             this->createResponse(STATUS_OK, /*"getListResponse",*/ "Não há Ações Recorrentes cadastradas", "[]");
             return false;
@@ -63,7 +82,6 @@ bool RecurringActionCommand::execute(){
         }
         arrayStr[arrayStr.length()-1] = ']';
         arrayStr = arrayStr.substr(0, arrayStr.length());
-        cout << "4\n";
 
         this->createResponse(STATUS_OK, /*"getListResponse",*/ "Sucesso", arrayStr);
         return true;
@@ -77,57 +95,6 @@ bool RecurringActionCommand::execute(){
             this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Não há ação com este nome","");
         }
     }
-
-
-
-//    if(this->requestAction == "getList"){
-//        //Se a ação for getList, cria a resposta com uma string do JsonArray
-//        string arrayStr;
-//        root.printTo(arrayStr);
-//        this->createResponse(STATUS_OK, /*"getListResponse",*/ "Sucesso", arrayStr);
-//        return true;
-//
-//    } else { //coloquei esse else separado pois tanto saveRecurringAction quanto deleteRecurringAction preicsa percorrer o arquivo até achar a ocorrencia
-//        bool existeAcao = false;
-//        //Se a ação for saveRecurringAction, percorre todo o arquivo de ações recorrentes verificando se não existe uma ação com esse nome
-//        for(unsigned int i = 0; i < root.size(); i++){
-//
-//            RecurringActionClass recActTask = RecurringActionClass();
-//            recActTask.createFromJson(root[i]);
-//
-//            //Achou um arquivo com esse nome;
-//            if (recActTask.getRecActName() == this->recurringAction.getRecActName()){
-//                existeAcao = true;
-//
-//                if (this->requestAction == "saveRecurringAction"){
-//                    if (this->requestOverwrite){
-//                        //sobrescreve a ação na posição corrente 'i'
-//                        util::saveToFile(file, (string)this->recurringAction.parseToJson(), i, RECURRING_ACTION_FILE);
-//                        this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação Recorrente inserida com sucesso","");
-//                    } else {
-//                        cout<<"requestOverwrite é falso. não fez nada\n";
-//                        this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Já existe Ação Recorrente com este nome","requestOverwrite");
-//                        return false;
-//                    }
-//                } else if (this->requestAction == "deleteRecurringAction"){
-//                    util::deleteFromFile(file, i, RECURRING_ACTION_FILE);
-//                    this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação Recorrente deletada com sucesso","");
-//                }
-//                break;
-//            }
-//        }
-//
-//        //se a acao nao foi encontrada no arquivo, adiciona ela no final do arquivo.
-//        if(!existeAcao){
-//            if (this->requestAction == "saveRecurringAction"){
-//                cout<<"Nao achou a ação. Adicionando ao final\n";
-//                util::saveToFile(file, this->recurringAction.parseToJson(), -1, RECURRING_ACTION_FILE);
-//                this->createResponse(STATUS_OK, /*"saveListResponse",*/ "Ação Recorrente inserida com sucesso","");
-//            } else if (this->requestAction == "deleteRecurringAction"){
-//                this->createResponse(STATUS_ERROR, /*"saveListResponse",*/ "Não há Ação Recorrente com este nome","");
-//            }
-//        }
-//    }
 
     if(file.is_open()){
         file.close();

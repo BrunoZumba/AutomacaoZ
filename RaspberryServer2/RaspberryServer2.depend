@@ -544,7 +544,7 @@
 	<wiringPi.h>
 	"rc-switch/RCSwitch.h"
 
-1513557641 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/RecurringActionCommand.cpp
+1527035577 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/CommandClasses/RecurringActionCommand.cpp
 	"RecurringActionCommand.h"
 
 1513536415 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/CommandClasses/RecurringActionCommand.h
@@ -609,7 +609,7 @@
 1513531877 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/ExecuteRecurringActionThread.cpp
 	"ExecuteRecurringActionThread.h"
 
-1513556480 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/DBClasses/ActionButtonDAO.cpp
+1526093626 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/DBClasses/ActionButtonDAO.cpp
 	"ActionButtonDAO.h"
 
 1513540974 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/DBClasses/ActionButtonDAO.h
@@ -619,12 +619,13 @@
 1513536155 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/RecurringActionDAO.cpp
 	"RecurringActionDAO.h"
 
-1513549252 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/DBClasses/RecurringActionDAO.h
+1526779370 /home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/include/DBClasses/RecurringActionDAO.h
 	"Util.h"
 	"RecurringActionClass.h"
 	"ActionButtonDAO.h"
 	<time.h>
+	<string>
 
-1513561642 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/DBClasses/RecurringActionDAO.cpp
+1526781621 source:/home/bruno/Documentos/AutomacaoZ/trunk/RaspberryServer2/src/DBClasses/RecurringActionDAO.cpp
 	"RecurringActionDAO.h"
 

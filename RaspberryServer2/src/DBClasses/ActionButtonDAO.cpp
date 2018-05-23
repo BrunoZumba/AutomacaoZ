@@ -7,14 +7,14 @@ int deleteActionButton(string actionName){
     try {
         pqxx::connection co("dbname = automacaozdb user = azdbuser password = teste123 hostaddr = 127.0.0.1 port = 5432");
         if (! co.is_open()) {
-         cout << util::currentDateTime() << "Can't open database" << endl;
-         return -1;
+            cout << util::currentDateTime() << "Can't open database" << endl;
+            return -1;
         }
 
         /* Create a transactional object. */
         work w(co);
         /* Create  SQL DELETE statement */
-        string sql  = "DELETE FROM azschema.aztb031_jsontask where id_actionbutton = (select id_actionButton from azschema.aztb032_actionbutton where no_action = '" + actionName + "');";
+        string sql = "DELETE FROM azschema.aztb031_jsontask where id_actionbutton = (select id_actionButton from azschema.aztb032_actionbutton where no_action = '" + actionName + "');";
         result res = w.exec(sql);
         rowsAffected = res.affected_rows();
 
