@@ -10,18 +10,22 @@ Arquivo run:
 ###################################
 #!/bin/sh
 
-/home/pi/Desktop/AutomacaoZ.git/trunk/RaspberryServer2/bin/Debug/RaspberryServer2
+/home/pi/Desktop/AutomacaoZ.git/trunk/RaspberryServer2/bin/Debug/RaspberryServer2 >> /home/pi/Desktop/AutomacaoZ.git/trunk/RaspberryServer2/log.txt
+
 ###################################
 
-chmod 775 /service/RaspberryServer
+sudo chmod 775 /service/RaspberryServer/run
+
+sudo chmod 775 /service/RaspberryServer
 
 cd /etc/service
-ln -s /service/RaspberryServer
+sudo ln -s /service/RaspberryServer
 
 
 Daemon criado. 
 Para parar o serviço:
 svc -d /service/RaspberryServer
+(depois tem que ir no diretorio e mudar o nome do arquivo)
 
 Para iniciar
 svc -u /service/RaspberryServer

@@ -71,7 +71,7 @@
     <column id="COL15" populated="true" UUID="30065068-a581-44cf-a2b0-ace32e8104fd" autoIncrement="false" autoIncrementSequenceName="AZTB030_actionButton_seq_action_seq" defaultValue="" name="seq_action" nullable="0" physicalName="seq_action" precision="0" primaryKeySeq="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks>Sequencia da ação dentro do action button</remarks>
     </column>
-    <column id="COL16" populated="true" UUID="3568d5f4-961e-457f-b5ca-98bb0b4fcae0" autoIncrement="true" autoIncrementSequenceName="AZTB030_actionButton_id_actionButton_seq" defaultValue="" name="id_actionButton" nullable="0" physicalName="id_actionButton" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL16" populated="true" UUID="3568d5f4-961e-457f-b5ca-98bb0b4fcae0" autoIncrement="true" autoIncrementSequenceName="AZTB030_actionButton_id_actionButton1_seq" defaultValue="" name="id_actionButton1" nullable="0" physicalName="id_actionButton1" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks>Identificador único do Action Button</remarks>
     </column>
     <column id="COL17" populated="true" UUID="1ee7b794-4f98-4b12-b65d-6b4c3dc69aff" autoIncrement="false" autoIncrementSequenceName="AZTB030_actionButton_json_action_seq" defaultValue="" name="json_action" nullable="0" physicalName="json_action" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -83,7 +83,7 @@
     <folder id="FOLTAB132" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB134" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX18" populated="true" UUID="8be4d64f-baaa-4fee-ac68-32b65bbc70a1" clustered="false" name="id_actionButton" physicalName="id_actionbutton" primaryKeyIndex="true" unique="false" >
+    <index id="IDX18" populated="true" UUID="8be4d64f-baaa-4fee-ac68-32b65bbc70a1" clustered="false" name="id_actionButton1" physicalName="id_actionbutton1" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC19" populated="true" UUID="7c3a0bce-8acc-487e-a13f-5b937f3c87d6" ascendingOrDescending="UNSPECIFIED" column-ref="COL14" name="no_action" physicalName="no_action" />
      <index-column id="IDC20" populated="true" UUID="705c1afe-5bbd-4f77-867a-57aba62f9af0" ascendingOrDescending="UNSPECIFIED" column-ref="COL15" name="seq_action" physicalName="seq_action" />
     </index>
@@ -93,14 +93,137 @@
     </index>
    </folder>
   </table>
+  <table id="TAB24" populated="true" UUID="5ec2ab28-fa7c-4c6b-a89a-bfbf2ec829ad" name="AZTB031_jsonTask" objectType="TABLE" physicalName="AZTB031_jsonTask" >
+   <remarks>Armazena cada Task de um ActionButton</remarks>
+   <folder id="FOLTAB241" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL25" populated="true" UUID="406be006-287f-4356-a4b6-40a0416b8f2d" autoIncrement="true" autoIncrementSequenceName="AZTB031_jsonTask_id_jsonTask_seq" defaultValue="" name="id_jsonTask" nullable="0" physicalName="id_jsonTask" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks>Identificador unico desta Task</remarks>
+    </column>
+    <column id="COL26" populated="true" UUID="bcc0c236-d981-4873-8d43-12d3b09c39da" autoIncrement="false" autoIncrementSequenceName="AZTB031_jsonTask_json_task_seq" defaultValue="" name="json_task" nullable="0" physicalName="json_task" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks>String Json com a Task a ser executada</remarks>
+    </column>
+    <column id="COL27" populated="true" UUID="b934a359-8f18-4a42-991a-433c2c33f9a2" autoIncrement="false" autoIncrementSequenceName="AZTB031_jsonTask_nu_seq_seq" defaultValue="" name="nu_seq" nullable="0" physicalName="nu_seq" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks>Sequencial indicando qual a ordem de execucao desta Task no ActionButton</remarks>
+    </column>
+    <column id="COL28" populated="true" UUID="e19d8531-5b48-46b4-b2e5-32931d8e967f" autoIncrement="false" autoIncrementSequenceName="AZTB032_actionButton_id_actionButton1_seq_1" defaultValue="" name="id_actionButton" nullable="0" physicalName="id_actionButton" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks>Identificador unico de cada ActionButton</remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB243" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB242" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB244" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX29" populated="true" UUID="0249a310-ebb2-44a1-99a9-2b044c7452bf" clustered="false" name="json" physicalName="json" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC30" populated="true" UUID="58432fc0-21ba-4ad4-b62c-503da7b53a13" ascendingOrDescending="UNSPECIFIED" column-ref="COL25" name="id_jsonTask" physicalName="id_jsonTask" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB31" populated="true" UUID="a4e381cd-fda4-4ad7-9aa5-28859e606950" name="AZTB032_actionButton" objectType="TABLE" physicalName="AZTB032_actionButton" >
+   <remarks>Armazena dados de cada ActionButton</remarks>
+   <folder id="FOLTAB311" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL32" populated="true" UUID="e495bd10-dc69-46bd-a55b-d002e134650e" autoIncrement="true" autoIncrementSequenceName="AZTB032_actionButton_id_actionButton_seq" defaultValue="" name="id_actionButton" nullable="0" physicalName="id_actionButton" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks>Identificador unico de cada ActionButton</remarks>
+    </column>
+    <column id="COL33" populated="true" UUID="4052e289-0bb3-4073-badc-aa4496fb83c0" autoIncrement="false" autoIncrementSequenceName="AZTB032_actionButton_no_action_seq" defaultValue="" name="no_action" nullable="0" physicalName="no_action" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks>Nome da Acao</remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB313" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB312" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB314" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX34" populated="true" UUID="34cebca9-85c4-4ced-8b3e-e6670f9fab4d" clustered="false" name="id_actionButton" physicalName="id_actionbutton" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC35" populated="true" UUID="35309e05-aea2-4862-8097-59a40b311d89" ascendingOrDescending="UNSPECIFIED" column-ref="COL32" name="id_actionButton" physicalName="id_actionButton" />
+    </index>
+    <index id="IDX36" populated="true" UUID="57f1504f-37b5-4f75-8cee-9a24bdc9f42a" clustered="false" name="AZTB032_actionButton_idx" physicalName="aztb032_actionbutton_idx" primaryKeyIndex="false" unique="true" >
+     <index-column id="IDC37" populated="true" UUID="8af619f6-aba1-400b-9b8a-619527c582f4" ascendingOrDescending="ASCENDING" column-ref="COL33" name="no_action" physicalName="no_action" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB38" populated="true" UUID="e20ba494-007f-4b01-ae62-a1d994e1c97f" name="AZTB040_recurringAction" objectType="TABLE" physicalName="AZTB040_recurringAction" >
+   <remarks>Armazena dados de cada RecurringAction</remarks>
+   <folder id="FOLTAB381" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL39" populated="true" UUID="c88acec5-7aac-4bc4-9dc5-e28b8ab37b6f" autoIncrement="true" autoIncrementSequenceName="AZTB040_recurringAction_id_recurringAction_seq" defaultValue="" name="id_recurringAction" nullable="0" physicalName="id_recurringAction" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks>Identificador único de cada RecurringAction</remarks>
+    </column>
+    <column id="COL40" populated="true" UUID="067d940f-b389-4ca1-afdc-a1e5e3f394e9" autoIncrement="false" autoIncrementSequenceName="AZTB040_recurringAction_no_recurringAction_seq" defaultValue="" name="no_recurringAction" nullable="0" physicalName="no_recurringAction" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks>Nome da Recurring Action</remarks>
+    </column>
+    <column id="COL41" populated="true" UUID="5194d930-f33b-4cb1-86c3-5fa1068f3b19" autoIncrement="false" autoIncrementSequenceName="AZTB040_recurringAction_id_actionButton_seq" defaultValue="" name="id_actionButton" nullable="0" physicalName="id_actionButton" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks>Identificador unico de cada ActionButton</remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB383" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB382" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB384" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX42" populated="true" UUID="054e0e25-c18b-4985-af14-2145f966e7d0" clustered="false" name="id_recurringAction" physicalName="id_recurringaction" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC43" populated="true" UUID="382181e9-5822-4792-a9fe-d21b3b26db5b" ascendingOrDescending="ASCENDING" column-ref="COL39" name="id_recurringAction" physicalName="id_recurringAction" />
+    </index>
+    <index id="IDX44" populated="true" UUID="45c4dd06-c6d9-472e-95b0-a2da0ed95dab" clustered="false" name="AZTB040_recurringAction_idx" physicalName="aztb040_recurringaction_idx" primaryKeyIndex="false" unique="true" >
+     <index-column id="IDC45" populated="true" UUID="24f2b836-7332-4629-b9dc-809195082ea9" ascendingOrDescending="ASCENDING" column-ref="COL40" name="no_recurringAction" physicalName="no_recurringAction" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB46" populated="true" UUID="e03237fc-6d0d-4830-8737-1671a5734fa4" name="AZTB041_recurringActionExecution" objectType="TABLE" physicalName="AZTB041_recurringActionExecution" >
+   <remarks>Armazena cada execução de uma RecurringAction</remarks>
+   <folder id="FOLTAB461" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL47" populated="true" UUID="f2bfbed6-2823-48ee-806f-0108d56ea4cd" autoIncrement="true" autoIncrementSequenceName="AZTB041_recurringActionExecution_id_recurringActionExecution_seq" defaultValue="" name="id_recurringActionExecution" nullable="0" physicalName="id_recurringActionExecution" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks>Identificador único da RecurringActionExecution</remarks>
+    </column>
+    <column id="COL48" populated="true" UUID="30bd8f26-f5eb-4830-a416-87d245454659" autoIncrement="false" autoIncrementSequenceName="AZTB041_recurringActionExecution_bl_executed_seq" defaultValue="" name="bl_executed" nullable="0" physicalName="bl_executed" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="16" userDefinedTypeUUID="a26374aa-3026-4bb8-b564-eb2e186dfa5d" >
+     <remarks>Boolean indicando se a ação já foi executada ou não</remarks>
+    </column>
+    <column id="COL49" populated="true" UUID="3b7177cc-4402-4078-b8b1-bd47723d9493" autoIncrement="false" autoIncrementSequenceName="AZTB041_recurringActionExecution_ts_execution_seq" defaultValue="" name="ts_execution" nullable="0" physicalName="ts_execution" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+     <remarks>Timestamp de execução da RecurringAction</remarks>
+    </column>
+    <column id="COL50" populated="true" UUID="392ec6f9-d6bc-451d-8a9f-89b65bd92bb6" autoIncrement="false" autoIncrementSequenceName="AZTB041_recurringActionExecution_nu_dayInSecs_seq" defaultValue="" name="nu_dayInSecs" nullable="0" physicalName="nu_dayInSecs" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="-5" userDefinedTypeUUID="433cc8af-284d-4abb-8ef7-08ebcb34dbf1" >
+     <remarks>Armazena o dia que a RecurringAction sera executada em segundos desde Epoch</remarks>
+    </column>
+    <column id="COL51" populated="true" UUID="f48554b5-ccb0-4044-a45b-437f3433ae12" autoIncrement="false" autoIncrementSequenceName="AZTB041_recurringActionExecution_nu_timeInSecs_seq" defaultValue="" name="nu_timeInSecs" nullable="0" physicalName="nu_timeInSecs" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks>Armazena o horario (hh:mm) que a RecurringAction ira executar em segundos desde 00:00</remarks>
+    </column>
+    <column id="COL52" populated="true" UUID="c7e7c3d3-730a-4aa8-a291-f415c935c873" autoIncrement="false" autoIncrementSequenceName="AZTB041_recurringAction_id_recurringAction_seq" defaultValue="" name="id_recurringAction" nullable="0" physicalName="id_recurringAction" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks>Identificador único de cada RecurringAction</remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB463" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB462" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB464" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX53" populated="true" UUID="baa4d28f-7720-4189-8526-93dc971a700d" clustered="false" name="id_recurringActionExecution" physicalName="id_recurringactionexecution" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC54" populated="true" UUID="86fcbb85-bdec-4920-87d9-a0fc38287e17" ascendingOrDescending="UNSPECIFIED" column-ref="COL47" name="id_recurringActionExecution" physicalName="id_recurringActionExecution" />
+    </index>
+   </folder>
+  </table>
   <relationships>
+   <relationship id="REL55" populated="true" UUID="d6c6d6da-bc79-4bcf-a8f0-1c9780251506" deferrability="7" deleteRule="3" fk-table-ref="TAB24" fkCardinality="6" identifying="false" name="AZTB031_actionButton_AZTB031_jsonAction_fk" physicalName="aztb031_actionbutton_aztb031_jsonaction_fk" pk-table-ref="TAB31" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP56" populated="true" UUID="7a37613e-d487-40bb-a531-826de5f6243b" fk-column-ref="COL28" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL32" />
+   </relationship>
+   <relationship id="REL57" populated="true" UUID="6f9bde9f-48c3-4365-ae38-5d9818ac6acf" deferrability="7" deleteRule="3" fk-table-ref="TAB38" fkCardinality="7" identifying="false" name="AZTB032_actionButton_AZTB040_recurringAction_fk" physicalName="aztb032_actionbutton_aztb040_recurringaction_fk" pk-table-ref="TAB31" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP58" populated="true" UUID="2db7482f-1c85-4ee2-90a3-2526e3498022" fk-column-ref="COL41" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL32" />
+   </relationship>
+   <relationship id="REL59" populated="true" UUID="4e3f8235-8ff0-4fd3-8575-a7ff3140c70a" deferrability="7" deleteRule="3" fk-table-ref="TAB46" fkCardinality="6" identifying="false" name="AZTB040_recurringAction_AZTB041_recurringActionExecution_fk" physicalName="aztb040_recurringaction_aztb041_recurringactionexecution_fk" pk-table-ref="TAB38" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP60" populated="true" UUID="7a936667-8926-4986-9f03-53b87f9afc76" fk-column-ref="COL52" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL39" />
+   </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="azschema"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="azschema"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
-  <table-pane table-ref="TAB13" x="351" y="333" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB13" x="100" y="492" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB24" x="1014" y="296" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB31" x="1010" y="137" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB38" x="642" y="136" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB46" x="201" y="95" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-link relationship-ref="REL55" pkConnection="0.5045871559633027" fkConnection="0.4908256880733945" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL57" pkConnection="0.49122807017543857" fkConnection="0.4084507042253521" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
+  <table-link relationship-ref="REL59" pkConnection="0.49295774647887325" fkConnection="0.672566371681416" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
  </play-pen>
  <critic-manager>
   <critic-grouping platformType="Generic" enabled="true">

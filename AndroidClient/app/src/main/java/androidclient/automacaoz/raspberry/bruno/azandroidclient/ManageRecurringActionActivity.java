@@ -79,7 +79,7 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
      * https://stackoverflow.com/questions/24151891/callback-when-dialogfragment-is-dismissed */
     private static MyDialogCloseListener closeListener;
 
-//    static List<RadioButton> radioButtonList; //Gerenciar a lista com todas as ações cadastradas
+    static List<RadioButton> radioButtonList; //Gerenciar a lista com todas as ações cadastradas
     static RadioGroup rgActions; //RadioGroup onde estão os radioButtons com as Ações
     static EditText etRecurringActionName; //Nome desta Ação Recorrente
 
@@ -91,6 +91,8 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
      */
     private static String intentTag = "";
 
+    static android.support.v7.app.AlertDialog overwriteAlert;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +102,7 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
 
         hourMinuteList = new ArrayList<>();
         selecteDates = new ArrayList<>();
-//        radioButtonList = new ArrayList<>();
+        radioButtonList = new ArrayList<>();
 //        times = new ArrayList<>();
 
         layoutHourMinute = (LinearLayout) findViewById(R.id.layoutHourMinute);
@@ -137,11 +139,11 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
         etRecurringActionName.setText(recAct.getRecActName());
 
 //        //Marca o RadioButton com a ação desejada
-//        for (int i = 0; i < radioButtonList.size(); i++){
-//            if (radioButtonList.get(i).getText().equals(recAct.getRecActActionButton().getActionName())){
-//                rgActions.check(radioButtonList.get(i).getId());
-//            }
-//        }
+        for (int i = 0; i < radioButtonList.size(); i++){
+            if (radioButtonList.get(i).getText().equals(recAct.getRecActActionButton().getActionName())){
+                rgActions.check(radioButtonList.get(i).getId());
+            }
+        }
 
         //Preenche a lista com horários
         for (int i = 0; i < recAct.getRecActTimes().size(); i++){
@@ -193,13 +195,13 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
                 RadioButton radioAction = new RadioButton(ManageRecurringActionActivity.activity.getApplicationContext());
                 radioAction.setText(actBt.getActionName());
                 radioAction.setTag(actBt.getAction().parseToJson());
-                radioAction.setTextColor(Color.BLACK);
+                radioAction.setTextColor(Color.GREEN);
                 radioAction.setBackground(MainActivity.activity.getResources().getDrawable(R.drawable.simple_black_border));
                 radioAction.setLayoutParams(new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
 
                 rgActions.addView(radioAction);
-//                radioButtonList.add(radioAction);
+                radioButtonList.add(radioAction);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -386,7 +388,7 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
     }
 
     public static void processResponse(final ActionButtonCommand response){
-        if (response.getRequestAction().equals("getList")){
+        if (response.getRequestAction().equals("getList")) {
             switch (response.getResponseStatus()) {
                 case (Command.STATUS_ERROR):
                     Toast.makeText(ManageRecurringActionActivity.activity.getApplicationContext(), response.getResponseDesc(), Toast.LENGTH_SHORT).show();
@@ -394,6 +396,40 @@ public class ManageRecurringActionActivity extends AppCompatActivity {
 
                 case (Command.STATUS_OK):
                     ManageRecurringActionActivity.inflateActionButtonLayout(response.getResponseParm());
+                    break;
+            }
+        } else if (response.getRequestAction().equals("saveRecurringAction")){
+            switch (response.getResponseStatus()) {
+                case (Command.STATUS_ERROR):
+                    if (response.getResponseParm().equals("requestOverwrite")) {
+                        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(ManageRecurringActionActivity.activity);
+                        builder.setTitle("Salvar Ação Recorrente");
+                        builder.setMessage("Já existe uma Ação Recorrente '" + response.getActionButton().getActionName() + "'. Substituir pela nova?");
+                        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                overwriteAlert.dismiss();
+                                return;
+                            }
+                        });
+                        builder.setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
+                            //Altera para overwrite = true e envia a ação de novo
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                response.setRequestOverwrite(true);
+                                response.sendData(ManageRecurringActionActivity.activity);
+
+                                overwriteAlert.dismiss();
+                            }
+                        });
+                        overwriteAlert = builder.create();
+                        overwriteAlert.show();
+                    } else {
+                        Toast.makeText(ManageRecurringActionActivity.activity.getApplicationContext(), response.getResponseDesc(), Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+
+                case (Command.STATUS_OK):
+                    Toast.makeText(ManageRecurringActionActivity.activity.getApplicationContext(), response.getResponseDesc(), Toast.LENGTH_SHORT).show();
+                    ManageRecurringActionActivity.activity.finish();
                     break;
             }
         } else { //deleteRecurringAction e saveRecurringAction

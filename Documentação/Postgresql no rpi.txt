@@ -20,13 +20,13 @@ CREATE DATABASE
 ctrl+d para sair do psql
 postgres@raspberrypi:/home/pi$ psql automacaozdb
 
-postgres=# create schema azschema;
+create schema azschema;
 CREATE SCHEMA
-postgres=# create user "azdbuser" with password 'normal fraco';
+create user "azdbuser" with password 'normal fraco';
 CREATE ROLE
-postgres=# grant usage on schema azschema to azdbuser;
-postgres=# grant all privileges on all tables in schema azschema to azdbuser;
-postgres=# grant usage, select on all sequences in schema azschema to azdbuser;
+grant usage on schema azschema to azdbuser;
+grant all privileges on all tables in schema azschema to azdbuser;
+grant usage, select on all sequences in schema azschema to azdbuser;
 
 grant all privileges on all tables in schema azschema to azdbuser;
 grant usage, select on all sequences in schema azschema to azdbuser;
@@ -89,6 +89,7 @@ CREATE INDEX aztb030_actionbutton_idx
 
 
 ################################################################
+Para dropar o banco, usar abaixo (acho que não é necessário dropar as sequences.
 ******* select * from pg_tables; ********
 drop table azschema.aztb032_actionbutton cascade;
 drop table azschema.aztb030_actionbutton cascade;
@@ -101,6 +102,11 @@ drop sequence azschema.aztb032_actionbutton_id_actionbutton_seq_1 cascade;
 drop sequence azschema.aztb041_recurringactionexecution_id_recurringactionexecution576;
 
 
+
+Depois de criar (script abaixo) tem que "reconceder" os seguintes grants:
+
+grant all privileges on all tables in schema azschema to azdbuser;
+grant usage, select on all sequences in schema azschema to azdbuser;
 
 
 
